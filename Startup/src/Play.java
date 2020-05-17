@@ -1,6 +1,7 @@
 import java.util.List;
 
 public class Play {
+    private int smth;
     public static void main(String[] args){
         Table table = null;
         int numRounds = table.getNumRounds();
