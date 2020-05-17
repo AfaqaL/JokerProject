@@ -1,14 +1,14 @@
 import java.util.List;
+import java.util.Scanner;
 
 public class Play {
-    private int smth;
     public static void main(String[] args){
         Table table = null;
         int numRounds = table.getNumRounds();
         Scanner scanner = new Scanner(System.in);
 
         for (int i = 1; i <= numRounds; i++) {
-            System.out.println("Current round: " + numRounds);
+            System.out.println("Current round: " + table.getCurrentRound());
             table.shuffle();
             int numCards = table.getNumCards();
             for (int j = 1; j < 5; j++) {
@@ -40,7 +40,7 @@ public class Play {
 
                     System.out.println("User choose card: ");
                     int x = scanner.nextInt();
-                    table.putCard(new Card(x));
+                    table.putCard(new Card(x, Card.HEARTS));
                 }
             }
             // calculate scores

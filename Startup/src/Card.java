@@ -1,26 +1,7 @@
-public class Card {
+import java.util.Arrays;
+import java.util.Optional;
 
-
-    public static final int CLUBS = 0;
-    public static final int DIAMONDS = 1;
-    public static final int SPADES = 2;
-    public static final int HEARTS = 3;
-
-    public static final int SIX = 0;
-    public static final int SEVEN = 1;
-    public static final int EIGHT = 2;
-    public static final int NINE = 3;
-    public static final int TEN = 4;
-    public static final int JACK = 5;
-    public static final int QUEEN = 6;
-    public static final int KING = 7;
-    public static final int ACE = 8;
-
-    public static final int JOKER = 9;
-
-    public static final int LOW_PRIO = 1;
-    public static final int EQUAL_PRIO = 2;
-    public static final int HIGHER_PRIO = 3;
+public class Card implements CardInterface{
 
     private int card;
     private int type;
@@ -37,7 +18,6 @@ public class Card {
         this.type = type;
     }
 
-
     /**
      * Checks if this card is valid to be put or not
      * !! TODO !!
@@ -48,9 +28,13 @@ public class Card {
         return false;
     }
 
-    @Override
     public String toString() {
-        return "";
+        return cardNames[card] + " " + cardTypes[type];
+    }
+
+    @Override
+    public int compareTo(Card card) {
+        return 0;
     }
 
 
