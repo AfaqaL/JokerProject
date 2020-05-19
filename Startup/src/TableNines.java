@@ -1,47 +1,51 @@
 import java.util.List;
 
-public class TableNines implements Table {
+public class TableNines extends BasicTable {
     private Player[] players;
     private int currFirstPlayer;
     private static final int ROUNDS = 16;
     private static final int TURNS_PER_STAGE = 4;
     private int currTurn;
+
+
     public TableNines(int id1, int id2, int id3, int id4){
-        players = new Player[4];
-        players[0] = new Player(id1);
-        players[1] = new Player(id2);
-        players[2] = new Player(id3);
-        players[3] = new Player(id4);
+        super(id1,id2,id3,id4);
         currFirstPlayer = 0;
     }
+
     @Override
-    public int getNumRounds() {
-        return 0;
+    public int[] getOrder() {
+        return new int[0];
     }
 
     @Override
-    public void shuffle() {
-
+    public boolean shuffleCards() {
+        return false;
     }
 
     @Override
-    public int getNumCards() {
-        return 0;
-    }
-
-    @Override
-    public List<Card> getCards(int id) {
+    public Card getSuperiorCard() {
         return null;
     }
 
     @Override
-    public int getCurrentUser() {
+    public void setSuperiorCard(int color) {
+
+    }
+
+    @Override
+    public List<Card> getUserCards(int id) {
+        return null;
+    }
+
+    @Override
+    public int getActiveUser() {
         return 0;
     }
 
     @Override
-    public void declare(int x) {
-
+    public int declareNumber(int x) {
+        return 0;
     }
 
     @Override
@@ -50,7 +54,22 @@ public class TableNines implements Table {
     }
 
     @Override
-    public void updateScores() {
+    public int[] getRoundScores() {
+        return new int[0];
+    }
 
+    @Override
+    public boolean isStageFinished() {
+        return false;
+    }
+
+    @Override
+    public int[] getStageScores() {
+        return new int[0];
+    }
+
+    @Override
+    public int[] getFinalScores() {
+        return new int[0];
     }
 }

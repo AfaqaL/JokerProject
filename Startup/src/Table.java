@@ -1,48 +1,87 @@
 import java.util.List;
 
 public interface Table {
-
+    int NUM_STAGES = 4;
+    int NUM_PLAYERS = 4;
     /**
-     * @return number of rounds in the table
+     * randomly generate the order of players
+     * in which they will make turns
+     * @return array of size 4 with each players turn order in it
      */
-    int getNumRounds();
+    int[] getOrder();
 
     /**
-     * Random cards and save in players objects
+     * shuffles cards for that round and then
+     * deals them to the players
+     * @return true if the game is still going, false otherwise
      */
-    void shuffle();
+    boolean shuffleCards();
 
     /**
-     * @return number of cards in this round
+     * TODO don't know the use of this yet
+     * @return
      */
-    int getNumCards();
+    Card getSuperiorCard();
 
     /**
-     * @param id
-     * @return list of valid cards for the user#id
+     * at the beginning of a round sets which color
+     * card is the superior one, so other cards can
+     * get their priorities set easily
+     * @param color which is the superior card in this round
      */
-    List<Card> getCards(int id);
+    void setSuperiorCard(int color);
 
     /**
-     * @return id of the current user(whose turn)
+     * gives server the list of cards for the player,
+     * containing valid and invalid cards for that turn
+     * @param id player who's cards are being returned
+     * @return list of valid and invalid cards
      */
-    int getCurrentUser();
+    List<Card> getUserCards(int id);
 
     /**
-     * Saves declared number for current user
-     * in the grid
-     * @param x
+     * notifies the server which user can take action
+     * @return id of the currently active player
      */
-    void declare(int x);
+    int getActiveUser();
 
     /**
-     * Gets card and puts card
-     * @param card
+     * takes a declaration request from server about
+     * how much a certain player wants to call that round
+     * @param x how much current player wants to call
+     * @return for the 4th player, returns the value which can not be declared, -1 otherwise
+     */
+    int declareNumber(int x);
+
+    /**
+     * takes a put card request from server and
+     * gives that info to the player class
+     * @param card player requested card from the server to be put
      */
     void putCard(Card card);
 
     /**
-     * Calculates and updates scores
+     * calculates each players taken score after every round
+     * @return array of size 4 with each players score in it
      */
-    void updateScores();
+    int[] getRoundScores();
+
+    /**
+     * if a stage is finished or not
+     * @return true if 4 rounds have been played, false otherwise
+     */
+    boolean isStageFinished();
+
+    /**
+     * after every 4 round calculates total score
+     * of every player in that stage
+     * @return array of size 2/4 with each team/player score in that stage
+     */
+    int[] getStageScores();
+
+    /**
+     * calculates all stage score
+     * @return array of size 2/4 with each team/player total scores
+     */
+    int[] getFinalScores();
 }
