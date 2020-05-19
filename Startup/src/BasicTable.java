@@ -1,16 +1,23 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class BasicTable implements Table {
     protected List<Card> cards;
     protected Player[] players;
     public BasicTable(int id1, int id2, int id3, int id4){
+        int first = ThreadLocalRandom.current().nextInt() % 4;
         players = new Player[4];
-        players[0] = new Player(id1);
-        players[1] = new Player(id2);
-        players[2] = new Player(id3);
-        players[3] = new Player(id4);
+        players[first++] = new Player(id1);
+        first %= 4;
+        players[first++] = new Player(id2);
+        first %= 4;
+        players[first++] = new Player(id3);
+        first %= 4;
+        players[first] = new Player(id4);
+        initCards();
     }
     void initCards(){
         cards = new ArrayList<>(36);
@@ -27,5 +34,9 @@ public abstract class BasicTable implements Table {
             players[i].getDealtCards(cards.subList(cardIdx, cardIdx + numCards));
             cardIdx += numCards;
         }
+    }
+    @Override
+    public int getOrder(){
+        return ThreadLocalRandom.current().nextInt() % 4;
     }
 }

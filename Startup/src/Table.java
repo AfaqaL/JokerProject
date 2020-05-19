@@ -4,11 +4,11 @@ public interface Table {
     int NUM_STAGES = 4;
     int NUM_PLAYERS = 4;
     /**
-     * randomly generate the order of players
-     * in which they will make turns
-     * @return array of size 4 with each players turn order in it
+     * randomly generate the first player
+     * before the game starts
+     * @return an int with the index of first player
      */
-    int[] getOrder();
+    int getOrder();
 
     /**
      * shuffles cards for that round and then
