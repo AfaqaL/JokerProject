@@ -39,8 +39,18 @@ public abstract class BasicTable implements Table {
     protected void shuffle(int numCards){
         Collections.shuffle(cards);
         int cardIdx = 0;
+        List<List<Card>> playerCards;
         for (int i = 0; i < Table.NUM_PLAYERS; i++) {
-            players[i].getDealtCards(cards.subList(cardIdx, cardIdx + numCards));
+            playerCards = new ArrayList<>(5);
+            for (int j = 0; j < 5; j++) {
+                playerCards.add(new ArrayList<>(9));
+            }
+            for (int j = cardIdx; j < cardIdx + numCards; j++) {
+                Card curr = cards.get(j);
+                int idx = ((curr instanceof JokerCard) ? 4 : curr.color);
+                playerCards.get(idx).add(curr);
+            }
+            players[i].setDealtCards(playerCards);
             cardIdx += numCards;
         }
     }

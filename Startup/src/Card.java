@@ -25,8 +25,8 @@ public class Card{
     public static final int EQUAL_PRIO = 2;
     public static final int HIGHER_PRIO = 3;
 
-    private int value;
-    private int color;
+    public int value;
+    public int color;
     private boolean isSuperior;
     private boolean valid;
 
@@ -48,26 +48,27 @@ public class Card{
      * @return
      */
     boolean isValid(Card first, int mode) {
-        if(first instanceof JokerCard){
-            JokerCard jk = (JokerCard)first;
-            return checkJokerValid(jk);
-        }
-        switch(mode){
-            case VALID_COLORS:
-                return first.color == this.color;
-            case VALID_SUPERIOR:
-                return isSuperior;
-        }
-        return false;
+        return valid;
     }
 
-    private boolean checkJokerValid(JokerCard jk) {
-        return false;
+    void setValid (boolean arg) {
+        this.valid = arg;
     }
 
 
+    public int compare(Card taker, int superior) {
+        if (taker instanceof JokerCard)  { return compareJoker((JokerCard)taker, superior); }
 
-    public int compare(Card c, int color) {
+        if (taker.color == this.color)  { return 1; }
+
+        if (taker.color == superior) { return -1; }
+
+        if (this.color == superior) { return 1; }
+
+        return -1;
+    }
+
+    private int compareJoker(JokerCard taker, int superior) {
         return -1;
     }
 }

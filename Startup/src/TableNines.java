@@ -6,17 +6,18 @@ public class TableNines extends BasicTable {
     private static final int CARDS_PER_TURN = 9;
 
     private int currFirstPlayer;
-    private int currTurn;
-
+    private int currRound;
+    private int playersMoved;
     public TableNines(int id1, int id2, int id3, int id4){
         super(id1,id2,id3,id4);
         currFirstPlayer = 0;
+        currRound = 0;
+        playersMoved = 0;
     }
-
 
     @Override
     public boolean shuffleCards() {
-        if(currTurn == ROUNDS) return false;
+        if(currRound == ROUNDS) return false;
 
         super.shuffle(CARDS_PER_TURN);
         return true;
