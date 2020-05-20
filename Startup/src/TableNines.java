@@ -1,12 +1,12 @@
 import java.util.List;
 
 public class TableNines extends BasicTable {
-    private int currFirstPlayer;
     private static final int ROUNDS = 16;
     private static final int TURNS_PER_STAGE = 4;
-    private int currTurn;
     private static final int CARDS_PER_TURN = 9;
 
+    private int currFirstPlayer;
+    private int currTurn;
 
     public TableNines(int id1, int id2, int id3, int id4){
         super(id1,id2,id3,id4);

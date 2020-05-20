@@ -1,4 +1,7 @@
-public class Card implements Comparable{
+public class Card{
+
+    public static final int VALID_COLORS = 0;
+    public static final int VALID_SUPERIOR = 1;
 
 
     public static final int CLUBS = 0;
@@ -24,8 +27,8 @@ public class Card implements Comparable{
 
     private int value;
     private int color;
-    private int priority;
     private boolean isSuperior;
+    private boolean valid;
 
     /**
      * Sets up a card with its "color" and "number" values
@@ -44,39 +47,27 @@ public class Card implements Comparable{
      * @param first
      * @return
      */
-    boolean isValid(Card first) {
+    boolean isValid(Card first, int mode) {
+        if(first instanceof JokerCard){
+            JokerCard jk = (JokerCard)first;
+            return checkJokerValid(jk);
+        }
+        switch(mode){
+            case VALID_COLORS:
+                return first.color == this.color;
+            case VALID_SUPERIOR:
+                return isSuperior;
+        }
         return false;
     }
 
-    @Override
-    public String toString() {
-        return "";
+    private boolean checkJokerValid(JokerCard jk) {
+        return false;
     }
 
 
-    /**
-     * Sets card priority according to the
-     * first card on the current move
-     * @param firstCardType -> color of first card on this move
-     */
-    public void setPriority(int firstCardType) {
-        if(priority != HIGHER_PRIO){
-            priority = (color == firstCardType ? EQUAL_PRIO : LOW_PRIO);
-        }
-    }
 
-    /**
-     * sets card priority according to the
-     * superior type card before each turn
-     * @param superiorType -> card color set before every turn
-     */
-    public void setSuperior(int superiorType) {
-        if(color == superiorType)
-            priority = HIGHER_PRIO;
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        return 0;
+    public int compare(Card c, int color) {
+        return -1;
     }
 }
