@@ -24,17 +24,12 @@ public class TableNines extends BasicTable {
     }
 
     @Override
-    public Card getSuperiorCard() {
-        return null;
-    }
-
-    @Override
     public void setSuperiorCard(int color) {
-
+        superior = color;
     }
 
     @Override
-    public List<Card> getUserCards(int id) {
+    public List<Card> getUserCards() {
         return null;
     }
 

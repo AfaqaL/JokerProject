@@ -11,11 +11,6 @@ public interface Table {
      */
     boolean shuffleCards();
 
-    /**
-     * TODO don't know the use of this yet
-     * @return
-     */
-    Card getSuperiorCard();
 
     /**
      * at the beginning of a round sets which color
@@ -28,10 +23,9 @@ public interface Table {
     /**
      * gives server the list of cards for the player,
      * containing valid and invalid cards for that turn
-     * @param id player who's cards are being returned
      * @return list of valid and invalid cards
      */
-    List<Card> getUserCards(int id);
+    List<Card> getUserCards();
 
     /**
      * notifies the server which user can take action
