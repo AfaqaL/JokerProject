@@ -1,4 +1,4 @@
-public class Card {
+public class Card implements Comparable{
 
 
     public static final int CLUBS = 0;
@@ -22,19 +22,19 @@ public class Card {
     public static final int EQUAL_PRIO = 2;
     public static final int HIGHER_PRIO = 3;
 
-    private int card;
-    private int type;
+    private int value;
+    private int color;
     private int priority;
     private boolean isSuperior;
 
     /**
      * Sets up a card with its "color" and "number" values
-     * @param card "number"
-     * @param type "color"
+     * @param value "number"
+     * @param color "color"
      */
-    public Card(int card, int type){
-        this.card = card;
-        this.type = type;
+    public Card(int value, int color){
+        this.value = value;
+        this.color = color;
     }
 
 
@@ -61,7 +61,7 @@ public class Card {
      */
     public void setPriority(int firstCardType) {
         if(priority != HIGHER_PRIO){
-            priority = (type == firstCardType ? EQUAL_PRIO : LOW_PRIO);
+            priority = (color == firstCardType ? EQUAL_PRIO : LOW_PRIO);
         }
     }
 
@@ -71,7 +71,12 @@ public class Card {
      * @param superiorType -> card color set before every turn
      */
     public void setSuperior(int superiorType) {
-        if(type == superiorType)
+        if(color == superiorType)
             priority = HIGHER_PRIO;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }

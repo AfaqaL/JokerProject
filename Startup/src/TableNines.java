@@ -1,7 +1,6 @@
 import java.util.List;
 
 public class TableNines extends BasicTable {
-    private Player[] players;
     private int currFirstPlayer;
     private static final int ROUNDS = 16;
     private static final int TURNS_PER_STAGE = 4;
@@ -17,7 +16,7 @@ public class TableNines extends BasicTable {
 
     @Override
     public boolean shuffleCards() {
-        if(currTurn == 16) return false;
+        if(currTurn == ROUNDS) return false;
 
         super.shuffle(CARDS_PER_TURN);
         return true;
