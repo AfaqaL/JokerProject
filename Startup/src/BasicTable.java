@@ -7,13 +7,16 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class BasicTable implements Table {
     protected List<Card> cards;
     protected Player[] players;
-    protected Card currTaker;
-    protected int firstCardColor;
-    protected int superior;
-    protected int currTakerID;
-    protected int currStage;
     protected int[][] declaresGrid;
     protected int[][] scoresGrid;
+    protected int currStage;
+
+    protected Card currTaker;
+    protected int currTakerID;
+
+    protected int firstCardColor;
+    protected int superior;
+
 
 
     protected BasicTable(int id1, int id2, int id3, int id4){
@@ -28,6 +31,7 @@ public abstract class BasicTable implements Table {
         players[first] = new Player(id4);
         initCards();
     }
+
     private void initCards(){
         cards = new ArrayList<>(36);
         for (int i = Card.CLUBS; i <= Card.HEARTS; i++) {
@@ -36,6 +40,7 @@ public abstract class BasicTable implements Table {
             }
         }
     }
+
     protected void shuffle(int numCards){
         Collections.shuffle(cards);
         int cardIdx = 0;
