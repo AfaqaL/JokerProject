@@ -60,10 +60,8 @@ public class Player {
     }
 
     public void removeCard(Card chosen){
-        if(chosen instanceof JokerCard)
-            cards.get(4).remove(chosen);
-        else
-            cards.get(chosen.color).remove(chosen);
+        int idx = ((chosen instanceof JokerCard) ? 4 : chosen.color);
+        cards.get(idx).remove(chosen);
     }
 
     public void setDealtCards(List<List<Card>> dealtCards){
@@ -76,4 +74,5 @@ public class Player {
     public void increaseTaken() {
         taken++;
     }
+
 }
