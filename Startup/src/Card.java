@@ -44,7 +44,6 @@ public class Card implements Comparable{
 
     /**
      * Checks if this card is valid to be put or not
-     * !! TODO !!
      * @param first
      * @return
      */
@@ -101,5 +100,11 @@ public class Card implements Comparable{
     @Override
     public int compareTo(Object o) {
         return ((Card)o).value - this.value;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Card curr = (Card)obj;
+        return this.color == curr.color && this.value == curr.value;
     }
 }

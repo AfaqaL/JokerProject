@@ -36,11 +36,15 @@ public class JokerCard extends Card {
     }
 
     public List<Integer> getValidModes(int turn) {
-     //   List<Integer> res= new ArrayList<>(4);
         if (turn == 1) {
             return Arrays.asList(TAKE_MODE, GIVE_HIGHEST_MODE);
         } else {
             return Arrays.asList(UNDER_MODE, OVER_MODE);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((JokerCard)obj).value == JOKER;
     }
 }
