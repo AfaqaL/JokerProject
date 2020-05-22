@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Player {
@@ -15,6 +16,9 @@ public class Player {
     }
 
     public void setValidCards(Card firstCard, int superior) {
+        if (firstCard instanceof JokerCard)
+            setValidCardsJoker((JokerCard)firstCard, superior);
+
         int color = firstCard.color;
         setValid(cards.get(4));
 
@@ -23,7 +27,25 @@ public class Player {
             return;
         }
 
-        if (!cards.get(superior).isEmpty()) {
+        if (superior != Card.NO_COLOR && !cards.get(superior).isEmpty()) {
+            setValid(cards.get(superior));
+            return;
+        }
+
+        for (int i = 0; i < 4; i++)
+            setValid(cards.get(i));
+    }
+
+    private void setValidCardsJoker(JokerCard firstCard, int superior) {
+        int color = firstCard.color;
+        setValid(cards.get(4));
+
+        if (!cards.get(color).isEmpty()) {
+            cards.get(color).get(0);
+            return;
+        }
+
+        if (superior != Card.NO_COLOR && !cards.get(superior).isEmpty()) {
             setValid(cards.get(superior));
             return;
         }
@@ -34,21 +56,31 @@ public class Player {
 
     private void setValid(List<Card> cards) {
         for (Card c : cards)
-                c.setValid(true);
+            c.setValid(true);
     }
 
     public void removeCard(Card chosen){
-        if(chosen instanceof JokerCard)
-            cards.get(4).remove(chosen);
-        else
-            cards.get(chosen.color).remove(chosen);
+        int idx = ((chosen instanceof JokerCard) ? 4 : chosen.color);
+        cards.get(idx).remove(chosen);
     }
 
     public void setDealtCards(List<List<Card>> dealtCards){
         this.cards = dealtCards;
+
+        for (int i=0; i<4; i++)
+            Collections.sort(cards.get(i));
+    }
+
+    public List<Card> getPlayerCards(){
+        List<Card> ls = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            ls.addAll(cards.get(i));
+        }
+        return ls;
     }
 
     public void increaseTaken() {
         taken++;
     }
+
 }

@@ -1,31 +1,50 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class JokerCard extends Card {
     public static final int UNDER_MODE = 0;
     public static final int TAKE_MODE = 1;
     public static final int GIVE_HIGHEST_MODE = 2;
     public static final int OVER_MODE = 3;
 
-    private int mode;
+    public int mode;
 
     /**
      * Sets up a joker card
      */
     public JokerCard() {
-        super(0, 0);
+        super(JOKER, -100);
     }
 
-    public void setMode(int mode){
+    public void setMode(int mode, int color){
         this.mode = mode;
-        setJokerPriority();
+        this.color = color;
     }
 
-    private void setJokerPriority() {
-        switch (mode){
-            case UNDER_MODE:
+    @Override
+    boolean isValid(Card first) {
+        return true;
+    }
+
+    @Override
+    public int compare(Card taker, int superior) {
+        if (this.mode == OVER_MODE)
+            return 1;
+        else // UNDER_MODE
+            return -1;
+    }
+
+    public List<Integer> getValidModes(int turn) {
+        if (turn == 1) {
+            return Arrays.asList(TAKE_MODE, GIVE_HIGHEST_MODE);
+        } else {
+            return Arrays.asList(UNDER_MODE, OVER_MODE);
         }
     }
 
     @Override
-    boolean isValid(Card first, int mode) {
-        return true;
+    public boolean equals(Object obj) {
+        return ((JokerCard)obj).value == JOKER;
     }
 }

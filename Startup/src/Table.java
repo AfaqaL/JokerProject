@@ -11,6 +11,10 @@ public interface Table {
      */
     boolean shuffleCards();
 
+    /**
+     * to nullify
+     */
+    void startRound();
 
     /**
      * at the beginning of a round sets which color
