@@ -8,11 +8,13 @@ public class TableNines extends BasicTable {
     private int currFirstPlayer;
     private int currRound;
     private int playersMoved;
+    private int currActivePlayer;
     public TableNines(int id1, int id2, int id3, int id4){
         super(id1,id2,id3,id4);
         currFirstPlayer = 0;
         currRound = 0;
         playersMoved = 0;
+        currActivePlayer = 0;
     }
 
     @Override
@@ -30,12 +32,12 @@ public class TableNines extends BasicTable {
 
     @Override
     public List<Card> getUserCards() {
-        return null;
+        return players[currActivePlayer].getPlayerCards();
     }
 
     @Override
     public int getActiveUser() {
-        return 0;
+        return currActivePlayer;
     }
 
     @Override

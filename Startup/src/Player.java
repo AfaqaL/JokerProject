@@ -67,8 +67,16 @@ public class Player {
     public void setDealtCards(List<List<Card>> dealtCards){
         this.cards = dealtCards;
 
-        for (int i=0; i<5; i++)
+        for (int i=0; i<4; i++)
             Collections.sort(cards.get(i));
+    }
+
+    public List<Card> getPlayerCards(){
+        List<Card> ls = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            ls.addAll(cards.get(i));
+        }
+        return ls;
     }
 
     public void increaseTaken() {
