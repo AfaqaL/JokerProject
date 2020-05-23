@@ -78,6 +78,10 @@ public class Player {
         }
         return ls;
     }
+    
+    public int getScore(){
+        return 0;
+    }
 
     public void increaseTaken() {
         taken++;

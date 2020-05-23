@@ -12,9 +12,17 @@ public interface Table {
     boolean shuffleCards();
 
     /**
-     * to nullify
+     * after every round sets every counter to
+     * zero and sets next player as a dealer
      */
     void startRound();
+    
+    /**
+     * gives server first 3 cards of the player
+     * who calls the superior card
+     * @return List of 3 cards to call superior from
+     */
+    List<Card> getFirst3();
 
     /**
      * at the beginning of a round sets which color

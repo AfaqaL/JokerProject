@@ -1,22 +1,40 @@
 import java.util.List;
 
 public class TableNines extends BasicTable {
-    private static final int ROUNDS = 16;
-    private static final int TURNS_PER_STAGE = 4;
-    private static final int CARDS_PER_TURN = 9;
+    public static final int ROUNDS = 16;
+    public static final int TURNS_PER_STAGE = 4;
+    public static final int CARDS_PER_TURN = 9;
 
-    private int currFirstPlayer;
     private int currRound;
     private int playersMoved;
     private int currActivePlayer;
+    private int alreadyDeclared;
     public TableNines(int id1, int id2, int id3, int id4){
         super(id1,id2,id3,id4);
         currFirstPlayer = 0;
         currRound = 0;
         playersMoved = 0;
         currActivePlayer = 0;
+        alreadyDeclared = 0;
+        initGrids();
     }
-
+    
+    private void initGrids() {
+        declaresGrid = new int[ROUNDS][NUM_PLAYERS];
+        scoresGrid = new int[ROUNDS][NUM_PLAYERS];
+        sumsGrid = new int[NUM_STAGES][NUM_PLAYERS];
+    }
+    
+    @Override
+    public void startRound() {
+        currFirstPlayer++;
+        currRound++;
+        alreadyDeclared = 0;
+        currTaker = null;
+        currTakerID = -1;
+    }
+    
+    
     @Override
     public boolean shuffleCards() {
         if(currRound == ROUNDS) return false;
@@ -42,31 +60,62 @@ public class TableNines extends BasicTable {
 
     @Override
     public int declareNumber(int x) {
-        return 0;
+        alreadyDeclared += x;
+        return ++playersMoved == 3 ? CARDS_PER_TURN - alreadyDeclared : -1;
     }
 
     @Override
     public void putCard(Card card) {
-
+        players[currActivePlayer].removeCard(card);
+        if(currTaker == null){
+            currTaker = card;
+            firstCardColor = card.color;
+            currTakerID = currActivePlayer;
+            for (int others = 0; others < 4; others++) {
+                if(others != currActivePlayer)
+                    players[others].setValidCards(card, superior);
+            }
+        }else{
+            int res = currTaker.compare(card, superior);
+            //TODO: ask how compare works and write logic
+        }
     }
 
     @Override
     public int[] getRoundScores() {
-        return new int[0];
+        int[] res = new int[4];
+        for (int i = 0; i < 4; i++) {
+            res[i] = players[i].getScore();
+        }
+        currRound++;
+        updateSums(res);
+        return res;
     }
-
+    
+    private void updateSums(int[] res) {
+        for (int i = 0; i < NUM_PLAYERS; i++) {
+            sumsGrid[currStage][i] += res[i];
+        }
+    }
+    
     @Override
     public boolean isStageFinished() {
-        return false;
+        return currRound % 4 == 0;
     }
 
     @Override
     public int[] getStageScores() {
-        return new int[0];
+        return sumsGrid[currStage++];
     }
 
     @Override
     public int[] getFinalScores() {
-        return new int[0];
+        int[] res = new int[NUM_PLAYERS];
+        for (int i = 0; i < NUM_STAGES; i++) {
+            for (int j = 0; j < NUM_PLAYERS; j++) {
+                res[j] = sumsGrid[i][j];
+            }
+        }
+        return res;
     }
 }

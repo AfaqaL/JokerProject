@@ -107,4 +107,55 @@ public class Card implements Comparable{
         Card curr = (Card)obj;
         return this.color == curr.color && this.value == curr.value;
     }
+    
+    @Override
+    public String toString(){
+        String s = "(";
+        switch(this.value){
+            case SIX:
+                s += "6";
+                break;
+            case SEVEN:
+                s += "7";
+                break;
+            case EIGHT:
+                s += "8";
+                break;
+            case NINE:
+                s += "9";
+                break;
+            case TEN:
+                s += "10";
+                break;
+            case JACK:
+                s += "J";
+                break;
+            case QUEEN:
+                s += "Q";
+                break;
+            case KING:
+                s += "K";
+                break;
+            case ACE:
+                s += "A";
+                break;
+        }
+        s += ", ";
+        switch (color){
+            case CLUBS:
+                s += "jv";
+                break;
+            case SPADES:
+                s += "yv";
+                break;
+            case HEARTS:
+                s += "gu";
+                break;
+            case DIAMONDS:
+                s += "ag";
+                break;
+        }
+        s+= ")";
+        return s;
+    }
 }
