@@ -6,6 +6,7 @@ public class Player {
     private List<List<Card>> cards;
     private final int id;
     private int taken;
+    private int declared;
 
     public Player(int id){
         this.id = id;
@@ -79,12 +80,18 @@ public class Player {
         return ls;
     }
     
-    public int getScore(){
-        return 0;
+    public int getScore(int maxCards){
+        if(declared == taken){
+            return taken == maxCards ? maxCards * 100 : (taken + 1) * 50;
+        }
+        return taken * 10;
     }
 
     public void increaseTaken() {
         taken++;
     }
-
+    
+    public void setDeclared(int x) {
+        declared = x;
+    }
 }

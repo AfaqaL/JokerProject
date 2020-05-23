@@ -9,14 +9,19 @@ public class TableNines extends BasicTable {
     private int playersMoved;
     private int currActivePlayer;
     private int alreadyDeclared;
+    
     public TableNines(int id1, int id2, int id3, int id4){
         super(id1,id2,id3,id4);
+        setVariables();
+        initGrids();
+    }
+    
+    private void setVariables() {
         currFirstPlayer = 0;
         currRound = 0;
         playersMoved = 0;
         currActivePlayer = 0;
         alreadyDeclared = 0;
-        initGrids();
     }
     
     private void initGrids() {
@@ -27,7 +32,7 @@ public class TableNines extends BasicTable {
     
     @Override
     public void startRound() {
-        currFirstPlayer++;
+        currActivePlayer = ++currFirstPlayer;
         currRound++;
         alreadyDeclared = 0;
         currTaker = null;
@@ -60,6 +65,7 @@ public class TableNines extends BasicTable {
 
     @Override
     public int declareNumber(int x) {
+        players[currActivePlayer++].setDeclared(x);
         alreadyDeclared += x;
         return ++playersMoved == 3 ? CARDS_PER_TURN - alreadyDeclared : -1;
     }
@@ -79,13 +85,19 @@ public class TableNines extends BasicTable {
             int res = currTaker.compare(card, superior);
             //TODO: ask how compare works and write logic
         }
+        
+        if(++playersMoved == 4){
+            players[currTakerID].increaseTaken();
+        }
+        
+        currActivePlayer++;
     }
 
     @Override
     public int[] getRoundScores() {
         int[] res = new int[4];
         for (int i = 0; i < 4; i++) {
-            res[i] = players[i].getScore();
+            res[i] = players[i].getScore(CARDS_PER_TURN);
         }
         currRound++;
         updateSums(res);
