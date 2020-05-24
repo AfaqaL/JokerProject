@@ -66,6 +66,7 @@ public class TableNines extends BasicTable {
     @Override
     public int declareNumber(int x) {
         players[currActivePlayer++].setDeclared(x);
+        currActivePlayer %= 4;
         alreadyDeclared += x;
         return ++playersMoved == 3 ? CARDS_PER_TURN - alreadyDeclared : -1;
     }
@@ -81,15 +82,22 @@ public class TableNines extends BasicTable {
                 if(others != currActivePlayer)
                     players[others].setValidCards(card, superior);
             }
+            //might need to delete this line
+            playersMoved = 0;
         }else{
-            int res = currTaker.compare(card, superior);
-            //TODO: ask how compare works and write logic
+            int res = card.compare(currTaker, superior);
+            if(res > 0){
+                currTaker = card;
+                currTakerID = currActivePlayer;
+            }
         }
         
         if(++playersMoved == 4){
             players[currTakerID].increaseTaken();
+            currActivePlayer = currTakerID;
+            playersMoved = 0;
+            return;
         }
-        
         currActivePlayer++;
     }
 
@@ -128,6 +136,15 @@ public class TableNines extends BasicTable {
                 res[j] = sumsGrid[i][j];
             }
         }
+        return res;
+    }
+
+    @Override
+    public String toString() {
+        String res = "player 0 has: " + players[0].getPlayerCards().toString();
+        res += "\nplayer 1 has: " + players[1].getPlayerCards().toString();
+        res += "\nplayer 2 has: " + players[2].getPlayerCards().toString();
+        res += "\nplayer 3 has: " + players[3].getPlayerCards().toString();
         return res;
     }
 }

@@ -19,16 +19,11 @@ public class Card implements Comparable{
     public static final int QUEEN = 6;
     public static final int KING = 7;
     public static final int ACE = 8;
-
     public static final int JOKER = 9;
 
-    public static final int LOW_PRIO = 1;
-    public static final int EQUAL_PRIO = 2;
-    public static final int HIGHER_PRIO = 3;
 
     public int value;
     public int color;
-    private boolean isSuperior;
     private boolean valid;
 
     /**

@@ -30,21 +30,23 @@ public class Play {
 			table.setSuperiorCard(color);
 			
 			//server gives 4 player declarations
+            System.out.println(table.toString());
 			int invDeclare = -1;
 			for (int i = 0; i < 4; i++) {
-				System.out.println("Curr player should declare" +
+				System.out.println(table.getActiveUser() + " player should declare" +
 						(invDeclare == -1 ? "!" : (" anything but " + invDeclare)));
 				invDeclare = table.declareNumber(scanner.nextInt());
 			}
 			//server gives first player move
-			System.out.println("First player makes a move: (2 ints, value and color)");
-			int val = scanner.nextInt();
-			int col = scanner.nextInt();
-			table.putCard(new Card(val, col));
-			//..etc
-	
-			//first round is done
-			//calculates scores
+            for (int i = 0; i < 9; i++) {
+                System.out.println(table.toString());
+                for (int j = 0; j < 4; j++) {
+                    System.out.println(table.getActiveUser() + " player makes a move: (2 ints, value and color)");
+                    int val = scanner.nextInt();
+                    int col = scanner.nextInt();
+                    table.putCard(new Card(val, col));
+                }
+            }
 			int[] roundScore = table.getRoundScores();
 			//server gets scores of that round
 			for (int i = 0; i < 4; i++) {
