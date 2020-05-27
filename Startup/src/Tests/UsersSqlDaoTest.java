@@ -49,6 +49,10 @@ class UsersSqlDaoTest {
         assertFalse(dao.addUser("user2", "pass1", "test1@mail.com"));
 
         assertTrue(dao.addUser("user3", "pass2", "test3@mail.com"));
+
+        assertEquals(1, dao.searchById(1).getId());
+        assertEquals(2, dao.searchById(2).getId());
+        assertEquals(3, dao.searchById(3).getId());
     }
 
     @Test
@@ -209,6 +213,7 @@ class UsersSqlDaoTest {
         assertNull(dao.searchByUsername("name"));
         assertNull(dao.searchByUsernameAndPassword("name", "pass"));
 
+        assertFalse(dao.addUser("name", "pass", "test@mail.com"));
         assertFalse(dao.changePassword("name", "pass"));
         assertFalse(dao.changeRank("user", 50));
     }

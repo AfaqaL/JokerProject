@@ -123,6 +123,10 @@ public class UsersSqlDao implements UsersDao {
     @Override
     public boolean addUser(String username, String password, String mail) {
         try {
+            if (searchByUsername(username) != null || searchByMail(mail) != null) {
+                return false;
+            }
+
             PreparedStatement insert = connection.prepareStatement(
                     "INSERT INTO users (username, mail, password, rank)\n" +
                             "VALUES (?, ?, ?, 0);"
