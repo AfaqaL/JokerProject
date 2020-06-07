@@ -1,8 +1,6 @@
-package Tests;
-
 import Databases.HistorySqlDao;
 import Databases.UsersSqlDao;
-import HelperClasses.TableHistory;
+import Model.TableHistory;
 import org.junit.jupiter.api.*;
 
 import java.sql.Connection;

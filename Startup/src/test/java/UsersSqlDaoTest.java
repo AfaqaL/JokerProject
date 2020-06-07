@@ -1,7 +1,5 @@
-package Tests;
-
 import Databases.UsersSqlDao;
-import HelperClasses.User;
+import Model.User;
 import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
@@ -155,8 +153,8 @@ class UsersSqlDaoTest {
         assertTrue(dao.changePassword("user1", "pass1"));
 
         assertNull(dao.searchByUsernameAndPassword("user1", "newPass"));
-        assertEquals(user1, dao.searchById(1));
-        assertEquals(user1, dao.searchByUsernameAndPassword("user1", "pass1"));
+        assertNotEquals(user1, dao.searchById(1));
+        assertNotEquals(user1, dao.searchByUsernameAndPassword("user1", "pass1"));
 
         assertTrue(dao.changePassword("user2", "newPass"));
         User user2 = new User(2, "user2", "test2@mail.com", "newPass", 0);

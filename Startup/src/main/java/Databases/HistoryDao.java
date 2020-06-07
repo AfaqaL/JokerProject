@@ -1,6 +1,6 @@
 package Databases;
 
-import HelperClasses.TableHistory;
+import Model.TableHistory;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -1,6 +1,6 @@
 package Authentication;
 
-import HelperClasses.User;
+import Model.User;
 
 public class Authentication {
     // HashMap < sessionId, user >

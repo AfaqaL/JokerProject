@@ -1,6 +1,6 @@
 package Databases;
 
-import HelperClasses.TableHistory;
+import Model.TableHistory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -81,15 +81,15 @@ public class HistorySqlDao implements HistoryDao {
                             "VALUES (?, ?, ?, ?, ?,\n" +
                             "        ?, ?, ?, ?);"
             );
-            insert.setLong(1, history.tableId);
-            insert.setLong(2, history.id1);
-            insert.setDouble(3, history.score1);
-            insert.setLong(4, history.id2);
-            insert.setDouble(5, history.score2);
-            insert.setLong(6, history.id3);
-            insert.setDouble(7, history.score3);
-            insert.setLong(8, history.id4);
-            insert.setDouble(9, history.score4);
+            insert.setLong(1, history.getTableId());
+            insert.setLong(2, history.getId1());
+            insert.setDouble(3, history.getScore1());
+            insert.setLong(4, history.getId2());
+            insert.setDouble(5, history.getScore2());
+            insert.setLong(6, history.getId3());
+            insert.setDouble(7, history.getScore3());
+            insert.setLong(8, history.getId4());
+            insert.setDouble(9, history.getScore4());
 
             insert.execute();
             return true;

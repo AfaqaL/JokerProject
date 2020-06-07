@@ -1,6 +1,6 @@
 package Databases;
 
-import HelperClasses.User;
+import Model.User;
 
 import java.sql.SQLException;
 
