@@ -1,8 +1,6 @@
-package Tests;
-
-import Databases.HistorySqlDao;
-import Databases.UsersSqlDao;
-import HelperClasses.TableHistory;
+import com.joker.databases.HistorySqlDao;
+import com.joker.databases.UsersSqlDao;
+import com.joker.model.TableHistory;
 import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
@@ -145,7 +143,7 @@ class HistorySqlDaoTest {
         expected.addAll(Arrays.asList(h1, h2));
         assertListEquals(expected, dao.getUserHistory(3));
 
-        // Player who play all games
+        // com.joker.game.Player who play all games
         expected.clear();
         expected.addAll(Arrays.asList(h1, h2, h3));
         assertListEquals(expected, dao.getUserHistory(1));

@@ -1,6 +1,6 @@
-package Databases;
+package com.joker.databases;
 
-import HelperClasses.User;
+import com.joker.model.User;
 
 import java.sql.SQLException;
 

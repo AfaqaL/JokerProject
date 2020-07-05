@@ -1,3 +1,5 @@
+package com.joker.game;
+
 public class Card implements Comparable{
 
     public static final int VALID_COLORS = 0;

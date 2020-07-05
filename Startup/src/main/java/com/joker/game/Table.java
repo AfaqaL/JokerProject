@@ -1,3 +1,5 @@
+package com.joker.game;
+
 import java.util.List;
 
 public interface Table {
