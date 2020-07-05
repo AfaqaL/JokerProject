@@ -1,5 +1,5 @@
-import Databases.UsersSqlDao;
-import Model.User;
+import com.joker.databases.UsersSqlDao;
+import com.joker.model.User;
 import org.junit.jupiter.api.*;
 
 import java.sql.Connection;

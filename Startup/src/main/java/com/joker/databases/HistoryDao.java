@@ -1,6 +1,6 @@
-package Databases;
+package com.joker.databases;
 
-import Model.TableHistory;
+import com.joker.model.TableHistory;
 
 import java.sql.SQLException;
 import java.util.List;

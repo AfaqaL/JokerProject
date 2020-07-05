@@ -1,4 +1,4 @@
-package Model;
+package com.joker.model;
 
 public class User {
     private long id;

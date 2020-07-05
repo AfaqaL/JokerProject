@@ -1,4 +1,4 @@
-package Authentication;
+package com.joker.authentication;
 
 public class Mail {
     public static boolean sendMail(String mail, String message) {

@@ -1,6 +1,6 @@
-package Authentication;
+package com.joker.authentication;
 
-import Model.User;
+import com.joker.model.User;
 
 public class Authentication {
     // HashMap < sessionId, user >
