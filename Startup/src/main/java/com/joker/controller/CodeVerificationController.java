@@ -1,5 +1,7 @@
 package com.joker.controller;
 
+import com.joker.databases.InMemoryMailDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +15,7 @@ import java.io.IOException;
 
 @Controller
 public class CodeVerificationController {
+
     @GetMapping(value = {"/verifyCode"})
     public String verifyCodeForm(){
         return "verifyCode";

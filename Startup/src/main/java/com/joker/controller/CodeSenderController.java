@@ -50,6 +50,7 @@ public class CodeSenderController extends HttpServlet {
                 name, pass, mail,
                  "Verification Code", code);
         ses.setAttribute("code", code);
+        ses.setAttribute("mail",mail);
         resp.sendRedirect("verifyCode");
         return null;
     }
