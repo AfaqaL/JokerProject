@@ -5,8 +5,8 @@
 <web-app
         xmlns="java.sun.com/xml/ns/javaee"
         xmlns:xsi="w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="java.sun.com/xml/ns/javaee java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-        version="3.0">
+        xsi:schemaLocation="java.sun.com/xml/ns/javaee java.sun.com/xml/ns/javaee/web-app_3_1.xsd"
+        version="3.1">
     <display-name>User Registration using Spring-MVC</display-name>
 
     <servlet>
@@ -19,4 +19,27 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <context-param>
+        <param-name>host</param-name>
+        <param-value>smtp.gmail.com</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>port</param-name>
+        <param-value>587</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>email</param-name>
+        <param-value>aafifagifter@gmail.com</param-value>
+    </context-param>
+    <context-param>
+        <param-name>name</param-name>
+        <param-value>Yomarbazi.ge</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pass</param-name>
+        <param-value>mandandam</param-value>
+    </context-param>
 </web-app>
