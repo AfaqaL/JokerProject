@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HistorySqlDaoTest {
+    // TODO: use mockito to test HistorySqlDao
+
     private HistorySqlDao dao;
 
     // There are foreign keys in the histories table,
@@ -32,32 +34,14 @@ class HistorySqlDaoTest {
                 "root"
         );
 
-        dao = new HistorySqlDao(connection);
-        usersDao = new UsersSqlDao(connection);
-        Statement stm = connection.createStatement();
-        stm.execute("USE joker;");
+        dao = HistorySqlDao.getInstance(connection);
+        usersDao = UsersSqlDao.getInstance(connection);
 
         // Create users table and add users that will be used
         // in the tests.
-        usersDao.createTable();
         for (int i = 0; i < 10; i++) {
             usersDao.addUser("user" + i, "pass", "mail" + i);
         }
-    }
-
-    @AfterAll
-    public void tearDown() throws SQLException {
-        usersDao.dropTable();
-    }
-
-    @BeforeEach
-    public void create() {
-        assertDoesNotThrow(() -> dao.createTable());
-    }
-
-    @AfterEach
-    public void drop() {
-        assertDoesNotThrow(() -> dao.dropTable());
     }
 
     @Test
@@ -151,8 +135,6 @@ class HistorySqlDaoTest {
 
     @Test
     public void failMethods() {
-        assertDoesNotThrow(() -> dao.dropTable());
-
         assertNull(dao.getUserHistory(1));
     }
 

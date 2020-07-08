@@ -6,18 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface HistoryDao {
-    /**
-     * Creates a new table. Throws
-     * sqlException if table can't
-     * be created.
-     */
-    void createTable() throws SQLException;
-
-    /**
-     * Drops table. Throws sqlException
-     * if table can't be dropped.
-     */
-    void dropTable() throws SQLException;
 
     /**
      * @param id - id of the user

@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UsersSqlDaoTest {
+    // TODO: use mockito to test UserSqlDao
     private UsersSqlDao dao;
 
     @BeforeAll
@@ -22,19 +23,7 @@ class UsersSqlDaoTest {
                 "root"
         );
 
-        dao = new UsersSqlDao(connection);
-        Statement stm = connection.createStatement();
-        stm.execute("USE joker;");
-    }
-
-    @BeforeEach
-    public void create() {
-        assertDoesNotThrow(() -> dao.createTable());
-    }
-
-    @AfterEach
-    public void drop() {
-        assertDoesNotThrow(() -> dao.dropTable());
+        dao = UsersSqlDao.getInstance(connection);
     }
 
     @Test
@@ -204,8 +193,6 @@ class UsersSqlDaoTest {
 
     @Test
     public void failMethods() {
-        assertDoesNotThrow(() -> dao.dropTable());
-
         assertNull(dao.searchById(1));
         assertNull(dao.searchByMail("mail"));
         assertNull(dao.searchByUsername("name"));
