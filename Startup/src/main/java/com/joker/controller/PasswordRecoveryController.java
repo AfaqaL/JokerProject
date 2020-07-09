@@ -11,39 +11,31 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller
-public class CodeVerificationController {
+public class PasswordRecoveryController {
 
-    @GetMapping(value = {"/verifyCode"})
-    public String verifyCodeForm(){
-        return "verifyCode";
-    }
 
-    @PostMapping(value = {"/verifyCode"})
-    public void verifyCode(@RequestParam String code, HttpSession ses, HttpServletResponse resp) throws IOException {
+    @PostMapping("/new_password")
+    public String redirectionhelper(@RequestParam String code, HttpSession ses,
+                                    HttpServletResponse resp) throws IOException {
         String requestedCode = (String) ses.getAttribute("code");
         if (!requestedCode.equals(code)) {
             ses.setAttribute("error", "Code was Incorrect, please try again.");
             resp.sendRedirect("/forgot_password");
-            return;
+            return null;
         }
-        resp.sendRedirect("/newPassword");
+        return "Forgot_Password/PasswordRecovery";
     }
 
-    @GetMapping("/newPassword")
-    public String newPassword(){
-        return "PasswordRecovery";
-    }
-
-    @PostMapping("/newPassword")
+    @PostMapping("incorrect_password")
     public ModelAndView passwordVerification(HttpServletResponse resp,
                                              @RequestParam String pass,
                                              @RequestParam String confirmedPass) throws IOException {
-        ModelAndView ret = new ModelAndView("PasswordRecovery");
-        if (!pass.equals(confirmedPass)){
-            ret.addObject("error", "New password doesn't match confirm password");
+        ModelAndView ret = new ModelAndView("Forgot_Password/PasswordRecovery");
+        if (!pass.equals(confirmedPass)) {
+            ret.addObject("incorrectPassword", "New password doesn't match confirm password");
             return ret;
         }
         resp.sendRedirect("/");
-        return  null;
+        return null;
     }
 }

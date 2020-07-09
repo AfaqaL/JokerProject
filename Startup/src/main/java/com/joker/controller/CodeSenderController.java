@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 @Controller
 public class CodeSenderController extends HttpServlet {
@@ -34,25 +35,36 @@ public class CodeSenderController extends HttpServlet {
     @Autowired
     private InMemoryMailDao mails;
 
-    @GetMapping(value = {"/forgot_password", "/send_code"})
-    public String requestMail(){ return "requestMail"; }
+    @GetMapping("/forgot_password")
+    public String requestMail(){ return "Forgot_Password/requestMail"; }
 
-    @PostMapping(value = {"/forgot_password", "/send_code"})
-    public ModelAndView post(HttpSession ses, HttpServletResponse resp, @RequestParam String mail) throws IOException, MessagingException {
-        ModelAndView ret = new ModelAndView("requestMail");
+    @PostMapping("/forgot_password")
+    public ModelAndView post(HttpSession ses, HttpServletResponse resp, @RequestParam String mail) throws IOException {
+        ModelAndView ret = new ModelAndView("Forgot_Password/requestMail");
         if (!mails.mailExists(mail)) {
             ret.addObject("error", "No such mail " + mail + " in database");
             ret.addObject("mail", mail);
             return ret;
         }
+        ses.setAttribute("mail", mail);
+        resp.sendRedirect("forgot_password/sendCode");
+        return null;
+    }
+
+    @GetMapping("/forgot_password/sendCode")
+    public String sendCode() {
+        return "Forgot_Password/sendCode";
+    }
+
+    @PostMapping("/forgot_password/verifyCode")
+    public String verifyCodeForm(HttpSession ses) throws UnsupportedEncodingException, MessagingException {
+        String mail = (String) ses.getAttribute("mail");
         String code = RandomCodeGenerator.randomCode();
         Mail.sendEmail(host, port, email,
                 name, pass, mail,
-                 "Verification Code", code);
+                "Verification Code", code);
         ses.setAttribute("code", code);
-        ses.setAttribute("mail",mail);
-        resp.sendRedirect("verifyCode");
-        return null;
+        return "Forgot_Password/verifyCode";
     }
 
 }

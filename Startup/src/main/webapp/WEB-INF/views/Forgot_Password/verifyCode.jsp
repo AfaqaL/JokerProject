@@ -5,7 +5,7 @@
         <title>Enter Code</title>
     </head>
     <body>
-        <form method="POST">
+        <form action = "/new_password" method="POST">
             <label for="enter code">Please Enter Code.</label><br/><br/>
             <label for="enter">Enter Code:</label>
             <input type="text" name="code" /><br/><br/>

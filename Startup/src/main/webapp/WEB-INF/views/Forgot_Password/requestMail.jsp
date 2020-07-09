@@ -12,7 +12,7 @@
             <label for="enter mail">Please Enter Mail.</label><br/><br/>
             <label for="enter">Enter Mail:</label>
             <input type="text" name="mail" value = "${mail}" /><br/><br/>
-            <button type="submit">Login</button>
+            <button type="submit">Confirm Mail</button>
         </form>
     </body>
 </html>

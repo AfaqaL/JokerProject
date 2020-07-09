@@ -5,10 +5,10 @@
         <title>New Password</title>
     </head>
     <body>
-    <c:if test="${error != null}">
-                Authentication failed: ${error}
+    <c:if test="${incorrectPassword != null}">
+                Authentication failed: ${incorrectPassword}
             </c:if>
-        <form method="POST">
+        <form action = "/incorrect_password" method="POST">
             <label for="New password">Enter New Password.</label><br/><br/>
             <label for="newPass">New Password:</label>
             <input type="password" name="pass" id = "passID" /><br/><br/>
