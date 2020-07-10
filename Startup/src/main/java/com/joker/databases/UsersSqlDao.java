@@ -5,29 +5,20 @@ import com.joker.model.User;
 import java.sql.*;
 
 public class UsersSqlDao implements UsersDao {
-    private Connection connection;
 
-    public UsersSqlDao(Connection connection) {
+    private static UsersSqlDao instance;
+
+    private final Connection connection;
+
+    private UsersSqlDao(Connection connection) {
         this.connection = connection;
     }
 
-    @Override
-    public void createTable() throws SQLException {
-        Statement stm = connection.createStatement();
-        stm.execute("CREATE TABLE IF NOT EXISTS users (\n" +
-                "    user_id BIGINT NOT NULL AUTO_INCREMENT,\n" +
-                "    username VARCHAR(20) NOT NULL UNIQUE,\n" +
-                "    mail VARCHAR(32) NOT NULL UNIQUE,\n" +
-                "    password VARCHAR(20) NOT NULL,\n" +
-                "    rank INT NOT NULL,\n" +
-                "    PRIMARY KEY (user_id)\n" +
-                ");");
-    }
-
-    @Override
-    public void dropTable() throws SQLException {
-        Statement stm = connection.createStatement();
-        stm.execute("DROP TABLE IF EXISTS users;");
+    public static UsersSqlDao getInstance(Connection connection) {
+        if (instance == null) {
+            instance = new UsersSqlDao(connection);
+        }
+        return instance;
     }
 
     @Override

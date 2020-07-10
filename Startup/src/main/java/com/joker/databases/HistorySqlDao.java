@@ -7,37 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HistorySqlDao implements HistoryDao {
-    private Connection connection;
 
-    public HistorySqlDao(Connection connection) {
+    private static HistorySqlDao instance;
+
+    private final Connection connection;
+
+    private HistorySqlDao(Connection connection) {
         this.connection = connection;
     }
 
-    @Override
-    public void createTable() throws SQLException {
-        Statement stm = connection.createStatement();
-        stm.execute("CREATE TABLE IF NOT EXISTS histories (\n" +
-                "    table_id BIGINT NOT NULL AUTO_INCREMENT,\n" +
-                "    user_id1 BIGINT NOT NULL,\n" +
-                "    score1 DOUBLE NOT NULL,\n" +
-                "    user_id2 BIGINT NOT NULL,\n" +
-                "    score2 DOUBLE NOT NULL,\n" +
-                "    user_id3 BIGINT NOT NULL,\n" +
-                "    score3 DOUBLE NOT NULL,\n" +
-                "    user_id4 BIGINT NOT NULL,\n" +
-                "    score4 DOUBLE NOT NULL,\n" +
-                "    PRIMARY KEY (table_id),\n" +
-                "    FOREIGN KEY (user_id1) REFERENCES users(user_id),\n" +
-                "    FOREIGN KEY (user_id2) REFERENCES users(user_id),\n" +
-                "    FOREIGN KEY (user_id3) REFERENCES users(user_id),\n" +
-                "    FOREIGN KEY (user_id4) REFERENCES users(user_id)\n" +
-                ");");
-    }
-
-    @Override
-    public void dropTable() throws SQLException {
-        Statement stm = connection.createStatement();
-        stm.execute("DROP TABLE IF EXISTS histories;");
+    public static HistorySqlDao getInstance(Connection connection) {
+        if (instance == null) {
+            instance = new HistorySqlDao(connection);
+        }
+        return instance;
     }
 
     @Override
