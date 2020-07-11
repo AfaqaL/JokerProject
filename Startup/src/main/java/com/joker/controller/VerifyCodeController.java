@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/verifyCode")
 public class VerifyCodeController {
 
+    @Autowired
+    private UsersDao users;
     @GetMapping
     public String verifyCode() {
         return "verifyCode/verifyCode";
@@ -26,9 +28,9 @@ public class VerifyCodeController {
     public ModelAndView validateCode(HttpSession session,
                                      @RequestParam String code) {
         AuthenticationAction action = (AuthenticationAction) session.getAttribute("action");
-        int expectedCode = (int) session.getAttribute("code");
+        String expectedCode = (String) session.getAttribute("code");
 
-        if (expectedCode != Integer.parseInt(code)) {
+        if (!expectedCode.equals(code)) {
             return new ModelAndView("verifyCode/verifyCodeError");
         }
 

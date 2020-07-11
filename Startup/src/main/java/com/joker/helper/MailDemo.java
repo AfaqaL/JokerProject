@@ -6,7 +6,7 @@ public class MailDemo {
         return 1234;
     }
 
-    public static void sendMail(String mail, int code) {
+    public static void sendMail(String mail, String code) {
         // pass
     }
 }

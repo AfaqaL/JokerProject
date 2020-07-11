@@ -38,7 +38,7 @@ public class RegistrationController {
             return new ModelAndView("registration/registerError");
         }
 
-        int code = MailDemo.generateCode();
+        String code = com.joker.helperClasses.RandomCodeGenerator.randomCode();
         MailDemo.sendMail(mail, code);
 
         session.setAttribute("user", new User(username, mail, password));
