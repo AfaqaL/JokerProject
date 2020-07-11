@@ -53,7 +53,7 @@ public class ForgetPasswordController {
         ses.setAttribute("user", user);
         String code = sendEmail(mail);
         ses.setAttribute("code",code);
-        resp.sendRedirect("/verifyController");
+        resp.sendRedirect("/verifyCode");
         return null;
     }
 

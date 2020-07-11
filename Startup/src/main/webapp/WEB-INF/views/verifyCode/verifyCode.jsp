@@ -6,7 +6,7 @@
     <title>Joker | Verify Code</title>
 </head>
 <body>
-    <h1>Mail sent to ${sessionScope.mail}</h1>
+    <h1>Mail sent to ${sessionScope.user.mail}</h1>
     <form method="post">
         <label for="code">Code:</label>
         <input type="text" placeholder="Enter code" name="code" id="code">
