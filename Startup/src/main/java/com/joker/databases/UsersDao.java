@@ -42,14 +42,21 @@ public interface UsersDao {
     User searchByUsernameAndPassword(String username, String password);
 
     /**
-     * Adds new user in the database
+     * Search user in the database
+     * using username and mail.
      * @param username - name of user
-     * @param password - user password
      * @param mail - user mail
+     * @return found user
+     */
+    User searchByUsernameAndMail(String username, String mail);
+
+    /**
+     * Adds new user in the database
+     * @param user - user to add
      * @return true if user is added
      * in the database, false - otherwise
      */
-    boolean addUser(String username, String password, String mail);
+    boolean addUser(User user);
 
     // Convenience methods to update user's
     // information in the database.
