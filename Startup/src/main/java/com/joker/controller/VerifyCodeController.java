@@ -17,9 +17,6 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/verifyCode")
 public class VerifyCodeController {
 
-    @Autowired
-    private UsersDao users;
-
     @GetMapping
     public String verifyCode() {
         return "verifyCode/verifyCode";
