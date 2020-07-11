@@ -128,7 +128,10 @@ public class UsersSqlDao implements UsersDao {
     }
 
     @Override
-    public boolean addUser(String username, String password, String mail) {
+    public boolean addUser(User user) {
+        String username = user.getUsername();
+        String mail = user.getMail();
+        String password = user.getPassword();
         try {
             if (searchByUsernameAndMail(username, mail) != null) {
                 return false;
