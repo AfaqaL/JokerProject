@@ -1,30 +1,22 @@
 package com.joker.databases;
 
 import com.joker.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
+@Component("users")
 public class UsersSqlDao implements UsersDao {
 
-    private static UsersSqlDao instance;
-
-    private final Connection connection;
-
-    private UsersSqlDao(Connection connection) {
-        this.connection = connection;
-    }
-
-    public static UsersSqlDao getInstance(Connection connection) {
-        if (instance == null) {
-            instance = new UsersSqlDao(connection);
-        }
-        return instance;
-    }
+    @Autowired
+    private DataSource db;
 
     @Override
     public User searchById(long id) {
         try {
-            PreparedStatement query = connection.prepareStatement(
+            PreparedStatement query = db.getConnection().prepareStatement(
                     "SELECT * FROM users WHERE user_id = ?;"
             );
             query.setLong(1, id);
@@ -46,7 +38,7 @@ public class UsersSqlDao implements UsersDao {
     @Override
     public User searchByMail(String mail) {
         try {
-            PreparedStatement query = connection.prepareStatement(
+            PreparedStatement query = db.getConnection().prepareStatement(
                     "SELECT * FROM users WHERE mail = ?;"
             );
             query.setString(1, mail);
@@ -68,7 +60,7 @@ public class UsersSqlDao implements UsersDao {
     @Override
     public User searchByUsername(String username) {
         try {
-            PreparedStatement query = connection.prepareStatement(
+            PreparedStatement query = db.getConnection().prepareStatement(
                     "SELECT * FROM users WHERE username = ?;"
             );
             query.setString(1, username);
@@ -90,7 +82,7 @@ public class UsersSqlDao implements UsersDao {
     @Override
     public User searchByUsernameAndPassword(String username, String password) {
         try {
-            PreparedStatement query = connection.prepareStatement(
+            PreparedStatement query = db.getConnection().prepareStatement(
                     "SELECT * FROM users\n" +
                             "WHERE username = ? AND\n" +
                             "    password = ?;"
@@ -118,7 +110,7 @@ public class UsersSqlDao implements UsersDao {
                 return false;
             }
 
-            PreparedStatement insert = connection.prepareStatement(
+            PreparedStatement insert = db.getConnection().prepareStatement(
                     "INSERT INTO users (username, mail, password, rank)\n" +
                             "VALUES (?, ?, ?, 0);"
             );
@@ -136,7 +128,7 @@ public class UsersSqlDao implements UsersDao {
     @Override
     public boolean changePassword(String username, String newPassword) {
         try {
-            PreparedStatement update = connection.prepareStatement(
+            PreparedStatement update = db.getConnection().prepareStatement(
                     "UPDATE users SET password = ?\n" +
                             "WHERE username = ?;"
             );
@@ -153,7 +145,7 @@ public class UsersSqlDao implements UsersDao {
     @Override
     public boolean changeRank(String username, int newRank) {
         try {
-            PreparedStatement update = connection.prepareStatement(
+            PreparedStatement update = db.getConnection().prepareStatement(
                     "UPDATE users SET rank = ?\n" +
                             "WHERE username = ?;"
             );
