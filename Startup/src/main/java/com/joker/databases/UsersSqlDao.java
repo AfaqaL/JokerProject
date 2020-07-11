@@ -104,9 +104,33 @@ public class UsersSqlDao implements UsersDao {
     }
 
     @Override
+    public User searchByUsernameAndMail(String username, String mail) {
+        try {
+            PreparedStatement query = db.getConnection().prepareStatement(
+                    "SELECT * FROM users\n" +
+                            "WHERE username = ? OR\n" +
+                            "    mail = ?;"
+            );
+            query.setString(1, username);
+            query.setString(2, mail);
+
+            ResultSet rs = query.executeQuery();
+            if (!rs.next()) return null;
+
+            long id = rs.getLong(1);
+            String password = rs.getString(3);
+            int rank = rs.getInt(5);
+
+            return new User(id, username, mail, password, rank);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    @Override
     public boolean addUser(String username, String password, String mail) {
         try {
-            if (searchByUsername(username) != null || searchByMail(mail) != null) {
+            if (searchByUsernameAndMail(username, mail) != null) {
                 return false;
             }
 
