@@ -1,6 +1,8 @@
 package com.joker.controller;
 
 import com.joker.databases.UsersDao;
+import com.joker.helper.AuthenticationAction;
+import com.joker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 @Controller
-@RequestMapping("/verifyController")
+@RequestMapping("/verifyCode")
 public class VerifyCodeController {
 
     @GetMapping
@@ -23,15 +23,21 @@ public class VerifyCodeController {
     }
 
     @PostMapping
-    public ModelAndView validateCode(@RequestParam String code, HttpSession ses,
-                                     HttpServletResponse resp) throws IOException {
-        String requestedCode = (String) ses.getAttribute("code");
-        if (!requestedCode.equals(code)) {
-            ses.setAttribute("error", "Code was Incorrect, please try again.");
-            resp.sendRedirect("/forgetPassword");
-            return null;
+    public ModelAndView validateCode(HttpSession session,
+                                     @RequestParam String code) {
+        AuthenticationAction action = (AuthenticationAction) session.getAttribute("action");
+        int expectedCode = (int) session.getAttribute("code");
+
+        if (expectedCode != Integer.parseInt(code)) {
+            return new ModelAndView("verifyCode/verifyCodeError");
         }
-        resp.sendRedirect("/passwordRecovery");
-        return null;
+
+        if (action == AuthenticationAction.REGISTER) {
+            User user = (User) session.getAttribute("user");
+            users.addUser(user);
+            return new ModelAndView("redirect:/login");
+        } else {
+            return new ModelAndView("redirect:/passwordRecovery");
+        }
     }
 }
