@@ -1,5 +1,6 @@
 package com.joker.controller;
 
+import com.joker.authentication.Mail;
 import com.joker.databases.UsersDao;
 import com.joker.helperClasses.RandomCodeGenerator;
 import com.joker.model.User;
@@ -22,19 +23,12 @@ import java.io.UnsupportedEncodingException;
 @RequestMapping("/forgetPassword")
 public class ForgetPasswordController {
 
-    @Value("${host}")
-    private String host;
-    @Value("${port}")
-    private String port;
-    @Value("${email}")
-    private String email;
-    @Value("${name}")
-    private String name;
-    @Value("${pass}")
-    private String pass;
 
     @Autowired
     private UsersDao users;
+
+    @Autowired
+    private Mail mailSender;
 
     @GetMapping
     public String forgetPassword() {
@@ -59,9 +53,8 @@ public class ForgetPasswordController {
 
     private String sendEmail(String mail) throws UnsupportedEncodingException, MessagingException {
         String code = RandomCodeGenerator.randomCode();
-        Authentication.Mail.sendEmail(host, port, email,
-                name, pass, mail,
-                "Verification Code", code);
+        mailSender.sendVerificationCode( mail, "Verification Code", code);
+
         return code;
     }
 }
