@@ -1,4 +1,13 @@
-package Authentication;
+package com.joker.authentication;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
@@ -14,41 +23,22 @@ import java.util.Properties;
  *
  * @author www.codejava.net
  */
+@Service("mail")
 public class Mail {
-    public static void sendEmail(String host, String port,
-                                 final String senderEmail, String senderName, final String password,
-                                 String recipientEmail, String subject, String message) throws AddressException,
-            MessagingException, UnsupportedEncodingException {
+    @Value("${spring.mail.username}")
+    private String from;
+    @Autowired
+    private JavaMailSender emailSender;
 
-        // sets SMTP server properties
-        Properties properties = new Properties();
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", port);
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-
-        // creates a new session with an authenticator
-        Authenticator auth = new Authenticator() {
-            public PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(senderEmail, password);
-            }
-        };
-
-        Session session = Session.getInstance(properties, auth);
-
-        // creates a new e-mail message
-        Message msg = new MimeMessage(session);
-
-        msg.setFrom(new InternetAddress(senderEmail, senderName));
-        InternetAddress[] toAddresses = {new InternetAddress(recipientEmail)};
-        msg.setRecipients(Message.RecipientType.TO, toAddresses);
-        msg.setSubject(subject);
-        msg.setSentDate(new Date());
-        msg.setText(message);
-
-        // sends the e-mail
-        Transport.send(msg);
-
+    public void sendVerificationCode(
+            String to, String subject, String text) throws UnsupportedEncodingException, MessagingException {
+        MimeMessage mimeMessage = emailSender.createMimeMessage();
+        MimeMessageHelper message =new MimeMessageHelper(mimeMessage,true);
+        message.setFrom(from, "Yomarbazi.ge");
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        emailSender.send(mimeMessage);
     }
-
 }
+
