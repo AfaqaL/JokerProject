@@ -15,6 +15,6 @@
     <button type="button" id = enterButton> enter table </button>
     <input type="number"><br>
 
-    <button type="button" id = createButton> create table </button>
+    <a href="/createTable">Create Table</a>
 </body>
 </html>
