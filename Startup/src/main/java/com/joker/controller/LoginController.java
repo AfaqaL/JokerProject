@@ -1,6 +1,7 @@
 package com.joker.controller;
 
 import com.joker.databases.UsersDao;
+import com.joker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/login")
@@ -23,8 +26,14 @@ public class LoginController {
 
     @PostMapping
     public ModelAndView loginUser(@RequestParam String username,
-                                  @RequestParam String password) {
+                                  @RequestParam String password, HttpSession session ) {
 
-        return null;
+        User user = users.searchByUsernameAndPassword(username,password);
+        if(user == null)
+            return new ModelAndView("login/loginError");
+
+        session.setAttribute("user", user);
+        return new ModelAndView("redirect:/");
+
     }
 }
