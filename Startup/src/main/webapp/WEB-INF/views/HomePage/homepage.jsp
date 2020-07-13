@@ -9,8 +9,12 @@
 <html>
 <head>
     <title>homepage</title>
+    <h1> The ყომარბაზი </h1>
 </head>
 <body>
+    <button type="button" id = enterButton> enter table </button>
+    <input type="number"><br>
 
+    <button type="button" id = createButton> create table </button>
 </body>
 </html>
