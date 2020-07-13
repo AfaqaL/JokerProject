@@ -13,4 +13,7 @@ public class GameController {
         return "tablePage/table";
     }
 
+
+
+
 }
