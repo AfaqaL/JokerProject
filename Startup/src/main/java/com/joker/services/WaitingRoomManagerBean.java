@@ -1,9 +1,6 @@
 package com.joker.services;
 
-import com.joker.model.GameMode;
-import com.joker.model.Room;
-import com.joker.model.GameConstants;
-import com.joker.model.User;
+import com.joker.model.*;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,7 +35,7 @@ public class WaitingRoomManagerBean implements WaitingRoomManager {
     }
 
     @Override
-    public void createWaitingRoom(User user, String password, int bayonet, GameMode gameMode) {
+    public int createWaitingRoom(User user, String password, int bayonet, GameMode gameMode) {
         Room room = new Room();
         room.setId(rooms.size());
         room.setPassword(password);
@@ -48,38 +45,49 @@ public class WaitingRoomManagerBean implements WaitingRoomManager {
 
         rooms.put(room.getId(), room);
 
-        increaseVersion();
+        return getIncreasedVersion();
     }
 
     @Override
-    public boolean addUser(User user, long roomId, String password) {
+    public int addUser(User user, long roomId, String password) {
         Room room = rooms.get(roomId);
 
         if (room.getPassword() != null && !room.getPassword().equals(password)) {
-            return false;
+            return -1;
         }
 
         synchronized (Room.class) {
             if (room.getPlayers().size() == GameConstants.MAX_PLAYERS) {
-                return false;
+                return -1;
             }
             room.getPlayers().add(user);
         }
 
-        increaseVersion();
-        return true;
+        return getIncreasedVersion();
     }
 
     @Override
-    public List<Room> getAllRooms(long version) {
-        if (!isVersionChanged(version)) {
+    public ListResult<Room> getAllRooms(int version) {
+        boolean versionChanged = true;
+        versionLock.lock();
+        if (version == WaitingRoomManagerBean.version) {
+            versionChanged = false;
+        }
+        version = WaitingRoomManagerBean.version;
+        versionLock.unlock();
+
+        if (!versionChanged) {
             return null;
         }
-        return new ArrayList<>(rooms.values());
+
+        ListResult<Room> result = new ListResult<>();
+        result.setList(new ArrayList<>(rooms.values()));
+        result.setVersion(version);
+        return result;
     }
 
     @Override
-    public Room startGame(long roomId) {
+    public Room startGame(long roomId, int version) {
         if (!isVersionChanged(version)) {
             return null;
         }
@@ -94,10 +102,17 @@ public class WaitingRoomManagerBean implements WaitingRoomManager {
         return null;
     }
 
-    private void increaseVersion() {
+    private int getIncreasedVersion() {
+        int result;
+
         versionLock.lock();
+
         version++;
+        result = version;
+
         versionLock.unlock();
+
+        return result;
     }
 
     private boolean isVersionChanged(long version) {
