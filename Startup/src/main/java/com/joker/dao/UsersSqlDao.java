@@ -1,4 +1,4 @@
-package com.joker.databases;
+package com.joker.dao;
 
 import com.joker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;

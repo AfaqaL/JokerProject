@@ -1,6 +1,6 @@
 package com.joker.controller;
 
-import com.joker.databases.UsersDao;
+import com.joker.dao.UsersDao;
 import com.joker.helper.AuthenticationAction;
 import com.joker.helper.MailDemo;
 import com.joker.model.User;
@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 @Controller
 @RequestMapping("/register")

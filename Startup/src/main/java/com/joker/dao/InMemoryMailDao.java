@@ -1,4 +1,4 @@
-package com.joker.databases;
+package com.joker.dao;
 
 import org.springframework.stereotype.Component;
 
