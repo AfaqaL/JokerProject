@@ -9,15 +9,15 @@
 <html>
 <head>
     <title>homepage</title>
-    <h1> The ყომარბაზი </h1>
+    <script src="/waitingRoom.js"></script>
 </head>
 <body>
-    <form method="post">
-        <button type="button" id = enterButton> enter table </button>
-        <input type="number"><br>
-    </form>
-
-    <a href="/createTable">Create Table</a>
+    <h1> The ყომარბაზი </h1>
+    <div id="existingTables">
+        <!-- created tables will be added here! -->
+    </div> <br>
+    <button onclick="enterTable()" id="enter">Enter Table</button>
+    <button onclick="createTable()" id="create">Create Table</button>
 
 </body>
 </html>
