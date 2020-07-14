@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/homepage")
+@RequestMapping("/waitingRoom")
 public class WaitingRoomController {
 
     @GetMapping
     public String getHomepage(){
-        return "HomePage/homepage";
+        return "waitingRoom/waitingRoom";
     }
 
     @PostMapping

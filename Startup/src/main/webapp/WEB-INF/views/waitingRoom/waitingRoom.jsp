@@ -6,10 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
     <title>homepage</title>
-    <script src="/waitingRoom.js"></script>
+    <script src="resources/static/waitingRoomFunctional.js" text="text/javascript"></script>
 </head>
 <body>
     <h1> The ყომარბაზი </h1>
