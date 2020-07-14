@@ -64,6 +64,11 @@ public class WaitingRoomManagerBean implements WaitingRoomManager {
         return result;
     }
 
+    @Override
+    public Room removeRoom(long roomId) {
+        return waitingRooms.removeRoom(roomId);
+    }
+
     private void increaseVersion() {
         versionLock.lock();
         version++;

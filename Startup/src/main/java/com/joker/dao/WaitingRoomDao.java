@@ -15,4 +15,6 @@ public interface WaitingRoomDao {
     List<Room> getAllRooms();
 
     boolean isRoomReady(long roomId);
+
+    Room removeRoom(long roomId);
 }

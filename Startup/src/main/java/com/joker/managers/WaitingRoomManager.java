@@ -17,4 +17,6 @@ public interface WaitingRoomManager {
     boolean isRoomReady(long roomId);
 
     int getVersion();
+
+    Room removeRoom(long roomId);
 }

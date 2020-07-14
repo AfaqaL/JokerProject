@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -122,5 +123,23 @@ public class WaitingRoomManagerTest {
         when(waitingRooms.addUser(any(User.class), any(long.class), any(String.class))).thenReturn(true);
         waitingRoomManager.addUser(user, 1, "pass");
         assertEquals(2, waitingRoomManager.getVersion());
+    }
+
+    @Test
+    public void testRemoveRoom() {
+        Room room = new Room();
+        room.setId(1);
+        room.setPassword("pass");
+        room.setBayonet(2);
+        room.setGameMode(GameMode.NINES);
+        room.setPlayers(new ArrayList<>());
+
+        when(waitingRooms.removeRoom(1)).thenReturn(room);
+        Room result = waitingRoomManager.removeRoom(1);
+
+        assertEquals(room.getId(), result.getId());
+        assertEquals(room.getPassword(), result.getPassword());
+        assertEquals(room.getBayonet(), result.getBayonet());
+        assertEquals(room.getGameMode(), result.getGameMode());
     }
 }

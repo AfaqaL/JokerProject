@@ -57,4 +57,11 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
     public boolean isRoomReady(long roomId) {
         return rooms.get(roomId).getPlayers().size() == GameConstants.MAX_PLAYERS;
     }
+
+    @Override
+    public Room removeRoom(long roomId) {
+        Room result = rooms.get(roomId);
+        rooms.remove(roomId);
+        return result;
+    }
 }
