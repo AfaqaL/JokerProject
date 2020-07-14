@@ -1,8 +1,7 @@
-package com.joker.databases;
+package com.joker.dao;
 
 import com.joker.model.TableHistory;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface HistoryDao {
