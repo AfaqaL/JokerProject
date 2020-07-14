@@ -10,7 +10,8 @@
 <html>
 <head>
     <title>homepage</title>
-    <script src="resources/static/waitingRoomFunctional.js" text="text/javascript"></script>
+    <script><%@include file="waitingRoomFunctional.js"%>
+    </script>
 </head>
 <body>
     <h1> The ყომარბაზი </h1>
