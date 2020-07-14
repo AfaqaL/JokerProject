@@ -1,7 +1,6 @@
 package com.joker.authentication;
 
-
-import com.joker.databases.UsersSqlDao;
+import com.joker.dao.UsersSqlDao;
 import com.joker.model.User;
 
 import java.util.HashMap;
