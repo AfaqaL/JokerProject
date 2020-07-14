@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/homepage")
-public class HomepageController {
+public class WaitingRoomController {
 
     @GetMapping
     public String getHomepage(){

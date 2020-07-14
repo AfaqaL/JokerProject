@@ -12,9 +12,12 @@
     <h1> The ყომარბაზი </h1>
 </head>
 <body>
-    <button type="button" id = enterButton> enter table </button>
-    <input type="number"><br>
+    <form method="post">
+        <button type="button" id = enterButton> enter table </button>
+        <input type="number"><br>
+    </form>
 
     <a href="/createTable">Create Table</a>
+
 </body>
 </html>
