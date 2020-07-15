@@ -8,10 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>homepage</title>
+    <title>Joker | Home</title>
 </head>
 <body>
-<<<<<<< HEAD
     <h1> The ყომარბაზი </h1>
     <div id="existingTables">
         <!-- created tables will be added here! -->
@@ -29,8 +28,8 @@
 
     </div>
     <button onclick="createTable()" id="create">Create Table</button>
-=======
->>>>>>> 4117df7... come
+
+
 
 </body>
 </html>
