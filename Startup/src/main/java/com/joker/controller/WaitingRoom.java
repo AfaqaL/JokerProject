@@ -5,15 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/table")
-public class GameController {
+@RequestMapping("/waitingRoom")
+public class WaitingRoom {
 
     @GetMapping
-    public String tablePage(){
-        return "tablePage/table";
+    public String getHomepage(){
+        return "waitingRoom/waitingRoom";
     }
-
-
-
-
 }
