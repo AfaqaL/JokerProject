@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 <html>
-<style><%@include file="/resources/CSS/Login.css"%></style>
+<style><%@include file="/resources/CSS/login.css"%></style>
 <head>
     <title>Joker | Login</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
