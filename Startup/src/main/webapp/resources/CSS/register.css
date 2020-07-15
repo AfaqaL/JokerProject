@@ -15,7 +15,7 @@ html,body{
 }
 
 .card{
-    height: 370px;
+    height: 400px;
     margin-top: auto;
     margin-bottom: auto;
     width: 400px;
@@ -27,9 +27,11 @@ html,body{
     color: white;
 }
 
-.card-header-incorrect{
-    color: RED;
+.card-footer h5{
+    color: white;
+    text-align: center;
 }
+
 .input-group-prepend span{
     width: 50px;
     background-color: #FFC312;
@@ -38,21 +40,13 @@ html,body{
 }
 
 
-.login_btn{
-    color: black;
-    background-color: #FFC312;
-    width: 100px;
+.register_btn{
+    color: white;
+    background-color: red;
+    width: 130px;
 }
 
-.login_btn:hover{
+.register_btn:hover{
     color: black;
     background-color: white;
-}
-
-.links{
-    color: white;
-}
-
-.links a{
-    margin-left: 4px;
 }
