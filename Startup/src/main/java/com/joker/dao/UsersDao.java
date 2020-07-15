@@ -1,8 +1,6 @@
-package com.joker.databases;
+package com.joker.dao;
 
 import com.joker.model.User;
-
-import java.sql.SQLException;
 
 public interface UsersDao {
 

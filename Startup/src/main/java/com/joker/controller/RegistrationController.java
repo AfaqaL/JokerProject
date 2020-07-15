@@ -1,7 +1,8 @@
 package com.joker.controller;
 
 import com.joker.authentication.Mail;
-import com.joker.databases.UsersDao;
+
+import com.joker.dao.UsersDao;
 import com.joker.helper.AuthenticationAction;
 import com.joker.helper.MailDemo;
 import com.joker.model.User;
