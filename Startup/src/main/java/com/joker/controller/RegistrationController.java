@@ -1,10 +1,8 @@
 package com.joker.controller;
 
 import com.joker.authentication.Mail;
-
 import com.joker.dao.UsersDao;
 import com.joker.helper.AuthenticationAction;
-import com.joker.helper.MailDemo;
 import com.joker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 @Controller

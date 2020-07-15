@@ -1,11 +1,10 @@
 package com.joker.controller;
 
-import com.joker.dao.UsersDao;
 import com.joker.authentication.Mail;
+import com.joker.dao.UsersDao;
 import com.joker.helperClasses.RandomCodeGenerator;
 import com.joker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
