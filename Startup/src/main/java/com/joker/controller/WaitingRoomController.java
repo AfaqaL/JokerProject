@@ -1,13 +1,19 @@
 package com.joker.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.joker.managers.WaitingRoomManager;
 import com.joker.managers.WaitingRoomManagerBean;
+import com.joker.model.Room;
+import com.joker.model.User;
+import jdk.nashorn.internal.objects.NativeJSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/waitingRoom")
@@ -26,8 +32,13 @@ public class WaitingRoomController {
     }
 
     @PostMapping
-    public ModelAndView enterTable() {
+    public @ResponseBody String createTable(HttpServletRequest req,
+                                            @RequestBody String waitingRoom) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Gson converter = new Gson();
+        Room user = converter.fromJson(waitingRoom, Room.class);
+        System.out.println(user.getPassword() + "Sssssssssssssssssss");
+        return mapper.writeValueAsString(req.getSession().getAttribute("user"));
 
-        return null;
     }
 }

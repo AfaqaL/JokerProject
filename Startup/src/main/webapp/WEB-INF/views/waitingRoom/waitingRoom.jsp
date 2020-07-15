@@ -18,7 +18,18 @@
     <div id="existingTables">
         <!-- created tables will be added here! -->
     </div> <br>
-    <button onclick="enterTable()" id="enter">Enter Table</button>
+    <button onclick="enterTable()" id="enter">Enter Table</button> <br><br><br>
+
+    <div id = "createTableDiv">
+        <label>ხიშტი: </label>
+        <input type = "number" id = "bayonetValue"> <br>
+        <label>პაროლი: </label>
+        <input type = "text" id = "passwordValue"> <br>
+        <label> აირჩიე თამაშის ტიპი </label> <br>
+        <input type="radio" name="gameMode" value="standard"> სტანდარტული <br>
+        <input type="radio" name="gameMode" value="nines"> ცხრიანები <br>
+
+    </div>
     <button onclick="createTable()" id="create">Create Table</button>
 
 </body>

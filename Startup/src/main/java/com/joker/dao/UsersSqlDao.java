@@ -138,7 +138,7 @@ public class UsersSqlDao implements UsersDao {
             }
 
             PreparedStatement insert = db.getConnection().prepareStatement(
-                    "INSERT INTO users (username, mail, password, rank)\n" +
+                    "INSERT INTO users (username, mail, password, `rank`)\n" +
                             "VALUES (?, ?, ?, 0);"
             );
             insert.setString(1, username);
@@ -173,7 +173,7 @@ public class UsersSqlDao implements UsersDao {
     public boolean changeRank(String username, int newRank) {
         try {
             PreparedStatement update = db.getConnection().prepareStatement(
-                    "UPDATE users SET rank = ?\n" +
+                    "UPDATE users SET `rank` = ?\n" +
                             "WHERE username = ?;"
             );
             update.setLong(1, newRank);
