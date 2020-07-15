@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping(value = {"/","/login"})
 public class LoginController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class LoginController {
             return new ModelAndView("login/loginError");
 
         session.setAttribute("user", user);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/test");
 
     }
 }
