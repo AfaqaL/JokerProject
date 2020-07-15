@@ -9,13 +9,13 @@ public class InMemoryMailDao {
     private ArrayList<String> mails;
 
 
-    public InMemoryMailDao(){
+    public InMemoryMailDao() {
         mails = new ArrayList<>();
         mails.add("mmukhiguli@gmail.com");
         mails.add("mimukh18@freeuni.edu.ge");
     }
 
-    public boolean mailExists(String mail){
+    public boolean mailExists(String mail) {
         return mails.contains(mail);
     }
 

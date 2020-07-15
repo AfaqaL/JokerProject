@@ -11,7 +11,7 @@ public abstract class BasicTable implements Table {
     protected int[][] declaresGrid;
     protected int[][] scoresGrid;
     protected int[][] sumsGrid;
-    
+
     //current stage tracked (for calculating scores)
     protected int currStage;
 
@@ -27,7 +27,7 @@ public abstract class BasicTable implements Table {
     protected int currFirstPlayer;
     protected List<Card> threeCardList;
 
-    protected BasicTable(int id1, int id2, int id3, int id4){
+    protected BasicTable(int id1, int id2, int id3, int id4) {
         int first = ThreadLocalRandom.current().nextInt(0, 4);
         players = new Player[4];
         players[first++] = new Player(id1);
@@ -40,7 +40,7 @@ public abstract class BasicTable implements Table {
         initCards();
     }
 
-    private void initCards(){
+    private void initCards() {
         cards = new ArrayList<>(36);
         for (int i = Card.CLUBS; i <= Card.HEARTS; i++) {
             for (int j = Card.SIX; j <= Card.ACE; j++) {
@@ -48,13 +48,13 @@ public abstract class BasicTable implements Table {
             }
         }
     }
-    
+
     @Override
     public List<Card> getFirst3() {
         return threeCardList;
     }
-    
-    protected void shuffle(int numCards){
+
+    protected void shuffle(int numCards) {
         threeCardList = new ArrayList<>(3);
         Collections.shuffle(cards);
         int cardIdx = 0;
@@ -65,7 +65,7 @@ public abstract class BasicTable implements Table {
                 playerCards.add(new ArrayList<>(9));
             }
             for (int j = cardIdx; j < cardIdx + numCards; j++) {
-                if(i == currFirstPlayer && threeCardList.size() < 3)
+                if (i == currFirstPlayer && threeCardList.size() < 3)
                     threeCardList.add(cards.get(j));
                 Card curr = cards.get(j);
                 int idx = ((curr instanceof JokerCard) ? 4 : curr.color);

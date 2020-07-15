@@ -26,10 +26,10 @@ public class LoginController {
 
     @PostMapping
     public ModelAndView loginUser(@RequestParam String username,
-                                  @RequestParam String password, HttpSession session ) {
+                                  @RequestParam String password, HttpSession session) {
 
-        User user = users.searchByUsernameAndPassword(username,password);
-        if(user == null)
+        User user = users.searchByUsernameAndPassword(username, password);
+        if (user == null)
             return new ModelAndView("login/loginError");
 
         session.setAttribute("user", user);

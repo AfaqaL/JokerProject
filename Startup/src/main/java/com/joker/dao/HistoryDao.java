@@ -15,6 +15,7 @@ public interface HistoryDao {
 
     /**
      * Adds new history in the database.
+     *
      * @param history - struct to save information
      *                about table
      * @return true if user is added

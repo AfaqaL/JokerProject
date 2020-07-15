@@ -1,6 +1,6 @@
 package com.joker.game;
 
-public class Card implements Comparable{
+public class Card implements Comparable {
 
     public static final int VALID_COLORS = 0;
     public static final int VALID_SUPERIOR = 1;
@@ -30,10 +30,11 @@ public class Card implements Comparable{
 
     /**
      * Sets up a card with its "color" and "number" values
+     *
      * @param value "number"
      * @param color "color"
      */
-    public Card(int value, int color){
+    public Card(int value, int color) {
         this.value = value;
         this.color = color;
     }
@@ -41,6 +42,7 @@ public class Card implements Comparable{
 
     /**
      * Checks if this card is valid to be put or not
+     *
      * @param first
      * @return
      */
@@ -48,30 +50,35 @@ public class Card implements Comparable{
         return valid;
     }
 
-    void setValid (boolean arg) {
+    void setValid(boolean arg) {
         this.valid = arg;
     }
 
 
     /**
-     *
      * @param taker
      * @param superior
      * @return 1 if this > taker, -1 if this < taker
      */
     public int compare(Card taker, int superior) {
-        if (taker instanceof JokerCard)  { return compareJoker((JokerCard)taker, superior); }
+        if (taker instanceof JokerCard) {
+            return compareJoker((JokerCard) taker, superior);
+        }
 
-        if (taker.color == this.color)  {
+        if (taker.color == this.color) {
             if (this.value > taker.value)
                 return 1;
             else
                 return -1;
         }
 
-        if (taker.color == superior) { return -1; }
+        if (taker.color == superior) {
+            return -1;
+        }
 
-        if (this.color == superior) { return 1; }
+        if (this.color == superior) {
+            return 1;
+        }
 
         return -1;
     }
@@ -96,19 +103,19 @@ public class Card implements Comparable{
 
     @Override
     public int compareTo(Object o) {
-        return ((Card)o).value - this.value;
+        return ((Card) o).value - this.value;
     }
 
     @Override
     public boolean equals(Object obj) {
-        Card curr = (Card)obj;
+        Card curr = (Card) obj;
         return this.color == curr.color && this.value == curr.value;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         String s = "(";
-        switch(this.value){
+        switch (this.value) {
             case SIX:
                 s += "6";
                 break;
@@ -138,7 +145,7 @@ public class Card implements Comparable{
                 break;
         }
         s += ", ";
-        switch (color){
+        switch (color) {
             case CLUBS:
                 s += "jv";
                 break;
@@ -152,7 +159,7 @@ public class Card implements Comparable{
                 s += "ag";
                 break;
         }
-        s+= ")";
+        s += ")";
         return s;
     }
 }

@@ -20,6 +20,7 @@ public class PasswordRecoveryController {
 
     @Autowired
     private UsersDao users;
+
     @GetMapping
     public String passwordRecovery() {
         return "passwordRecovery/passwordRecovery";
@@ -27,17 +28,17 @@ public class PasswordRecoveryController {
 
     @PostMapping
     public ModelAndView validatePassword(HttpServletResponse resp,
-                                             HttpSession ses,
-                                             @RequestParam String pass,
-                                             @RequestParam String confirmedPass) throws IOException {
+                                         HttpSession ses,
+                                         @RequestParam String pass,
+                                         @RequestParam String confirmedPass) throws IOException {
         ModelAndView ret = new ModelAndView("passwordRecovery/passwordRecovery");
         if (!pass.equals(confirmedPass)) {
             ret.addObject("incorrectPassword", "New password doesn't match confirm password");
             return ret;
         }
         User user = (User) ses.getAttribute("user");
-        users.changePassword(user.getUsername(),pass);
-        resp.sendRedirect("/test");
+        users.changePassword(user.getUsername(), pass);
+        resp.sendRedirect("/login");
         return null;
     }
 }

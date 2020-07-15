@@ -11,13 +11,13 @@ public class TableNines extends BasicTable {
     private int playersMoved;
     private int currActivePlayer;
     private int alreadyDeclared;
-    
-    public TableNines(int id1, int id2, int id3, int id4){
-        super(id1,id2,id3,id4);
+
+    public TableNines(int id1, int id2, int id3, int id4) {
+        super(id1, id2, id3, id4);
         setVariables();
         initGrids();
     }
-    
+
     private void setVariables() {
         currFirstPlayer = 0;
         currRound = 0;
@@ -25,13 +25,13 @@ public class TableNines extends BasicTable {
         currActivePlayer = 0;
         alreadyDeclared = 0;
     }
-    
+
     private void initGrids() {
         declaresGrid = new int[ROUNDS][NUM_PLAYERS];
         scoresGrid = new int[ROUNDS][NUM_PLAYERS];
         sumsGrid = new int[NUM_STAGES][NUM_PLAYERS];
     }
-    
+
     @Override
     public void startRound() {
         currActivePlayer = ++currFirstPlayer;
@@ -40,11 +40,11 @@ public class TableNines extends BasicTable {
         currTaker = null;
         currTakerID = -1;
     }
-    
-    
+
+
     @Override
     public boolean shuffleCards() {
-        if(currRound == ROUNDS) return false;
+        if (currRound == ROUNDS) return false;
 
         super.shuffle(CARDS_PER_TURN);
         return true;
@@ -76,25 +76,25 @@ public class TableNines extends BasicTable {
     @Override
     public void putCard(Card card) {
         players[currActivePlayer].removeCard(card);
-        if(currTaker == null){
+        if (currTaker == null) {
             currTaker = card;
             firstCardColor = card.color;
             currTakerID = currActivePlayer;
             for (int others = 0; others < 4; others++) {
-                if(others != currActivePlayer)
+                if (others != currActivePlayer)
                     players[others].setValidCards(card, superior);
             }
             //might need to delete this line
             playersMoved = 0;
-        }else{
+        } else {
             int res = card.compare(currTaker, superior);
-            if(res > 0){
+            if (res > 0) {
                 currTaker = card;
                 currTakerID = currActivePlayer;
             }
         }
-        
-        if(++playersMoved == 4){
+
+        if (++playersMoved == 4) {
             players[currTakerID].increaseTaken();
             currActivePlayer = currTakerID;
             playersMoved = 0;
@@ -113,13 +113,13 @@ public class TableNines extends BasicTable {
         updateSums(res);
         return res;
     }
-    
+
     private void updateSums(int[] res) {
         for (int i = 0; i < NUM_PLAYERS; i++) {
             sumsGrid[currStage][i] += res[i];
         }
     }
-    
+
     @Override
     public boolean isStageFinished() {
         return currRound % 4 == 0;

@@ -2,7 +2,8 @@ package com.joker.controller;
 
 import com.joker.authentication.Mail;
 import com.joker.dao.UsersDao;
-import com.joker.helperClasses.RandomCodeGenerator;
+import com.joker.helper.AuthenticationAction;
+import com.joker.helper.RandomCodeGenerator;
 import com.joker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,7 @@ public class ForgetPasswordController {
         ses.setAttribute("user", user);
         String code = sendEmail(mail);
         ses.setAttribute("code",code);
+        ses.setAttribute("action", AuthenticationAction.FORGET_PASSWORD);
         resp.sendRedirect("/verifyCode");
         return null;
     }

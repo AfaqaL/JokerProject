@@ -2,7 +2,7 @@ package com.joker.controller;
 
 import com.joker.authentication.Mail;
 import com.joker.dao.UsersDao;
-import com.joker.helper.AuthenticationAction;
+import com.joker.helper.*;
 import com.joker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,8 +41,8 @@ public class RegistrationController {
             return new ModelAndView("registration/registerError");
         }
 
-        String code = com.joker.helperClasses.RandomCodeGenerator.randomCode();
-        mailSender.sendVerificationCode( mail, "Verification Code", code);
+        String code = RandomCodeGenerator.randomCode();
+        mailSender.sendVerificationCode(mail, "Verification Code", code);
 
         session.setAttribute("user", new User(username, mail, password));
         session.setAttribute("mail", mail);
