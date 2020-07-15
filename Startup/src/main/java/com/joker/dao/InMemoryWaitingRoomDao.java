@@ -18,7 +18,7 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
     private static final Map<Long, Room> rooms = new ConcurrentHashMap<>();
 
     @Override
-    public void createWaitingRoom(User user, String password, int bayonet, GameMode gameMode) {
+    public long createWaitingRoom(User user, String password, int bayonet, GameMode gameMode) {
         Room room = new Room();
         room.setId(rooms.size());
         room.setPassword(password);
@@ -27,6 +27,7 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
         room.setPlayers(Collections.singletonList(user));
 
         rooms.put(room.getId(), room);
+        return room.getId();
     }
 
     @Override

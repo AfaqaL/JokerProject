@@ -29,9 +29,10 @@ public class WaitingRoomManagerBean implements WaitingRoomManager {
     }
 
     @Override
-    public void createWaitingRoom(User user, String password, int bayonet, GameMode gameMode) {
-        waitingRooms.createWaitingRoom(user, password, bayonet, gameMode);
+    public long createWaitingRoom(User user, String password, int bayonet, GameMode gameMode) {
+        long roomId = waitingRooms.createWaitingRoom(user, password, bayonet, gameMode);
         increaseVersion();
+        return roomId;
     }
 
     @Override

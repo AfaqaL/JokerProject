@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface WaitingRoomDao {
 
-    void createWaitingRoom(User user, String password, int bayonet, GameMode gameMode);
+    long createWaitingRoom(User user, String password, int bayonet, GameMode gameMode);
 
     boolean addUser(User user, long roomId, String password);
 

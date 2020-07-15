@@ -60,7 +60,8 @@ public class WaitingRoomManagerTest {
 
     @Test
     public void testCreateWaitingRoom() {
-        waitingRoomManager.createWaitingRoom(user, password, bayonet, gameMode);
+        long id = waitingRoomManager.createWaitingRoom(user, password, bayonet, gameMode);
+        assertEquals(0, id);
 
         verify(waitingRooms).createWaitingRoom(userCaptor.capture(), passwordCaptor.capture(), bayonetCaptor.capture(), gameModeCaptor.capture());
         assertEquals(user, userCaptor.getValue());

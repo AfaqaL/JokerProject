@@ -6,12 +6,9 @@ import com.google.gson.Gson;
 import com.joker.managers.WaitingRoomManager;
 import com.joker.managers.WaitingRoomManagerBean;
 import com.joker.model.Room;
-import com.joker.model.User;
-import jdk.nashorn.internal.objects.NativeJSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
