@@ -19,6 +19,7 @@ public class VerifyCodeController {
 
     @Autowired
     private UsersDao users;
+
     @GetMapping
     public String verifyCode() {
         return "verifyCode/verifyCode";

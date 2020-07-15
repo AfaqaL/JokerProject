@@ -13,14 +13,14 @@ public class Authentication {
     private UsersSqlDao dao;
 
     public User checkUsernameAndPassword(String username, String password) {
-        User user = dao.searchByUsernameAndPassword(username,password);
+        User user = dao.searchByUsernameAndPassword(username, password);
         return user;
     }
 
     public User checkUsernameAndMail(String username, String mail) {
         User user1 = dao.searchByUsername(username);
         User user2 = dao.searchByMail(mail);
-        if(user1 != null)
+        if (user1 != null)
             return user1;
         return user2;
     }
@@ -49,17 +49,16 @@ public class Authentication {
         Random rand = new Random();
         StringBuilder password = new StringBuilder();
         int k;
-        for (int i = 0; i <8 ; i++) {
-            k = rand.nextInt()% 26;
-            if(i<4)
-                k +='a';
-            else if(i < 6)
-                k +='A';
+        for (int i = 0; i < 8; i++) {
+            k = rand.nextInt() % 26;
+            if (i < 4)
+                k += 'a';
+            else if (i < 6)
+                k += 'A';
             else
                 k = k % 17 + '!';
             password.append((char) k);
         }
-
 
 
         return password.toString();

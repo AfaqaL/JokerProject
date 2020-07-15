@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class GameController {
 
     @GetMapping
-    public String tablePage(){
+    public String tablePage() {
         return "tablePage/table";
     }
 

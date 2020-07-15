@@ -33,7 +33,7 @@ public class Mail {
     public void sendVerificationCode(
             String to, String subject, String text) throws UnsupportedEncodingException, MessagingException {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
-        MimeMessageHelper message =new MimeMessageHelper(mimeMessage,true);
+        MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
         message.setFrom(from, "Yomarbazi.ge");
         message.setTo(to);
         message.setSubject(subject);

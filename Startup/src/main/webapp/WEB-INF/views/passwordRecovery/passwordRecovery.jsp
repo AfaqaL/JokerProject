@@ -2,9 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-<style>
-    <%@include file="/resources/CSS/passwordRecovery.css" %>
-</style>
 <head>
     <title>Joker | Password Recovery</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -17,6 +14,9 @@
     <!--Fontawesome CDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <link href="<c:url value="/resources/CSS/passwordRecovery.css" />" rel="stylesheet">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/JS/showPassword.js"></script>
 </head>
 <body>
 <div class="container">
@@ -30,19 +30,19 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                     </div>
-                    <input type="password" class="form-control" name="pass" id="passID" placeholder="ახალი პაროლი">
+                    <label for="passID"></label><input type="password" class="form-control" name="pass" id="passID"
+                                                       placeholder="ახალი პაროლი">
+                    <span class="p-viewer">
+                        <i class="fa fa-eye" aria-hidden='true' onclick="showPasswordForTwo(this)"></i>
+                    </span>
                 </div>
                 <div class="input-group form-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                     </div>
-                    <input type="password" class="form-control" name="confirmedPass" id="confPassID"
-                           placeholder="გაიმეორეთ პაროლი">
-                </div>
-                <div class="input-group form-group">
-                    <div class="input-group-prepend-custom">
-                        <span class = "custom-checkbox" onclick="showPassword()"><i class="fa fa-eye-slash"></i> </span>
-                    </div>
+                    <label for="confPassID"></label><input type="password" class="form-control" name="confirmedPass"
+                                                           id="confPassID"
+                                                           placeholder="გაიმეორეთ პაროლი">
                 </div>
                 <div class="form-group pass_show">
                     <input type="submit" value="დადასტურება" class="btn float-right confirm_btn">
@@ -58,19 +58,5 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    function showPassword() {
-        var x = document.getElementById("passID");
-        var y = document.getElementById("confPassID");
-        if (x.type == "password") {
-            x.type = "text";
-            y.type = "text";
-        } else {
-            x.type = "password";
-            y.type = "password";
-        }
-    }
-</script>
 </body>
 </html>

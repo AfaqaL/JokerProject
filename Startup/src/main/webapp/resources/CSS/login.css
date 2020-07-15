@@ -1,7 +1,6 @@
-
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
-html,body{
+html, body {
     background-image: url("https://images.fineartamerica.com/images-medium-large-5/playing-cards-ten-of-spades-on-black-background-natalie-kinnear.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -9,51 +8,58 @@ html,body{
     font-family: 'Numans', sans-serif;
 }
 
-.container{
+.container {
     height: 100%;
     align-content: center;
 }
 
-.card{
+.card {
     height: 400px;
     margin-top: auto;
     margin-bottom: auto;
     width: 400px;
-    background-color: rgba(0,0,0,0.5) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
 
-.card-header h3{
+.card-header h3 {
     color: white;
 }
 
-.card-footer{
+.card-footer {
     color: white;
     text-align: center;
 }
-.input-group-prepend span{
+
+.input-group-prepend span {
     width: 50px;
     background-color: #FFC312;
     color: black;
-    border:0 !important;
+    border: 0 !important;
 }
 
+.p-viewer {
+    z-index: 9999;
+    position: absolute;
+    right: 5px;
+    margin-top: 8px;
+}
 
-.login_btn{
+.login_btn {
     color: black;
     background-color: #FFC312;
     width: 100px;
 }
 
-.login_btn:hover{
+.login_btn:hover {
     color: black;
     background-color: white;
 }
 
-.links{
+.links {
     color: white;
 }
 
-.links a{
+.links a {
     margin-left: 4px;
 }

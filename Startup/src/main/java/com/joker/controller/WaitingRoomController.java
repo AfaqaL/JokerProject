@@ -24,13 +24,14 @@ public class WaitingRoomController {
     }
 
     @GetMapping
-    public String getHomepage(){
+    public String getHomepage() {
         return "waitingRoom/waitingRoom";
     }
 
     @PostMapping
-    public @ResponseBody String createTable(HttpServletRequest req,
-                                            @RequestBody String waitingRoom) throws JsonProcessingException {
+    public @ResponseBody
+    String createTable(HttpServletRequest req,
+                       @RequestBody String waitingRoom) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Gson converter = new Gson();
         Room user = converter.fromJson(waitingRoom, Room.class);

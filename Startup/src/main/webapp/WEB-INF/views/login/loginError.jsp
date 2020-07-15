@@ -3,9 +3,6 @@
 
 <!DOCTYPE html>
 <html>
-<style>
-    <%@include file="/resources/CSS/login.css" %>
-</style>
 <head>
     <title>Joker | Login</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -18,6 +15,9 @@
     <!--Fontawesome CDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <link href="<c:url value="/resources/CSS/login.css" />" rel="stylesheet">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/JS/showPassword.js"></script>
 </head>
 <body>
 <div class="container">
@@ -38,7 +38,10 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" class="form-control" name="password" placeholder="პაროლი">
+                        <input type="password" class="form-control" name="password" id="passID" placeholder="პაროლი">
+                        <span class="p-viewer">
+                        <i class="fa fa-eye" aria-hidden='true' onclick="showPassword(this)"></i>
+                        </span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="შესვლა" class="btn float-right login_btn">

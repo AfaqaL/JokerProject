@@ -10,17 +10,17 @@ public class Player {
     private int taken;
     private int declared;
 
-    public Player(int id){
+    public Player(int id) {
         this.id = id;
         taken = 0;
         cards = new ArrayList<>(5);
-        for (int i=0; i<5; i++)
+        for (int i = 0; i < 5; i++)
             cards.add(new ArrayList<>(9));
     }
 
     public void setValidCards(Card firstCard, int superior) {
         if (firstCard instanceof JokerCard)
-            setValidCardsJoker((JokerCard)firstCard, superior);
+            setValidCardsJoker((JokerCard) firstCard, superior);
 
         int color = firstCard.color;
         setValid(cards.get(4));
@@ -62,28 +62,28 @@ public class Player {
             c.setValid(true);
     }
 
-    public void removeCard(Card chosen){
+    public void removeCard(Card chosen) {
         int idx = ((chosen instanceof JokerCard) ? 4 : chosen.color);
         cards.get(idx).remove(chosen);
     }
 
-    public void setDealtCards(List<List<Card>> dealtCards){
+    public void setDealtCards(List<List<Card>> dealtCards) {
         this.cards = dealtCards;
 
-        for (int i=0; i<4; i++)
+        for (int i = 0; i < 4; i++)
             Collections.sort(cards.get(i));
     }
 
-    public List<Card> getPlayerCards(){
+    public List<Card> getPlayerCards() {
         List<Card> ls = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             ls.addAll(cards.get(i));
         }
         return ls;
     }
-    
-    public int getScore(int maxCards){
-        if(declared == taken){
+
+    public int getScore(int maxCards) {
+        if (declared == taken) {
             return taken == maxCards ? maxCards * 100 : (taken + 1) * 50;
         }
         return taken * 10;
@@ -92,7 +92,7 @@ public class Player {
     public void increaseTaken() {
         taken++;
     }
-    
+
     public void setDeclared(int x) {
         declared = x;
     }

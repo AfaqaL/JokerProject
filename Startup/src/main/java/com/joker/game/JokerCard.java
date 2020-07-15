@@ -18,7 +18,7 @@ public class JokerCard extends Card {
         super(JOKER, -100);
     }
 
-    public void setMode(int mode, int color){
+    public void setMode(int mode, int color) {
         this.mode = mode;
         this.color = color;
     }
@@ -46,6 +46,6 @@ public class JokerCard extends Card {
 
     @Override
     public boolean equals(Object obj) {
-        return ((JokerCard)obj).value == JOKER;
+        return ((JokerCard) obj).value == JOKER;
     }
 }
