@@ -34,11 +34,11 @@
                 </div>
                 <input type="submit" value="კოდის გაგზავნა" class="btn float-right sendMail_btn">
             </form>
-            <c:if test="${error != null}">
-                <div class="card-footer">
+            <div class="card-footer">
+                <c:if test="${error != null}">
                     <h5>მომხმარებელი მეილით ${mail} ვერ მოიძებნა </h5>
-                </div>
-            </c:if>
+                </c:if>
+            </div>
         </div>
     </div>
 </div>
