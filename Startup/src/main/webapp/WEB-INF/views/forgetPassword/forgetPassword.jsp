@@ -30,7 +30,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                     </div>
-                    <input type="text" class="form-control" name="mail" placeholder="ელ. ფოსტა">
+                    <input type="email" class="form-control" name="mail" placeholder="ელ. ფოსტა">
                 </div>
                 <input type="submit" value="კოდის გაგზავნა" class="btn float-right sendMail_btn">
             </form>

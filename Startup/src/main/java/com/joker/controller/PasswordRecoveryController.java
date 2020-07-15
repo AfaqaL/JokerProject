@@ -37,7 +37,7 @@ public class PasswordRecoveryController {
         }
         User user = (User) ses.getAttribute("user");
         users.changePassword(user.getUsername(),pass);
-        resp.sendRedirect("/");
+        resp.sendRedirect("/test");
         return null;
     }
 }
