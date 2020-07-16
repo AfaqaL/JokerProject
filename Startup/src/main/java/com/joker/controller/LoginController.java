@@ -33,7 +33,7 @@ public class LoginController {
             return new ModelAndView("login/loginError");
 
         session.setAttribute("user", user);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/waitingRoom");
 
     }
 }

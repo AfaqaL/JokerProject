@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/waitingRoom")
+@RequestMapping
 public class WaitingRoomController {
 
     private final WaitingRoomManager waitingRoomManager;
@@ -28,7 +28,7 @@ public class WaitingRoomController {
         return "waitingRoom/waitingRoom";
     }
 
-    @PostMapping
+    @PostMapping("/waitingRoom/create")
     public @ResponseBody
     String createTable(HttpServletRequest req,
                        @RequestBody String waitingRoom) throws JsonProcessingException {
@@ -38,5 +38,10 @@ public class WaitingRoomController {
         System.out.println(user.getPassword() + "Sssssssssssssssssss");
         return mapper.writeValueAsString(req.getSession().getAttribute("user"));
 
+    }
+
+    @PostMapping("/waitingRoom/join")
+    public @ResponseBody String joinTable(){
+        return "";
     }
 }

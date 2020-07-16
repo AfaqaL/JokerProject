@@ -23,6 +23,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/" />
+            <mvc:mapping path="/waitingRoom" />
             <bean class="com.joker.configurations.AuthInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
