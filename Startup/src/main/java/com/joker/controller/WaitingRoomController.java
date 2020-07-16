@@ -51,12 +51,9 @@ public class WaitingRoomController {
 
 
     @PostMapping("/waitingRoom/join")
-    public @ResponseBody boolean joinTable( HttpSession session,
+    public @ResponseBody String joinTable( HttpSession session,
                            @RequestBody String roomInfo ){
-        System.out.println(roomInfo);
-        ObjectMapper mapper = new ObjectMapper();
         Gson converter = new Gson();
-
         EnterRoom roomData = converter.fromJson(roomInfo, EnterRoom.class);
 
         User player = (User)session.getAttribute("user");
@@ -65,8 +62,8 @@ public class WaitingRoomController {
 
         if(waitingRoomManager.isRoomReady(id)) {
             waitingRoomManager.removeRoom(id);
-            return false;
+            return "FALSE";
         }
-        return waitingRoomManager.addUser(player, id, password);
+        return waitingRoomManager.addUser(player, id, password) ? "TRUE" : "FALSE";
     }
 }

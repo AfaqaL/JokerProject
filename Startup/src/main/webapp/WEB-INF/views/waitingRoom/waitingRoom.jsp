@@ -13,7 +13,7 @@
     <script src="${pageContext.request.contextPath}/resources/JS/waitingRoomFunctional.js" type="text/javascript"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
-<body>
+<body onload="fetchData()">
     <h1> The ყომარბაზი </h1>
     <div id="existingTables">
         <!-- created tables will be added here! -->

@@ -60,7 +60,8 @@ function joinTable(table_id) {
         if(this.readyState === 4) {
             if (this.status === 200) {
                 let respData = this.responseText;
-                if (respData) {
+                console.log(respData);
+                if (respData === "TRUE") {
                     console.log("baro");
                 } else {
                     console.log("ninikichas deerxa");
@@ -75,4 +76,12 @@ function joinTable(table_id) {
     let data = JSON.stringify({id:table_id, password:tryPassword});
     req.send(data);
 
+}
+
+
+
+function fetchData() {
+    setInterval(function () {
+        console.log("manuchaaaaaaaaar");
+    }, 3000);
 }
