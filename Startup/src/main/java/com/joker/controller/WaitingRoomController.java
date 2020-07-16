@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.joker.dao.InMemoryWaitingRoomDao;
 import com.joker.managers.WaitingRoomManager;
 import com.joker.managers.WaitingRoomManagerBean;
+import com.joker.model.EnterRoom;
 import com.joker.model.GameMode;
 import com.joker.model.Room;
 import com.joker.model.User;
@@ -50,7 +51,20 @@ public class WaitingRoomController {
 
 
     @PostMapping("/waitingRoom/join")
-    public @ResponseBody String joinTable(){
-        return "";
+    public @ResponseBody boolean joinTable( HttpSession session,
+                           @RequestBody String roomInfo ){
+        ObjectMapper mapper = new ObjectMapper();
+        Gson converter = new Gson();
+
+        EnterRoom roomData = converter.fromJson(roomInfo, EnterRoom.class);
+        User player = (User)session.getAttribute("user");
+        String password = roomData.getPassword();
+        Long id = roomData.getId();
+
+        if(waitingRoomManager.isRoomReady(id)) {
+            waitingRoomManager.removeRoom(id);
+            return false;
+        }
+        return waitingRoomManager.addUser(player, id, password);
     }
 }
