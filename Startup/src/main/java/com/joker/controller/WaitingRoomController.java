@@ -43,6 +43,7 @@ public class WaitingRoomController {
         GameMode gameMode = roomData.getGameMode();
 
         long id = waitingRoomManager.createWaitingRoom(creator, password, bayonet, gameMode);
+        session.setAttribute("myId", id);
 
         return id;
     }
@@ -62,6 +63,7 @@ public class WaitingRoomController {
             waitingRoomManager.removeRoom(id);
             return "FALSE";
         }
+        session.setAttribute("myId", id);
         return waitingRoomManager.addUser(player, id, password) ? "TRUE" : "FALSE";
     }
 
@@ -84,6 +86,7 @@ public class WaitingRoomController {
         }
         res.setIsChanged("TRUE");
         res.setRooms(waitingRoomManager.getAllRooms());
+        session.setAttribute("version", managerVersion);
         try {
             return mapper.writeValueAsString(res);
         } catch (JsonProcessingException e) {
