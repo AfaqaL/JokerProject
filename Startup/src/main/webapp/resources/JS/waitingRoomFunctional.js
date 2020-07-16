@@ -17,6 +17,7 @@ function createTable() {
                 let childButton = document.createElement("button");
                 childButton.setAttribute("id", data);
                 childButton.setAttribute("onclick", "joinTable(this.id)");
+                childButton.setAttribute("class", "join-buttons");
 
                 childButton.innerHTML = "Join Table";
 
@@ -60,11 +61,15 @@ function joinTable(table_id) {
         if(this.readyState === 4) {
             if (this.status === 200) {
                 let respData = this.responseText;
-                console.log(respData);
+                respData = "TRUE";
                 if (respData === "TRUE") {
-                    console.log("baro");
+                    document.getElementById("div" + table_id).style.border = "thick solid #0000FF";
+                    let allJoinButtons = document.getElementsByClassName("join-buttons");
+                    [].forEach.call(allJoinButtons, (joinBtn) => {
+                        joinBtn.setAttribute("disabled", "disabled");
+                    })
                 } else {
-                    console.log("ninikichas deerxa");
+                    alert("Sorry! Could not join the table");
                 }
             }
         }
