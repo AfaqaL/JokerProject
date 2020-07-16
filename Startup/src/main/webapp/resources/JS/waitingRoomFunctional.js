@@ -75,13 +75,32 @@ function joinTable(table_id) {
     let tryPassword = document.getElementById("joinPass" + table_id).value;
     let data = JSON.stringify({id:table_id, password:tryPassword});
     req.send(data);
-
 }
 
 
 
 function fetchData() {
+
     setInterval(function () {
-        console.log("manuchaaaaaaaaar");
+        let req = new XMLHttpRequest();
+
+        req.onreadystatechange = function () {
+            if(this.readyState === 4) {
+                if (this.status === 200) {
+                    let respData = JSON.parse(this.responseText);
+                    console.log(respData);
+                    if(respData.isChanged === "TRUE") {
+                        console.log("CHANGEeeeeeee")
+                    } else {
+                        console.log("not CHangeeeeeee")
+                    }
+                }
+            }
+        }
+
+        req.open("GET", "/waitingRoom/update", true);
+        req.setRequestHeader('Content-Type', 'application/json');
+        req.send();
+
     }, 3000);
 }

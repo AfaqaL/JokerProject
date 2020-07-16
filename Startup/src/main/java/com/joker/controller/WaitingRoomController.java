@@ -6,16 +6,14 @@ import com.google.gson.Gson;
 import com.joker.dao.InMemoryWaitingRoomDao;
 import com.joker.managers.WaitingRoomManager;
 import com.joker.managers.WaitingRoomManagerBean;
-import com.joker.model.EnterRoom;
-import com.joker.model.GameMode;
-import com.joker.model.Room;
-import com.joker.model.User;
+import com.joker.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping
@@ -66,4 +64,32 @@ public class WaitingRoomController {
         }
         return waitingRoomManager.addUser(player, id, password) ? "TRUE" : "FALSE";
     }
+
+    @GetMapping("/waitingRoom/update")
+    public @ResponseBody String update(HttpSession session){
+        UIinfo res = new UIinfo();
+        ObjectMapper mapper = new ObjectMapper();
+
+        int managerVersion = waitingRoomManager.getVersion();
+        int userVersion = (int)session.getAttribute("version");
+        if (managerVersion == userVersion) {
+            res.setIsChanged("FALSE");
+            res.setRooms(new ArrayList<>());
+            try {
+                return mapper.writeValueAsString(res);
+            } catch (JsonProcessingException e) {
+                System.out.println("Bad JSON Format");
+                return "";
+            }
+        }
+        res.setIsChanged("TRUE");
+        res.setRooms(waitingRoomManager.getAllRooms());
+        try {
+            return mapper.writeValueAsString(res);
+        } catch (JsonProcessingException e) {
+            System.out.println("Bad JSON Format");
+            return "";
+        }
+    }
 }
+
