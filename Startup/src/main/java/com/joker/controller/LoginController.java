@@ -29,9 +29,12 @@ public class LoginController {
                                   @RequestParam String password, HttpSession session) {
 
         User user = users.searchByUsernameAndPassword(username, password);
-        if (user == null)
+        if (user == null) {
+            session.setAttribute("authorised",false);
             return new ModelAndView("login/loginError");
+        }
 
+        session.setAttribute("authorised",true);
         session.setAttribute("user", user);
         return new ModelAndView("redirect:/waitingRoom");
 

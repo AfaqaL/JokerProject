@@ -48,13 +48,14 @@ public class ForgetPasswordController {
         String code = sendEmail(mail);
         ses.setAttribute("code",code);
         ses.setAttribute("action", AuthenticationAction.FORGET_PASSWORD);
+        ses.setAttribute("sentCode",true);
         resp.sendRedirect("/verifyCode");
         return null;
     }
 
     private String sendEmail(String mail) throws UnsupportedEncodingException, MessagingException {
         String code = RandomCodeGenerator.randomCode();
-        mailSender.sendVerificationCode( mail, "Verification Code", code);
+        mailSender.sendVerificationCode(mail, "Verification Code", code);
 
         return code;
     }
