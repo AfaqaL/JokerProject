@@ -53,10 +53,12 @@ public class WaitingRoomController {
     @PostMapping("/waitingRoom/join")
     public @ResponseBody boolean joinTable( HttpSession session,
                            @RequestBody String roomInfo ){
+        System.out.println(roomInfo);
         ObjectMapper mapper = new ObjectMapper();
         Gson converter = new Gson();
 
         EnterRoom roomData = converter.fromJson(roomInfo, EnterRoom.class);
+
         User player = (User)session.getAttribute("user");
         String password = roomData.getPassword();
         Long id = roomData.getId();

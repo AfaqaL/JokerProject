@@ -24,7 +24,9 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
         room.setPassword(password);
         room.setBayonet(bayonet);
         room.setGameMode(gameMode);
-        room.setPlayers(Collections.singletonList(user));
+        List ls = new ArrayList();
+        ls.add(user);
+        room.setPlayers(ls);
 
         rooms.put(room.getId(), room);
         return room.getId();
