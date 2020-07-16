@@ -23,7 +23,7 @@ public class WaitingRoomController {
         this.waitingRoomManager = waitingRoomManager;
     }
 
-    @GetMapping
+    @GetMapping("/waitingRoom")
     public String getHomepage() {
         return "waitingRoom/waitingRoom";
     }
