@@ -10,7 +10,7 @@ function createTable() {
                 innerDiv.setAttribute("id", "div" + data);
                 let childLabel = document.createElement("label");
                 childLabel.innerHTML = "ხიშტი: " + tableBayonet + ","
-                                        + tableGameMode + "მოთამაშეები:1";
+                                        + tableGameMode + "მოთამაშეები: 0 ";
                 let childInput = document.createElement("input");
                 childInput.setAttribute("type", "text");
                 childInput.setAttribute("id", "joinPass" + data);
@@ -27,7 +27,7 @@ function createTable() {
 
                 document.getElementById("existingTables").appendChild(innerDiv);
                 document.getElementById("createTableDiv").innerHTML = "";
-
+                joinTable(data);
 
             } else {
                 console.log(this.statusText);
@@ -95,7 +95,31 @@ function fetchData() {
                     let respData = JSON.parse(this.responseText);
                     console.log(respData);
                     if(respData.isChanged === "TRUE") {
-                        console.log("CHANGEeeeeeee")
+                        console.log("CHANGEeeeeeee");
+                        document.getElementById("existingTables").innerHTML ="";
+                        [].forEach.call(respData.rooms, (room) => {
+                            let innerDiv = document.createElement("div");
+                            innerDiv.setAttribute("id", "div" + room.id);
+                            let childLabel = document.createElement("label");
+                            childLabel.innerHTML = "ხიშტი: " + room.bayonet + ","
+                                + room.gameMode + "მოთამაშეები:" + room.players.length;
+                            let childInput = document.createElement("input");
+                            childInput.setAttribute("type", "text");
+                            childInput.setAttribute("id", "joinPass" + room.id);
+                            let childButton = document.createElement("button");
+                            childButton.setAttribute("id", room.id);
+                            childButton.setAttribute("onclick", "joinTable(this.id)");
+                            childButton.setAttribute("class", "join-buttons");
+
+                            childButton.innerHTML = "Join Table";
+
+                            innerDiv.appendChild(childLabel);
+                            innerDiv.appendChild(childInput);
+                            innerDiv.appendChild(childButton);
+
+                            document.getElementById("existingTables").appendChild(innerDiv);
+                        });
+
                     } else {
                         console.log("not CHangeeeeeee")
                     }

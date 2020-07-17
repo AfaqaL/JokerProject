@@ -60,7 +60,8 @@ public class WaitingRoomController {
         Long id = roomData.getId();
 
         if(waitingRoomManager.isRoomReady(id)) {
-            waitingRoomManager.removeRoom(id);
+        //    waitingRoomManager.removeRoom(id);
+            ///
             return "FALSE";
         }
         session.setAttribute("myId", id);
@@ -73,7 +74,7 @@ public class WaitingRoomController {
         ObjectMapper mapper = new ObjectMapper();
 
         int managerVersion = waitingRoomManager.getVersion();
-        int userVersion = (int)session.getAttribute("version");
+        int userVersion = (Integer) session.getAttribute("version");
         if (managerVersion == userVersion) {
             res.setIsChanged("FALSE");
             res.setRooms(new ArrayList<>());
