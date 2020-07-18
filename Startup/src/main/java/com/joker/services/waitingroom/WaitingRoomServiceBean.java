@@ -1,4 +1,4 @@
-package com.joker.managers;
+package com.joker.services.waitingroom;
 
 import com.joker.dao.waitingroom.InMemoryWaitingRoomDao;
 import com.joker.dao.waitingroom.WaitingRoomDao;
@@ -13,7 +13,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Service
-public class WaitingRoomManagerBean implements WaitingRoomManager {
+public class WaitingRoomServiceBean implements WaitingRoomService {
 
     private final WaitingRoomDao waitingRooms;
 
@@ -22,7 +22,7 @@ public class WaitingRoomManagerBean implements WaitingRoomManager {
     private static Lock versionLock;
 
     @Autowired
-    public WaitingRoomManagerBean(InMemoryWaitingRoomDao waitingRooms) {
+    public WaitingRoomServiceBean(InMemoryWaitingRoomDao waitingRooms) {
         version = 0;
         versionLock = new ReentrantLock();
         this.waitingRooms = waitingRooms;

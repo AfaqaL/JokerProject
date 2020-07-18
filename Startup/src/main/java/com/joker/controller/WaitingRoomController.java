@@ -3,8 +3,8 @@ package com.joker.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.joker.managers.WaitingRoomManager;
-import com.joker.managers.WaitingRoomManagerBean;
+import com.joker.services.waitingroom.WaitingRoomService;
+import com.joker.services.waitingroom.WaitingRoomServiceBean;
 import com.joker.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +17,11 @@ import java.util.ArrayList;
 @RequestMapping
 public class WaitingRoomController {
 
-    private final WaitingRoomManager waitingRoomManager;
+    private final WaitingRoomService waitingRoomService;
 
     @Autowired
-    public WaitingRoomController(WaitingRoomManagerBean waitingRoomManager) {
-        this.waitingRoomManager = waitingRoomManager;
+    public WaitingRoomController(WaitingRoomServiceBean waitingRoomManager) {
+        this.waitingRoomService = waitingRoomManager;
     }
 
     @GetMapping("/waitingRoom")
@@ -40,7 +40,7 @@ public class WaitingRoomController {
         int bayonet = roomData.getBayonet();
         GameMode gameMode = roomData.getGameMode();
 
-        long id = waitingRoomManager.createWaitingRoom(creator, password, bayonet, gameMode);
+        long id = waitingRoomService.createWaitingRoom(creator, password, bayonet, gameMode);
         session.setAttribute("myId", id);
 
         return id;
@@ -58,14 +58,14 @@ public class WaitingRoomController {
         Long id = roomData.getId();
 
 
-        if(waitingRoomManager.isRoomReady(id)) {
+        if(waitingRoomService.isRoomReady(id)) {
             return "FALSE";
         }
 
-        Boolean result =  waitingRoomManager.addUser(player, id, password);
+        Boolean result =  waitingRoomService.addUser(player, id, password);
 
-        if(waitingRoomManager.isRoomReady(id)) {
-            waitingRoomManager.removeRoom(id);
+        if(waitingRoomService.isRoomReady(id)) {
+            waitingRoomService.removeRoom(id);
         }
 
         if(result) {
@@ -81,7 +81,7 @@ public class WaitingRoomController {
         UIinfo res = new UIinfo();
         ObjectMapper mapper = new ObjectMapper();
 
-        int managerVersion = waitingRoomManager.getVersion();
+        int managerVersion = waitingRoomService.getVersion();
         int userVersion = (Integer) session.getAttribute("version");
         if (managerVersion == userVersion) {
             res.setIsChanged("FALSE");
@@ -97,7 +97,7 @@ public class WaitingRoomController {
             }
         }
         res.setIsChanged("TRUE");
-        res.setRooms(waitingRoomManager.getAllRooms());
+        res.setRooms(waitingRoomService.getAllRooms());
         res.setMyId((Long) session.getAttribute("myId"));
         session.setAttribute("version", managerVersion);
         try {

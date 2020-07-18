@@ -1,7 +1,7 @@
 package managers;
 
 import com.joker.dao.waitingroom.InMemoryWaitingRoomDao;
-import com.joker.managers.WaitingRoomManagerBean;
+import com.joker.services.waitingroom.WaitingRoomServiceBean;
 import com.joker.model.GameMode;
 import com.joker.model.Room;
 import com.joker.model.User;
@@ -21,10 +21,10 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class WaitingRoomManagerTest {
+public class WaitingRoomServiceTest {
 
     @InjectMocks
-    private WaitingRoomManagerBean waitingRoomManager;
+    private WaitingRoomServiceBean waitingRoomManager;
 
     @Mock
     private InMemoryWaitingRoomDao waitingRooms;
