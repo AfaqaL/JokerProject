@@ -1,8 +1,8 @@
-package com.joker.dao;
+package com.joker.dao.user;
 
 import com.joker.model.User;
 
-public interface UsersDao {
+public interface UserDao {
 
     // Convenience methods to search users
     // in the database.

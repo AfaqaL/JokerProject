@@ -1,6 +1,6 @@
 package managers;
 
-import com.joker.dao.InMemoryWaitingRoomDao;
+import com.joker.dao.waitingroom.InMemoryWaitingRoomDao;
 import com.joker.managers.WaitingRoomManagerBean;
 import com.joker.model.GameMode;
 import com.joker.model.Room;
@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;

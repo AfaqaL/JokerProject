@@ -1,32 +1,24 @@
-package com.joker.dao;
+package com.joker.dao.history;
 
 import com.joker.model.TableHistory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository("historyDao")
 public class HistorySqlDao implements HistoryDao {
 
-    private static HistorySqlDao instance;
-
-    private final Connection connection;
-
-    private HistorySqlDao(Connection connection) {
-        this.connection = connection;
-    }
-
-    public static HistorySqlDao getInstance(Connection connection) {
-        if (instance == null) {
-            instance = new HistorySqlDao(connection);
-        }
-        return instance;
-    }
+    @Autowired
+    private DataSource db;
 
     @Override
     public List<TableHistory> getUserHistory(long id) {
         try {
-            PreparedStatement query = connection.prepareStatement(
+            PreparedStatement query = db.getConnection().prepareStatement(
                     "SELECT * FROM histories\n" +
                             "WHERE user_id1 = ? OR\n" +
                             "    user_id2 = ? OR\n" +
@@ -59,7 +51,7 @@ public class HistorySqlDao implements HistoryDao {
     @Override
     public boolean addHistory(TableHistory history) {
         try {
-            PreparedStatement insert = connection.prepareStatement(
+            PreparedStatement insert = db.getConnection().prepareStatement(
                     "INSERT INTO histories \n" +
                             "VALUES (?, ?, ?, ?, ?,\n" +
                             "        ?, ?, ?, ?);"

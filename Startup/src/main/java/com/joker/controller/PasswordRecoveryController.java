@@ -1,6 +1,6 @@
 package com.joker.controller;
 
-import com.joker.dao.UsersDao;
+import com.joker.dao.user.UserDao;
 import com.joker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import java.io.IOException;
 public class PasswordRecoveryController {
 
     @Autowired
-    private UsersDao users;
+    private UserDao users;
 
     @GetMapping
     public String passwordRecovery() {

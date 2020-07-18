@@ -3,7 +3,6 @@ package com.joker.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.joker.dao.InMemoryWaitingRoomDao;
 import com.joker.managers.WaitingRoomManager;
 import com.joker.managers.WaitingRoomManagerBean;
 import com.joker.model.*;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 

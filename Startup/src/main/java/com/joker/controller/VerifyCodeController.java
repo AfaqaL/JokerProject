@@ -1,7 +1,7 @@
 package com.joker.controller;
 
 import com.joker.authentication.Mail;
-import com.joker.dao.UsersDao;
+import com.joker.dao.user.UserDao;
 import com.joker.helper.AuthenticationAction;
 import com.joker.helper.RandomCodeGenerator;
 import com.joker.model.User;
@@ -22,7 +22,7 @@ import java.io.UnsupportedEncodingException;
 public class VerifyCodeController {
 
     @Autowired
-    private UsersDao users;
+    private UserDao users;
 
     @Autowired
     private Mail mailSender;

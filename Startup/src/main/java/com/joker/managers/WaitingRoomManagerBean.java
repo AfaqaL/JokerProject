@@ -1,7 +1,7 @@
 package com.joker.managers;
 
-import com.joker.dao.InMemoryWaitingRoomDao;
-import com.joker.dao.WaitingRoomDao;
+import com.joker.dao.waitingroom.InMemoryWaitingRoomDao;
+import com.joker.dao.waitingroom.WaitingRoomDao;
 import com.joker.model.GameMode;
 import com.joker.model.Room;
 import com.joker.model.User;

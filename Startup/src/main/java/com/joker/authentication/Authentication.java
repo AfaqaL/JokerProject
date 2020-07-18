@@ -1,6 +1,6 @@
 package com.joker.authentication;
 
-import com.joker.dao.UsersSqlDao;
+import com.joker.dao.user.UserSqlDao;
 import com.joker.model.User;
 
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.Random;
 public class Authentication {
     private Map<Long, User> sessionIdUser = new HashMap<>();
 
-    private UsersSqlDao dao;
+    private UserSqlDao dao;
 
     public User checkUsernameAndPassword(String username, String password) {
         User user = dao.searchByUsernameAndPassword(username, password);

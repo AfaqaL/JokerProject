@@ -1,7 +1,7 @@
 package com.joker.controller;
 
 import com.joker.authentication.Mail;
-import com.joker.dao.UsersDao;
+import com.joker.dao.user.UserDao;
 import com.joker.helper.*;
 import com.joker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.io.UnsupportedEncodingException;
 public class RegistrationController {
 
     @Autowired
-    private UsersDao users;
+    private UserDao users;
 
     @Autowired
     private Mail mailSender;
