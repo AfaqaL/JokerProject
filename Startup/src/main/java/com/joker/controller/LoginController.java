@@ -20,7 +20,7 @@ public class LoginController {
     private UsersDao users;
 
     @GetMapping
-    public String login() {
+    public String login(HttpSession session) {
         return "login/login";
     }
 
@@ -32,8 +32,11 @@ public class LoginController {
         if (user == null)
             return new ModelAndView("login/loginError");
 
+        Integer version = 0;
+        Long id = Long.valueOf(-1);
         session.setAttribute("user", user);
-        session.setAttribute("version", 0);
+        session.setAttribute("myId", id);
+        session.setAttribute("version", version);
         return new ModelAndView("redirect:/waitingRoom");
 
     }

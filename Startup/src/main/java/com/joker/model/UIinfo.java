@@ -5,6 +5,7 @@ import java.util.List;
 public class UIinfo {
     private String isChanged;
     private List<Room> rooms;
+    private Long myId;
 
     public String getIsChanged() {
         return isChanged;
@@ -20,5 +21,13 @@ public class UIinfo {
 
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    public long getMyId() {
+        return myId;
+    }
+
+    public void setMyId(long myId) {
+        this.myId = myId;
     }
 }

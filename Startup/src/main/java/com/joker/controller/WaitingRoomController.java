@@ -59,13 +59,23 @@ public class WaitingRoomController {
         String password = roomData.getPassword();
         Long id = roomData.getId();
 
+
         if(waitingRoomManager.isRoomReady(id)) {
-        //    waitingRoomManager.removeRoom(id);
-            ///
             return "FALSE";
         }
-        session.setAttribute("myId", id);
-        return waitingRoomManager.addUser(player, id, password) ? "TRUE" : "FALSE";
+
+        Boolean result =  waitingRoomManager.addUser(player, id, password);
+
+        if(waitingRoomManager.isRoomReady(id)) {
+            waitingRoomManager.removeRoom(id);
+        }
+
+        if(result) {
+            session.setAttribute("myId", id);
+            return "TRUE";
+        } else {
+            return "FALSE";
+        }
     }
 
     @GetMapping("/waitingRoom/update")
@@ -78,19 +88,25 @@ public class WaitingRoomController {
         if (managerVersion == userVersion) {
             res.setIsChanged("FALSE");
             res.setRooms(new ArrayList<>());
+            res.setMyId((Long)session.getAttribute("myId"));
+
             try {
                 return mapper.writeValueAsString(res);
             } catch (JsonProcessingException e) {
+                System.out.println(res);
                 System.out.println("Bad JSON Format");
                 return "";
             }
         }
         res.setIsChanged("TRUE");
         res.setRooms(waitingRoomManager.getAllRooms());
+        res.setMyId((Long) session.getAttribute("myId"));
         session.setAttribute("version", managerVersion);
         try {
             return mapper.writeValueAsString(res);
         } catch (JsonProcessingException e) {
+            System.out.println(res);
+            System.out.println("hereeeeeeeeeeeeee");
             System.out.println("Bad JSON Format");
             return "";
         }

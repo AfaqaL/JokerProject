@@ -35,7 +35,5 @@
         <button onclick="createTable()" id="create">Create Table</button>
     </div>
 
-
-
 </body>
 </html>

@@ -47,7 +47,7 @@ function createTable() {
                 console.log(this.statusText);
             }
         }
-    }
+    };
 
     req.open("POST", "/waitingRoom/create", true);
     req.setRequestHeader('Content-Type', 'application/json');
@@ -85,13 +85,14 @@ function joinTable(table_id) {
                         joinBtn.setAttribute("disabled", "disabled");
                     })
                     /* TODO: if joined, disable Create Table options */
+                    document.getElementById("createTableDiv").innerHTML = "";
 
                 } else {
                     alert("Sorry! Could not join the table");
                 }
             }
         }
-    }
+    };
     req.open("POST", "/waitingRoom/join", true);
     req.setRequestHeader('Content-Type', 'application/json');
 
@@ -103,7 +104,6 @@ function joinTable(table_id) {
 
 
 function fetchData() {
-
     setInterval(function () {
         let req = new XMLHttpRequest();
 
@@ -129,6 +129,10 @@ function fetchData() {
                             let innerDiv = document.createElement("div");
                             innerDiv.setAttribute("id", "div" + room.id);
 
+                            if (respData.myId === room.id) {
+                                innerDiv.style.border = "thick solid #0000FF";
+                            }
+
                             /* re-label */
                             let childLabel = document.createElement("label");
                             childLabel.innerHTML = "ხიშტი: " + room.bayonet + "," + room.gameMode + "მოთამაშეები:" + room.players.length;
@@ -148,6 +152,9 @@ function fetchData() {
                             childButton.setAttribute("onclick", "joinTable(this.id)");
                             childButton.setAttribute("class", "join-buttons");
                             childButton.innerHTML = "Join Table";
+                            if (respData.myId !== -1) {
+                                childButton.setAttribute("disabled", "disabled");
+                            }
 
                             /* add all the components to inner and main divs */
                             innerDiv.appendChild(childLabel);
@@ -162,7 +169,7 @@ function fetchData() {
                     }
                 }
             }
-        }
+        };
 
         req.open("GET", "/waitingRoom/update", true);
         req.setRequestHeader('Content-Type', 'application/json');
