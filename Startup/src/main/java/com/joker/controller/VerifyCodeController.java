@@ -1,10 +1,10 @@
 package com.joker.controller;
 
-import com.joker.authentication.Mail;
-import com.joker.dao.user.UserDao;
+import com.joker.services.mail.MailServiceBean;
 import com.joker.helper.AuthenticationAction;
 import com.joker.helper.RandomCodeGenerator;
 import com.joker.model.User;
+import com.joker.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +22,10 @@ import java.io.UnsupportedEncodingException;
 public class VerifyCodeController {
 
     @Autowired
-    private UserDao users;
+    private UserService userService;
 
     @Autowired
-    private Mail mailSender;
+    private MailServiceBean mailServiceBeanSender;
 
     @GetMapping
     public String verifyCode() {
@@ -46,7 +46,7 @@ public class VerifyCodeController {
         session.removeAttribute("sentCode");
         if (action == AuthenticationAction.REGISTER) {
             User user = (User) session.getAttribute("user");
-            users.addUser(user);
+            userService.addUser(user);
             return new ModelAndView("redirect:/login");
         } else {
             session.setAttribute("changePassword",true);
@@ -57,6 +57,6 @@ public class VerifyCodeController {
     private void resendEmail(HttpSession session) throws UnsupportedEncodingException, MessagingException {
         String code = RandomCodeGenerator.randomCode();
         session.setAttribute("code",code);
-        mailSender.sendVerificationCode((String) session.getAttribute("mail"),"verification code",code);
+        mailServiceBeanSender.sendVerificationCode((String) session.getAttribute("mail"),"verification code",code);
     }
 }

@@ -1,9 +1,9 @@
 package com.joker.controller;
 
-import com.joker.authentication.Mail;
-import com.joker.dao.user.UserDao;
+import com.joker.services.mail.MailServiceBean;
 import com.joker.helper.*;
 import com.joker.model.User;
+import com.joker.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +21,10 @@ import java.io.UnsupportedEncodingException;
 public class RegistrationController {
 
     @Autowired
-    private UserDao users;
+    private UserService userService;
 
     @Autowired
-    private Mail mailSender;
+    private MailServiceBean mailServiceBeanSender;
 
     @GetMapping
     public String register() {
@@ -36,7 +36,7 @@ public class RegistrationController {
                                      @RequestParam String username,
                                      @RequestParam String mail,
                                      @RequestParam String password) {
-        User user = users.searchByUsernameAndMail(username, mail);
+        User user = userService.getByUsernameAndMail(username, mail);
         if (user != null) {
             session.setAttribute("authorised", false);
             return new ModelAndView("registration/registerError");
@@ -44,7 +44,7 @@ public class RegistrationController {
 
         String code = RandomCodeGenerator.randomCode();
         try {
-            mailSender.sendVerificationCode(mail, "Verification Code", code);
+            mailServiceBeanSender.sendVerificationCode(mail, "Verification Code", code);
         } catch (MessagingException | UnsupportedEncodingException m) {
             return new ModelAndView("registration/registerError");
         }

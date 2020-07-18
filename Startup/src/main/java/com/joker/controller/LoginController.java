@@ -2,6 +2,7 @@ package com.joker.controller;
 
 import com.joker.dao.user.UserDao;
 import com.joker.model.User;
+import com.joker.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     @Autowired
-    private UserDao users;
+    private UserService userService;
 
     @GetMapping
     public String login() {
@@ -28,7 +29,7 @@ public class LoginController {
     public ModelAndView loginUser(@RequestParam String username,
                                   @RequestParam String password, HttpSession session) {
 
-        User user = users.searchByUsernameAndPassword(username, password);
+        User user = userService.getByUsernameAndPassword(username, password);
         if (user == null) {
             session.setAttribute("authorised",false);
             return new ModelAndView("login/loginError");
