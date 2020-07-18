@@ -36,6 +36,7 @@ public class PasswordRecoveryController {
             ret.addObject("incorrectPassword", "New password doesn't match confirm password");
             return ret;
         }
+        ses.removeAttribute("changePassword");
         User user = (User) ses.getAttribute("user");
         users.changePassword(user.getUsername(), pass);
         resp.sendRedirect("/login");

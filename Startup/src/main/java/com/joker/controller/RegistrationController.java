@@ -35,15 +35,21 @@ public class RegistrationController {
     public ModelAndView registerUser(HttpSession session,
                                      @RequestParam String username,
                                      @RequestParam String mail,
-                                     @RequestParam String password) throws UnsupportedEncodingException, MessagingException {
+                                     @RequestParam String password) {
         User user = users.searchByUsernameAndMail(username, mail);
         if (user != null) {
+            session.setAttribute("authorised", false);
             return new ModelAndView("registration/registerError");
         }
 
         String code = RandomCodeGenerator.randomCode();
-        mailSender.sendVerificationCode(mail, "Verification Code", code);
+        try {
+            mailSender.sendVerificationCode(mail, "Verification Code", code);
+        } catch (MessagingException | UnsupportedEncodingException m) {
+            return new ModelAndView("registration/registerError");
+        }
 
+        session.setAttribute("sentCode", true);
         session.setAttribute("user", new User(username, mail, password));
         session.setAttribute("mail", mail);
         session.setAttribute("code", code);

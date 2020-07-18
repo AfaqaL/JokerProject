@@ -20,7 +20,7 @@ public class LoginController {
     private UsersDao users;
 
     @GetMapping
-    public String login(HttpSession session) {
+    public String login() {
         return "login/login";
     }
 
@@ -29,11 +29,15 @@ public class LoginController {
                                   @RequestParam String password, HttpSession session) {
 
         User user = users.searchByUsernameAndPassword(username, password);
-        if (user == null)
+        if (user == null) {
+            session.setAttribute("authorised",false);
             return new ModelAndView("login/loginError");
+        }
 
+ 
         Integer version = 0;
         Long id = Long.valueOf(-1);
+        session.setAttribute("authorised",true);
         session.setAttribute("user", user);
         session.setAttribute("myId", id);
         session.setAttribute("version", version);
