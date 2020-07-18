@@ -34,8 +34,13 @@ public class LoginController {
             return new ModelAndView("login/loginError");
         }
 
+ 
+        Integer version = 0;
+        Long id = Long.valueOf(-1);
         session.setAttribute("authorised",true);
         session.setAttribute("user", user);
+        session.setAttribute("myId", id);
+        session.setAttribute("version", version);
         return new ModelAndView("redirect:/waitingRoom");
 
     }
