@@ -40,7 +40,7 @@ public class LoginController {
         Long id = Long.valueOf(-1);
         session.setAttribute("authorised",true);
         session.setAttribute("user", user);
-        session.setAttribute("myId", id);
+        session.setAttribute("tableId", id);
         session.setAttribute("version", version);
         return new ModelAndView("redirect:/waitingRoom");
 

@@ -31,17 +31,14 @@ public class WaitingRoomController {
 
     @PostMapping("/waitingRoom/create")
     public @ResponseBody long createTable(HttpSession session,
-                                            @RequestBody String waitingRoom) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Gson converter = new Gson();
-        Room roomData = converter.fromJson(waitingRoom, Room.class);
+                                          @RequestBody Room roomData) {
         User creator = (User)session.getAttribute("user");
         String password = roomData.getPassword();
         int bayonet = roomData.getBayonet();
         GameMode gameMode = roomData.getGameMode();
 
         long id = waitingRoomService.createWaitingRoom(creator, password, bayonet, gameMode);
-        session.setAttribute("myId", id);
+        session.setAttribute("tableId", id);
 
         return id;
     }
@@ -69,7 +66,7 @@ public class WaitingRoomController {
         }
 
         if(result) {
-            session.setAttribute("myId", id);
+            session.setAttribute("tableId", id);
             return "TRUE";
         } else {
             return "FALSE";
@@ -86,7 +83,7 @@ public class WaitingRoomController {
         if (managerVersion == userVersion) {
             res.setIsChanged("FALSE");
             res.setRooms(new ArrayList<>());
-            res.setMyId((Long)session.getAttribute("myId"));
+            res.setTableId((Long)session.getAttribute("tableId"));
 
             try {
                 return mapper.writeValueAsString(res);
@@ -98,13 +95,12 @@ public class WaitingRoomController {
         }
         res.setIsChanged("TRUE");
         res.setRooms(waitingRoomService.getAllRooms());
-        res.setMyId((Long) session.getAttribute("myId"));
+        res.setTableId((Long) session.getAttribute("tableId"));
         session.setAttribute("version", managerVersion);
         try {
             return mapper.writeValueAsString(res);
         } catch (JsonProcessingException e) {
             System.out.println(res);
-            System.out.println("hereeeeeeeeeeeeee");
             System.out.println("Bad JSON Format");
             return "";
         }

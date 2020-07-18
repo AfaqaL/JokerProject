@@ -1,4 +1,4 @@
-package com.joker.helper;
+package com.joker.model;
 
 public enum AuthenticationAction {
     REGISTER,

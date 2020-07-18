@@ -3,9 +3,12 @@ package com.joker.model;
 import java.util.List;
 
 public class UIinfo {
+
     private String isChanged;
+
     private List<Room> rooms;
-    private Long myId;
+
+    private long tableId;
 
     public String getIsChanged() {
         return isChanged;
@@ -23,11 +26,11 @@ public class UIinfo {
         this.rooms = rooms;
     }
 
-    public long getMyId() {
-        return myId;
+    public long getTableId() {
+        return tableId;
     }
 
-    public void setMyId(long myId) {
-        this.myId = myId;
+    public void setTableId(long tableId) {
+        this.tableId = tableId;
     }
 }
