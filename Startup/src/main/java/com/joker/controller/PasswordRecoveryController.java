@@ -1,6 +1,5 @@
 package com.joker.controller;
 
-import com.joker.dao.user.UserDao;
 import com.joker.model.User;
 import com.joker.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

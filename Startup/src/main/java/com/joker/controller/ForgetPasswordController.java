@@ -23,7 +23,6 @@ import java.io.UnsupportedEncodingException;
 @RequestMapping("/forgetPassword")
 public class ForgetPasswordController {
 
-
     @Autowired
     private UserService userService;
 

@@ -11,15 +11,19 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = "com.joker.authentication")
+@ComponentScan(basePackages = "com.joker.services.mail")
 @PropertySource(value = "classpath:application.properties")
 public class EmailConfiguration {
+
     @Value("${spring.mail.host}")
     private String mail;
+
     @Value("${spring.mail.port}")
     private int port;
+
     @Value("${spring.mail.username}")
     private String username;
+
     @Value("${spring.mail.password}")
     private String password;
 

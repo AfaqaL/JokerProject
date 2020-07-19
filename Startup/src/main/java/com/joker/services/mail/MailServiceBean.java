@@ -1,6 +1,7 @@
 package com.joker.services.mail;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
@@ -29,6 +30,7 @@ public class MailServiceBean implements MailService {
     @Value("${spring.mail.username}")
     private String from;
 
+    @Qualifier("getJavaMailSender")
     @Autowired
     private JavaMailSender emailSender;
 
