@@ -1,6 +1,5 @@
 package com.joker.controller;
 
-import com.joker.dao.user.UserDao;
 import com.joker.model.User;
 import com.joker.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +34,10 @@ public class LoginController {
             return new ModelAndView("login/loginError");
         }
 
- 
-        Integer version = 0;
-        Long id = Long.valueOf(-1);
         session.setAttribute("authorised",true);
         session.setAttribute("user", user);
-        session.setAttribute("tableId", id);
-        session.setAttribute("version", version);
+        session.setAttribute("tableId", -1L);
+        session.setAttribute("version", 0);
         return new ModelAndView("redirect:/waitingRoom");
 
     }
