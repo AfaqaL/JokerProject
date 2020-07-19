@@ -8,3 +8,7 @@ spring:
     url: "jdbc:mysql://localhost/joker"
     username: "root"
     password: "root"
+  mvc:
+    view:
+      prefix: "/WEB-INF/views/"
+      suffix: ".jsp"
