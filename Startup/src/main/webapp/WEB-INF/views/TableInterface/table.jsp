@@ -22,9 +22,45 @@
     <link href="<c:url value="/resources/CSS/Table/Suit.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/CSS/Table/Card.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/CSS/Table/PlayerLabels.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/CSS/Table/MiddleTable.css" />" rel="stylesheet">
 </head>
 <body>
-
+<div class="player1" data-letters="A">
+    <p>${sessionScope.usernames.get(0)}</p>
+</div>
+<div class="player2">
+    <p>${sessionScope.usernames.get(1)}</p>
+</div>
+<div class="player3">
+    <p>${sessionScope.usernames.get(2)}</p>
+</div>
+<div class="player4">
+    <p>${sessionScope.usernames.get(3)}</p>
+</div>
+<div class="container">
+    <div class="midTable">
+        <c:if test="${sessionScope.cards.get(0) != null}">
+            <div class="card1 card ${sessionScope.colorNames.get(sessionScope.cards.get(0).color)}">
+                <p>${sessionScope.cards.get(0).value}</p>
+            </div>
+        </c:if>
+        <c:if test="${sessionScope.cards.get(1) != null}">
+            <div class="card2 card ${sessionScope.colorNames.get(sessionScope.cards.get(1).color)}">
+                <p>${sessionScope.cards.get(1).value}</p>
+            </div>
+        </c:if>
+        <c:if test="${sessionScope.cards.get(2) != null}">
+            <div class="card3 card ${sessionScope.colorNames.get(sessionScope.cards.get(2).color)}">
+                <p>${sessionScope.cards.get(2).value}</p>
+            </div>
+        </c:if>
+        <c:if test="${sessionScope.cards.get(3) != null}">
+            <div class="card4 card ${sessionScope.colorNames.get(sessionScope.cards.get(3).color)}">
+                <p>${sessionScope.cards.get(3).value}</p>
+            </div>
+        </c:if>
+    </div>
+</div>
 <div class="hand">
     <c:forEach items="${sessionScope.hand}" var="card">
         <c:choose>
@@ -52,19 +88,6 @@
     </c:forEach>
 </div>
 
-<div class = "PLayerLabels">
-    <div class="player1">
-        <p>${sessionScope.usernames.get(0)}</p>
-    </div>
-    <div class="player2">
-        <p>${sessionScope.usernames.get(1)}</p>
-    </div>
-    <div class="player3">
-        <p>${sessionScope.usernames.get(2)}</p>
-    </div>
-    <div class="player4">
-        <p>${sessionScope.usernames.get(3)}</p>
-    </div>
-</div>
+
 </body>
 </html>

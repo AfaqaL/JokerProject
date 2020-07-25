@@ -1,6 +1,7 @@
 package com.joker.controller;
 
 import com.joker.game.Card;
+import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +33,21 @@ public class TableController {
         for (char c = 'A'; c<='D'; c++) {
             usernames.add(c + "");
         }
+        ArrayList <Card> putCards = new ArrayList<>();
+        for (int i = 1; i <= 4; i++){
+            int randomIndex = (int) (rand.nextFloat() * arr.size());
+            putCards.add(arr.get(randomIndex));
+        }
+
+        ArrayList<String> colorNames = new ArrayList<>();
+        colorNames.add("suitclubs");
+        colorNames.add("suitdiamonds");
+        colorNames.add("suitspades");
+        colorNames.add("suithearts");
         ses.setAttribute("hand", hand);
         ses.setAttribute("usernames",usernames);
+        ses.setAttribute("cards",putCards);
+        ses.setAttribute("colorNames",colorNames);
         return "TableInterface/table";
     }
 }

@@ -1,9 +1,6 @@
-.PLayerLabels{
-    position:relative;
-}
 .player1{
     position: relative;
-    top: 50%;
+    top: 45%;
     width: 100%;
     float: left;
     margin-left: 20px;
@@ -11,13 +8,13 @@
 
 .player2{
     position: absolute;
-    left: 50%;
+    right: 47%;
     margin-top: 20px;
 }
 
 .player3{
     position: relative;
-    top: 50%;
+    top: 45%;
     float: right;
     width: 100%;
     margin-right: 20px;
@@ -25,20 +22,23 @@
 
 .player4{
     position: absolute;
-    left: 50%;
+    left: 30%;
+    bottom: 0;
+    margin-bottom: 20px;
 }
 
 
 div[class*='player'] {
-    height: 100px;
-    width: 100px;
-    background-color: darkslategrey;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.player1 .p {
-    text-align: center;
-    font: 50px/110px Georgia, Times New Roman, serif;
-    background-color: #FFC312;
+    content:attr(data-letters);
+    display:inline-block;
+    font-size:1em;
+    width:100px;
+    height:100px;
+    line-height: 100px;
+    text-align:center;
+    border-radius:50%;
+    background: darkslategrey;
+    vertical-align:middle;
+    margin-right:1em;
+    color:white;
 }

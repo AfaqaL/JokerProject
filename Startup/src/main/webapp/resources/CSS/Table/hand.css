@@ -1,8 +1,9 @@
 
 .hand {
-    width: 50%;
-    margin: 0% auto;
-    margin-top: 600px;
+    position: absolute;
+    left:40%;
+    margin-bottom: 20px;
+    bottom: 0;
 }
 
 .hand:before,
