@@ -1,31 +1,31 @@
-.suitdiamonds:before, .suitdiamonds:after {
+.DIAMONDS:before, .DIAMONDS:after {
     content: "♦";
     color: #ff0000;
 }
 
-.suithearts:before, .suithearts:after {
+.HEARTS:before, .HEARTS:after {
     content: "♥";
     color: #ff0000;
 }
 
-.suitclubs:before, .suitclubs:after {
+.CLUBS:before, .CLUBS:after {
     content: "♣";
     color: #000;
 }
 
-.suitspades:before, .suitspades:after {
+.SPADES:before, .SPADES:after {
     content: "♠";
     color: #000;
 }
 
-div[class*='suit']:before {
+div:before {
     position: absolute;
     font-size: 35px;
     left: 5px;
     top: 5px;
 }
 
-div[class*='suit']:after {
+div:after {
     position: absolute;
     font-size: 35px;
     right: 5px;
