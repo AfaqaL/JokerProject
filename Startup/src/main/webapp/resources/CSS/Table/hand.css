@@ -1,0 +1,25 @@
+
+.hand {
+    width: 50%;
+    margin: 0% auto;
+    margin-top: 600px;
+}
+
+.hand:before,
+.hand:after {
+    content:"";
+    display:table;
+}
+
+.hand:after {
+    clear:both;
+}
+
+.hand {
+    zoom:1;
+}
+
+.card:hover {
+    cursor: pointer;
+}
+

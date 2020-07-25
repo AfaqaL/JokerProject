@@ -162,4 +162,16 @@ public class Card implements Comparable {
         s += ")";
         return s;
     }
+
+    public int getColor() {
+        return color;
+    }
+
+    public String getValue() {
+        if (value == 5) return "J";
+        if (value == 6) return "Q";
+        if (value == 7) return "K";
+        if (value == 8) return "A";
+        return value + 6 + "";
+    }
 }
