@@ -16,6 +16,10 @@ public class Table {
 
     private List<Integer> scores;
 
+    private int playerIndex;
+
+    private PlayAction action;
+
     public long getId() {
         return id;
     }
@@ -62,5 +66,13 @@ public class Table {
 
     public void setScores(List<Integer> scores) {
         this.scores = scores;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
     }
 }

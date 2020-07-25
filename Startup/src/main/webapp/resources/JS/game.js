@@ -64,7 +64,7 @@ function drawCards(cards) {
         }
 
         if (!card.valid) {
-            div.style.opacity = '0.3';
+            div.style.opacity = '0.5';
         }
 
         document.getElementById('hand').appendChild(div);
@@ -72,6 +72,8 @@ function drawCards(cards) {
 }
 
 function drawPlayedCards(playedCards) {
+    document.getElementById('midTable').innerHTML = '';
+
     let player = 1;
     [].forEach.call(playedCards, (card) => {
         let div = document.createElement('div');

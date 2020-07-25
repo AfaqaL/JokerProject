@@ -8,7 +8,7 @@ public interface GameService {
 
     void createTable(Room room);
 
-    Table getTable(long tableId);
+    Table getTable(long tableId, long userId);
 
     int getVersion(long tableId);
 

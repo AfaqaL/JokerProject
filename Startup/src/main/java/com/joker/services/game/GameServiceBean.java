@@ -14,7 +14,7 @@ public class GameServiceBean implements GameService {
     }
 
     @Override
-    public Table getTable(long tableId) {
+    public Table getTable(long tableId, long userId) {
         return null;
     }
 
