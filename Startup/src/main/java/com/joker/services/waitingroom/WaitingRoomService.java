@@ -18,5 +18,7 @@ public interface WaitingRoomService {
 
     int getVersion();
 
-    Room removeRoom(long roomId);
+    Room getReadyRoom(long roomId);
+
+    void removeRoom(long roomId);
 }

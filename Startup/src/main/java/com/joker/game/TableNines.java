@@ -37,6 +37,7 @@ public class TableNines extends BasicTable {
         currActivePlayer = ++currFirstPlayer;
         currRound++;
         alreadyDeclared = 0;
+        //TODO: split
         currTaker = null;
         currTakerID = -1;
     }

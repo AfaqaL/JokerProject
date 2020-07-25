@@ -134,8 +134,8 @@ public class WaitingRoomServiceTest {
         room.setGameMode(GameMode.NINES);
         room.setPlayers(new ArrayList<>());
 
-        when(waitingRooms.removeRoom(1)).thenReturn(room);
-        Room result = waitingRoomManager.removeRoom(1);
+        when(waitingRooms.getReadyRoom(1)).thenReturn(room);
+        Room result = waitingRoomManager.getReadyRoom(1);
 
         assertEquals(room.getId(), result.getId());
         assertEquals(room.getPassword(), result.getPassword());

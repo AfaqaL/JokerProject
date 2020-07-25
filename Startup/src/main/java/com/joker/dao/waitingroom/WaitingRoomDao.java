@@ -10,11 +10,15 @@ public interface WaitingRoomDao {
 
     long createWaitingRoom(User user, String password, int bayonet, GameMode gameMode);
 
+    int getVersion();
+
     boolean addUser(User user, long roomId, String password);
 
     List<Room> getAllRooms();
 
     boolean isRoomReady(long roomId);
 
-    Room removeRoom(long roomId);
+    Room getReadyRoom(long roomId);
+
+    void removeRoom(long roomId);
 }

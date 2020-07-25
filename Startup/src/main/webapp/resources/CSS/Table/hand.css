@@ -1,0 +1,26 @@
+
+.hand {
+    position: absolute;
+    left:40%;
+    margin-bottom: 20px;
+    bottom: 0;
+}
+
+.hand:before,
+.hand:after {
+    content:"";
+    display:table;
+}
+
+.hand:after {
+    clear:both;
+}
+
+.hand {
+    zoom:1;
+}
+
+.card:hover {
+    cursor: pointer;
+}
+

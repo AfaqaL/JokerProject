@@ -1,0 +1,33 @@
+.DIAMONDS:before, .DIAMONDS:after {
+    content: "♦";
+    color: #ff0000;
+}
+
+.HEARTS:before, .HEARTS:after {
+    content: "♥";
+    color: #ff0000;
+}
+
+.CLUBS:before, .CLUBS:after {
+    content: "♣";
+    color: #000;
+}
+
+.SPADES:before, .SPADES:after {
+    content: "♠";
+    color: #000;
+}
+
+div:before {
+    position: absolute;
+    font-size: 35px;
+    left: 5px;
+    top: 5px;
+}
+
+div:after {
+    position: absolute;
+    font-size: 35px;
+    right: 5px;
+    bottom: 5px;
+}
