@@ -1,6 +1,5 @@
 package com.joker.services.waitingroom;
 
-import com.joker.dao.waitingroom.InMemoryWaitingRoomDao;
 import com.joker.dao.waitingroom.WaitingRoomDao;
 import com.joker.model.GameMode;
 import com.joker.model.Room;
@@ -9,40 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class WaitingRoomServiceBean implements WaitingRoomService {
 
-    private final WaitingRoomDao waitingRooms;
-
-    private static int version;
-
-    private static Lock versionLock;
-
     @Autowired
-    public WaitingRoomServiceBean(InMemoryWaitingRoomDao waitingRooms) {
-        version = 0;
-        versionLock = new ReentrantLock();
-        this.waitingRooms = waitingRooms;
-    }
+    private WaitingRoomDao waitingRooms;
 
     @Override
     public long createWaitingRoom(User user, String password, int bayonet, GameMode gameMode) {
-        long roomId = waitingRooms.createWaitingRoom(user, password, bayonet, gameMode);
-        increaseVersion();
-        return roomId;
+        return waitingRooms.createWaitingRoom(user, password, bayonet, gameMode);
     }
 
     @Override
     public boolean addUser(User user, long roomId, String password) {
-        boolean userAdded = waitingRooms.addUser(user, roomId, password);
-        if (userAdded) {
-            increaseVersion();
-        }
-
-        return userAdded;
+        return waitingRooms.addUser(user, roomId, password);
     }
 
     @Override
@@ -57,22 +37,16 @@ public class WaitingRoomServiceBean implements WaitingRoomService {
 
     @Override
     public int getVersion() {
-        int result;
-        versionLock.lock();
-        result = version;
-        versionLock.unlock();
-
-        return result;
+        return waitingRooms.getVersion();
     }
 
     @Override
-    public Room removeRoom(long roomId) {
-        return waitingRooms.removeRoom(roomId);
+    public Room getReadyRoom(long roomId) {
+        return waitingRooms.getReadyRoom(roomId);
     }
 
-    private void increaseVersion() {
-        versionLock.lock();
-        version++;
-        versionLock.unlock();
+    @Override
+    public void removeRoom(long roomId) {
+        waitingRooms.removeRoom(roomId);
     }
 }

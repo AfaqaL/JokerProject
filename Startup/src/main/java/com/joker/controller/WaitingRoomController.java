@@ -62,7 +62,7 @@ public class WaitingRoomController {
         Boolean result =  waitingRoomService.addUser(player, id, password);
 
         if(waitingRoomService.isRoomReady(id)) {
-            waitingRoomService.removeRoom(id);
+            waitingRoomService.getReadyRoom(id);
         }
 
         if(result) {

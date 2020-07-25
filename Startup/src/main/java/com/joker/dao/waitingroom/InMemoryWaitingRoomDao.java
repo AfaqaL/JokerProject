@@ -10,11 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Repository("waitingRoomDao")
 public class InMemoryWaitingRoomDao implements WaitingRoomDao {
 
     private static final Map<Long, Room> rooms = new ConcurrentHashMap<>();
+
+    private static final Map<Long, Room> readyRooms = new ConcurrentHashMap<>();
+
+    private int version = 0;
+
+    private final Lock lock = new ReentrantLock();
 
     @Override
     public long createWaitingRoom(User user, String password, int bayonet, GameMode gameMode) {
@@ -29,7 +37,20 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
         room.setPlayers(players);
 
         rooms.put(room.getId(), room);
+
+        increaseVersion();
         return room.getId();
+    }
+
+    @Override
+    public int getVersion() {
+        int result;
+
+        lock.lock();
+        result = version;
+        lock.unlock();
+
+        return result;
     }
 
     @Override
@@ -48,6 +69,7 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
             room.getPlayers().add(user);
         }
 
+        increaseVersion();
         return true;
     }
 
@@ -58,13 +80,30 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
 
     @Override
     public boolean isRoomReady(long roomId) {
-        return rooms.get(roomId).getPlayers().size() == GameConstants.MAX_PLAYERS;
+        boolean ready = rooms.get(roomId).getPlayers().size() == GameConstants.MAX_PLAYERS;
+
+        if (ready) {
+            Room room = rooms.get(roomId);
+            rooms.remove(roomId);
+            readyRooms.put(roomId, room);
+        }
+
+        return ready;
     }
 
     @Override
-    public Room removeRoom(long roomId) {
-        Room result = rooms.get(roomId);
-        rooms.remove(roomId);
-        return result;
+    public Room getReadyRoom(long roomId) {
+        return readyRooms.get(roomId);
+    }
+
+    @Override
+    public void removeRoom(long roomId) {
+        readyRooms.remove(roomId);
+    }
+
+    private void increaseVersion() {
+        lock.lock();
+        version++;
+        lock.unlock();
     }
 }
