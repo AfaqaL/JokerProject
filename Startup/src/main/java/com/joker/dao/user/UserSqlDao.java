@@ -1,14 +1,16 @@
-package com.joker.dao;
+package com.joker.dao.user;
 
 import com.joker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-@Component("users")
-public class UsersSqlDao implements UsersDao {
+@Repository("userDao")
+public class UserSqlDao implements UserDao {
 
     @Autowired
     private DataSource db;

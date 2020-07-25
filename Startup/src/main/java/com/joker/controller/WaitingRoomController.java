@@ -3,15 +3,13 @@ package com.joker.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.joker.dao.InMemoryWaitingRoomDao;
-import com.joker.managers.WaitingRoomManager;
-import com.joker.managers.WaitingRoomManagerBean;
+import com.joker.services.waitingroom.WaitingRoomService;
+import com.joker.services.waitingroom.WaitingRoomServiceBean;
 import com.joker.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
@@ -19,11 +17,11 @@ import java.util.ArrayList;
 @RequestMapping
 public class WaitingRoomController {
 
-    private final WaitingRoomManager waitingRoomManager;
+    private final WaitingRoomService waitingRoomService;
 
     @Autowired
-    public WaitingRoomController(WaitingRoomManagerBean waitingRoomManager) {
-        this.waitingRoomManager = waitingRoomManager;
+    public WaitingRoomController(WaitingRoomServiceBean waitingRoomManager) {
+        this.waitingRoomService = waitingRoomManager;
     }
 
     @GetMapping("/waitingRoom")
@@ -33,17 +31,14 @@ public class WaitingRoomController {
 
     @PostMapping("/waitingRoom/create")
     public @ResponseBody long createTable(HttpSession session,
-                                            @RequestBody String waitingRoom) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Gson converter = new Gson();
-        Room roomData = converter.fromJson(waitingRoom, Room.class);
+                                          @RequestBody Room roomData) {
         User creator = (User)session.getAttribute("user");
         String password = roomData.getPassword();
         int bayonet = roomData.getBayonet();
         GameMode gameMode = roomData.getGameMode();
 
-        long id = waitingRoomManager.createWaitingRoom(creator, password, bayonet, gameMode);
-        session.setAttribute("myId", id);
+        long id = waitingRoomService.createWaitingRoom(creator, password, bayonet, gameMode);
+        session.setAttribute("tableId", id);
 
         return id;
     }
@@ -60,18 +55,18 @@ public class WaitingRoomController {
         Long id = roomData.getId();
 
 
-        if(waitingRoomManager.isRoomReady(id)) {
+        if(waitingRoomService.isRoomReady(id)) {
             return "FALSE";
         }
 
-        Boolean result =  waitingRoomManager.addUser(player, id, password);
+        Boolean result =  waitingRoomService.addUser(player, id, password);
 
-        if(waitingRoomManager.isRoomReady(id)) {
-            waitingRoomManager.removeRoom(id);
+        if(waitingRoomService.isRoomReady(id)) {
+            waitingRoomService.removeRoom(id);
         }
 
         if(result) {
-            session.setAttribute("myId", id);
+            session.setAttribute("tableId", id);
             return "TRUE";
         } else {
             return "FALSE";
@@ -83,12 +78,12 @@ public class WaitingRoomController {
         UIinfo res = new UIinfo();
         ObjectMapper mapper = new ObjectMapper();
 
-        int managerVersion = waitingRoomManager.getVersion();
+        int managerVersion = waitingRoomService.getVersion();
         int userVersion = (Integer) session.getAttribute("version");
         if (managerVersion == userVersion) {
             res.setIsChanged("FALSE");
             res.setRooms(new ArrayList<>());
-            res.setMyId((Long)session.getAttribute("myId"));
+            res.setTableId((Long)session.getAttribute("tableId"));
 
             try {
                 return mapper.writeValueAsString(res);
@@ -99,14 +94,13 @@ public class WaitingRoomController {
             }
         }
         res.setIsChanged("TRUE");
-        res.setRooms(waitingRoomManager.getAllRooms());
-        res.setMyId((Long) session.getAttribute("myId"));
+        res.setRooms(waitingRoomService.getAllRooms());
+        res.setTableId((Long) session.getAttribute("tableId"));
         session.setAttribute("version", managerVersion);
         try {
             return mapper.writeValueAsString(res);
         } catch (JsonProcessingException e) {
             System.out.println(res);
-            System.out.println("hereeeeeeeeeeeeee");
             System.out.println("Bad JSON Format");
             return "";
         }

@@ -1,6 +1,7 @@
-package com.joker.authentication;
+package com.joker.services.mail;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,10 +24,13 @@ import java.util.Properties;
  *
  * @author www.codejava.net
  */
-@Service("mail")
-public class Mail {
+@Service("mailServiceSender")
+public class MailServiceBean implements MailService {
+
     @Value("${spring.mail.username}")
     private String from;
+
+    @Qualifier("getJavaMailSender")
     @Autowired
     private JavaMailSender emailSender;
 

@@ -1,4 +1,4 @@
-package com.joker.dao;
+package com.joker.dao.history;
 
 import com.joker.model.TableHistory;
 

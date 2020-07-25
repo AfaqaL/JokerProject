@@ -1,4 +1,4 @@
-package com.joker.dao;
+package com.joker.dao.waitingroom;
 
 import com.joker.model.GameConstants;
 import com.joker.model.GameMode;
@@ -7,12 +7,11 @@ import com.joker.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
+@Repository("waitingRoomDao")
 public class InMemoryWaitingRoomDao implements WaitingRoomDao {
 
     private static final Map<Long, Room> rooms = new ConcurrentHashMap<>();
@@ -24,9 +23,10 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
         room.setPassword(password);
         room.setBayonet(bayonet);
         room.setGameMode(gameMode);
-        List ls = new ArrayList();
-        ls.add(user);
-        room.setPlayers(ls);
+
+        List<User> players = new ArrayList<>();
+        players.add(user);
+        room.setPlayers(players);
 
         rooms.put(room.getId(), room);
         return room.getId();

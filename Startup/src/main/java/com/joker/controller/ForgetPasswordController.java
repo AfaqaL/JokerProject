@@ -1,10 +1,10 @@
 package com.joker.controller;
 
-import com.joker.authentication.Mail;
-import com.joker.dao.UsersDao;
-import com.joker.helper.AuthenticationAction;
+import com.joker.services.mail.MailService;
+import com.joker.model.AuthenticationAction;
 import com.joker.helper.RandomCodeGenerator;
 import com.joker.model.User;
+import com.joker.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +23,11 @@ import java.io.UnsupportedEncodingException;
 @RequestMapping("/forgetPassword")
 public class ForgetPasswordController {
 
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    private UsersDao users;
-
-    @Autowired
-    private Mail mailSender;
+    private MailService mailServiceSender;
 
     @GetMapping
     public String forgetPassword() {
@@ -37,7 +36,7 @@ public class ForgetPasswordController {
 
     @PostMapping
     public ModelAndView validateMail(HttpSession ses, HttpServletResponse resp, @RequestParam String mail) throws IOException, MessagingException {
-        User user = users.searchByMail(mail);
+        User user = userService.getByMail(mail);
         ModelAndView ret = new ModelAndView("forgetPassword/forgetPassword");
         if (user == null) {
             ret.addObject("error", "No such mail " + mail + " in database");
@@ -55,7 +54,7 @@ public class ForgetPasswordController {
 
     private String sendEmail(String mail) throws UnsupportedEncodingException, MessagingException {
         String code = RandomCodeGenerator.randomCode();
-        mailSender.sendVerificationCode(mail, "Verification Code", code);
+        mailServiceSender.sendVerificationCode(mail, "Verification Code", code);
 
         return code;
     }

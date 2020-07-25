@@ -129,7 +129,7 @@ function fetchData() {
                             let innerDiv = document.createElement("div");
                             innerDiv.setAttribute("id", "div" + room.id);
 
-                            if (respData.myId === room.id) {
+                            if (respData.tableId === room.id) {
                                 innerDiv.style.border = "thick solid #0000FF";
                             }
 
@@ -152,7 +152,7 @@ function fetchData() {
                             childButton.setAttribute("onclick", "joinTable(this.id)");
                             childButton.setAttribute("class", "join-buttons");
                             childButton.innerHTML = "Join Table";
-                            if (respData.myId !== -1) {
+                            if (respData.tableId !== -1) {
                                 childButton.setAttribute("disabled", "disabled");
                             }
 

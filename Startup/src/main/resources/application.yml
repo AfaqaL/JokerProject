@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  servlet:
+    context-path: "/"
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost/joker"
+    username: "root"
+    password: "root"
+  mvc:
+    view:
+      prefix: "/WEB-INF/views/"
+      suffix: ".jsp"

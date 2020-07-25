@@ -12,36 +12,5 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
     <context:component-scan base-package="com.joker"/>
 
-    <bean id="db" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost/joker"/>
-        <property name="username" value="root"/>
-        <property name="password" value="root"/>
-        <property name="initialSize" value="3"/>
-    </bean>
-
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/" />
-            <mvc:mapping path="/waitingRoom" />
-            <bean class="com.joker.configurations.AuthInterceptor" />
-        </mvc:interceptor>
-        <mvc:interceptor>
-            <mvc:mapping path="/verifyCode"/>
-            <bean class="com.joker.configurations.VerifyInterceptor" />
-        </mvc:interceptor>
-        <mvc:interceptor>
-            <mvc:mapping path="/passwordRecovery"/>
-            <bean class="com.joker.configurations.PasswordRecoveryInterceptor" />
-        </mvc:interceptor>
-    </mvc:interceptors>
-
     <mvc:annotation-driven /> <mvc:default-servlet-handler /> <mvc:resources mapping="/resources/**" location="/resources/" />
-
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/views/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
-
-
 </beans>

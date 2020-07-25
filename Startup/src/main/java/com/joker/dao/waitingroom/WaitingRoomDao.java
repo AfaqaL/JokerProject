@@ -1,4 +1,4 @@
-package com.joker.dao;
+package com.joker.dao.waitingroom;
 
 import com.joker.model.GameMode;
 import com.joker.model.Room;

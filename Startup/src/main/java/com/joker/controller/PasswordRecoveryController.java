@@ -1,7 +1,7 @@
 package com.joker.controller;
 
-import com.joker.dao.UsersDao;
 import com.joker.model.User;
+import com.joker.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import java.io.IOException;
 public class PasswordRecoveryController {
 
     @Autowired
-    private UsersDao users;
+    private UserService userService;
 
     @GetMapping
     public String passwordRecovery() {
@@ -38,7 +38,7 @@ public class PasswordRecoveryController {
         }
         ses.removeAttribute("changePassword");
         User user = (User) ses.getAttribute("user");
-        users.changePassword(user.getUsername(), pass);
+        userService.changePassword(user, pass);
         resp.sendRedirect("/login");
         return null;
     }
