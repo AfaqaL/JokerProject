@@ -3,7 +3,7 @@
     align-content: center;
 }
 .midTable{
-    position: relative;
+    position: absolute;
     width: 1080px;
     height: 600px;
     margin-top: 130px;
@@ -34,4 +34,33 @@
     position: absolute;
     left: 45%;
     bottom: 0;
+}
+
+.btn-group{
+    background-color: black;
+    top:50%;
+    z-index: 10;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.btn-group button{
+    height: 60px;
+    width: 65px;
+    background-color: white ;
+    color: black;
+    margin-left: 20px;
+    margin-top:40px;
+    font-weight: bold;
+    font-size: 1.5em;
+    vertical-align: middle;
+    line-height: 0;
+}
+
+.btn-group button:first-child{
+    margin-left: 100px
+}
+
+.btn-group button:hover{
+    cursor:pointer;
 }

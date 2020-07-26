@@ -131,3 +131,12 @@ function putCard(card) {
     console.log(card.value);
     console.log(card.color);
 }
+
+function removeSayNum(){
+    var x = document.getElementById("sayNum");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}

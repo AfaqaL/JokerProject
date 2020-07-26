@@ -10,3 +10,17 @@ img{
 img:hover {
     cursor: pointer;
 }
+
+.superior_card{
+    position: absolute;
+    margin-right: 20px;
+    right: 100px;
+    top: 30px;
+    width: 200px;
+    height:200px;
+}
+
+figcaption{
+    margin-left: -20px;
+    color: white;
+}
