@@ -23,6 +23,7 @@ th{
     height: 5px;
 }
 td{
+    border-right: 1px solid #fdfdfd;
     height: 5px;
     color: white;
     padding: 5px;
@@ -34,4 +35,18 @@ td{
 
 .green{
     color: green;
+}
+
+.final_points{
+    border-top: 1px solid #fdfdfd;
+    border-bottom: 1px solid #fdfdfd;
+}
+
+.last{
+    border: none !important;
+}
+
+.final_points .last{
+    border-top: 1px solid #fdfdfd;
+    border-bottom: none !important;
 }

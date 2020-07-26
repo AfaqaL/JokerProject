@@ -59,10 +59,10 @@
             <td>-</td>
             <td>10</td>
             <td>-</td>
-            <td>20</td>
+            <td class="last">20</td>
         </tr>
         <% } %>
-        <tr>
+        <tr class="final_points">
             <td></td>
             <td>25.2</td>
             <td></td>
@@ -70,7 +70,17 @@
             <td></td>
             <td>40</td>
             <td></td>
+            <td class="last">20</td>
+        </tr>
+        <tr class="final_points last">
+            <td></td>
+            <td>25.2</td>
+            <td></td>
             <td>20</td>
+            <td></td>
+            <td>40</td>
+            <td></td>
+            <td class="last">20</td>
         </tr>
     </table>
 
