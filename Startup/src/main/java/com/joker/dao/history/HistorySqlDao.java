@@ -42,8 +42,11 @@ public class HistorySqlDao implements HistoryDao {
                 );
                 res.add(history);
             }
+
+            commit();
             return res;
         } catch (SQLException e) {
+            rollback();
             return null;
         }
     }
@@ -67,9 +70,25 @@ public class HistorySqlDao implements HistoryDao {
             insert.setDouble(9, history.getScore4());
 
             insert.execute();
+            commit();
             return true;
         } catch (SQLException e) {
+            rollback();
             return false;
+        }
+    }
+
+    private void commit() throws SQLException {
+        Statement stm = db.getConnection().createStatement();
+        stm.executeQuery("COMMIT");
+    }
+
+    private void rollback() {
+        try {
+            Statement stm = db.getConnection().createStatement();
+            stm.executeQuery("ROLLBACK");
+        } catch (SQLException ignored) {
+
         }
     }
 }
