@@ -2,6 +2,8 @@ package com.joker.dao.user;
 
 import com.joker.model.User;
 
+import java.sql.SQLException;
+
 public interface UserDao {
 
     // Convenience methods to search users
@@ -69,20 +71,16 @@ public interface UserDao {
     /**
      * Changes password for the given user
      *
-     * @param username    - name of user
+     * @param user
      * @param newPassword - new password for user
-     * @return true if password changed,
-     * false - otherwise
      */
-    boolean changePassword(String username, String newPassword);
+    boolean changePassword(User user, String newPassword);
 
     /**
      * Changes rank for the given user
      *
-     * @param username - name of user
+     * @param user
      * @param newRank  - new rank for user
-     * @return true if rank updated,
-     * false otherwise
      */
-    boolean changeRank(String username, int newRank);
+    boolean changeRank(User user, int newRank);
 }

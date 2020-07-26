@@ -155,14 +155,14 @@ public class UserSqlDao implements UserDao {
     }
 
     @Override
-    public boolean changePassword(String username, String newPassword) {
+    public boolean changePassword(User user, String newPassword) {
         try {
             PreparedStatement update = db.getConnection().prepareStatement(
                     "UPDATE users SET password = ?\n" +
                             "WHERE username = ?;"
             );
             update.setString(1, newPassword);
-            update.setString(2, username);
+            update.setString(2, user.getUsername());
 
             update.execute();
             return true;
@@ -172,14 +172,14 @@ public class UserSqlDao implements UserDao {
     }
 
     @Override
-    public boolean changeRank(String username, int newRank) {
+    public boolean changeRank(User user, int newRank) {
         try {
             PreparedStatement update = db.getConnection().prepareStatement(
                     "UPDATE users SET `rank` = ?\n" +
                             "WHERE username = ?;"
             );
             update.setLong(1, newRank);
-            update.setString(2, username);
+            update.setString(2, user.getUsername());
 
             update.execute();
             return true;

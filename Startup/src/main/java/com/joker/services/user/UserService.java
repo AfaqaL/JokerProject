@@ -13,4 +13,6 @@ public interface UserService {
     void addUser(User user);
 
     void changePassword(User user, String newPassword);
+
+    void changeRank(User user, int newRank);
 }

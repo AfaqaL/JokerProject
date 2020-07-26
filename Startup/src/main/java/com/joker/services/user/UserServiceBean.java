@@ -28,7 +28,12 @@ public class UserServiceBean implements UserService {
     }
 
     public void changePassword(User user, String newPassword) {
-        userDao.changePassword(user.getUsername(), newPassword);
+        userDao.changePassword(user, newPassword);
+    }
+
+    @Override
+    public void changeRank(User user, int newRank) {
+        userDao.changeRank(user, newRank);
     }
 }
 
