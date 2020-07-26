@@ -17,6 +17,7 @@
     <link href="<c:url value="/resources/CSS/Table/Card.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/CSS/Table/PlayerLabels.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/CSS/Table/MiddleTable.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/CSS/Table/PointGrid.css" />" rel="stylesheet">
 </head>
 <body onload="update()">
     <div class="player1" data-letters="A">
@@ -38,6 +39,41 @@
 
     <div class="hand" id="hand"></div>
 
+    <table>
+        <tr>
+            <th></th>
+            <th>${sessionScope.usernames.get(0)}</th>
+            <th class = "num"></th>
+            <th>${sessionScope.usernames.get(1)}</th>
+            <th class = "num"></th>
+            <th>${sessionScope.usernames.get(2)}</th>
+            <th class = "num"></th>
+            <th>${sessionScope.usernames.get(3)}</th>
+        </tr>
+        <% for (int i = 0; i < 5; i++){ %>
+        <tr>
+            <td>1</td>
+            <td class="red">100</td>
+            <td>-</td>
+            <td class="green">0</td>
+            <td>-</td>
+            <td>10</td>
+            <td>-</td>
+            <td>20</td>
+        </tr>
+        <% } %>
+        <tr></tr>
+        <tr>
+            <td></td>
+            <td>25.2</td>
+            <td></td>
+            <td>20</td>
+            <td></td>
+            <td>40</td>
+            <td></td>
+            <td>20</td>
+        </tr>
+    </table>
 
 </body>
 </html>

@@ -1,0 +1,38 @@
+table {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 300px;
+    background-color: black;
+    opacity: 0.8;
+}
+
+th{
+    height: 5px;
+    text-align: left;
+    color: white;
+    padding: 5px;
+}
+
+.num th{
+    padding: 2px;
+    text-align: left;
+    height: 5px;
+}
+td{
+    height: 5px;
+    color: white;
+    padding: 5px;
+}
+
+table, th, td{
+    border: 1px solid white;
+}
+
+.red{
+    color: red;
+}
+
+.green{
+    color: green;
+}
