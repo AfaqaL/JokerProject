@@ -63,9 +63,9 @@ function drawCards(cards) {
             }
         }
 
-        // if (!card.valid) {
-        //     img.style.opacity = '0.5';
-        // }
+         if (!card.valid) {
+             img.setAttribute("style", "filter: brightness(25%)")
+         }
 
         document.getElementById('hand').appendChild(img);
     });
