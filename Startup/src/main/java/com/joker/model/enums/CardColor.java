@@ -1,4 +1,4 @@
-package com.joker.game;
+package com.joker.model.enums;
 
 public enum CardColor {
     CLUBS,

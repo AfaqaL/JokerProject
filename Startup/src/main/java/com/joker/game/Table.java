@@ -1,5 +1,7 @@
 package com.joker.game;
 
+import com.joker.model.dto.TableResponse;
+
 import java.util.List;
 
 public interface Table {
@@ -97,4 +99,13 @@ public interface Table {
      * @return array of size 2/4 with each team/player total scores
      */
     int[] getFinalScores();
+
+    /**
+     * used for communication with JS
+     * @return table state (contains current
+     * table state, updated with every move)
+     */
+    TableResponse getTable();
+
+    int getVersion();
 }

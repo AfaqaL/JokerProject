@@ -1,20 +1,37 @@
 package com.joker.services.game;
 
 import com.joker.game.Card;
+import com.joker.game.Table;
+import com.joker.game.TableNines;
 import com.joker.model.Room;
-import com.joker.model.Table;
+import com.joker.model.dto.TableResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GameServiceBean implements GameService {
 
+    private static final Logger log = LoggerFactory.getLogger(GameServiceBean.class);
+
+    private Table table;
     @Override
     public void createTable(Room room) {
-
+        long[] playerIds = new long[Table.NUM_PLAYERS];
+        for (int i = 0; i < Table.NUM_PLAYERS; i++) {
+            playerIds[i] = room.getPlayers().get(i).getId();
+        }
+        switch (room.getGameMode()){
+            case NINES:
+                table = new TableNines(playerIds[0], playerIds[1], playerIds[2],playerIds[3]);
+            case STANDARD:
+            default:
+                log.error("Not implemented yet");
+        }
     }
 
     @Override
-    public Table getTable(long tableId, long userId) {
+    public TableResponse getTable(long tableId, long userId) {
         return null;
     }
 

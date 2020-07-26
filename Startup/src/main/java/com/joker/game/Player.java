@@ -1,16 +1,18 @@
 package com.joker.game;
 
+import com.joker.model.enums.CardColor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Player {
     private List<List<Card>> cards;
-    private final int id;
+    private final long id;
     private int taken;
     private int declared;
 
-    public Player(int id) {
+    public Player(long id) {
         this.id = id;
         taken = 0;
         cards = new ArrayList<>(5);
@@ -18,15 +20,15 @@ public class Player {
             cards.add(new ArrayList<>(9));
     }
 
-    public void setValidCards(Card firstCard, int superior) {
+    public void setValidCards(Card firstCard, CardColor superior) {
         if (firstCard instanceof JokerCard)
             setValidCardsJoker((JokerCard) firstCard, superior);
 
-        int color = firstCard.color;
+        CardColor color = firstCard.color;
         setValid(cards.get(4));
 
-        if (!cards.get(color).isEmpty()) {
-            setValid(cards.get(color));
+        if (!cards.get(color.ordinal()).isEmpty()) {
+            setValid(cards.get(color.ordinal()));
             return;
         }
 
@@ -63,7 +65,7 @@ public class Player {
     }
 
     public void removeCard(Card chosen) {
-        int idx = ((chosen instanceof JokerCard) ? 4 : chosen.color);
+        int idx = ((chosen instanceof JokerCard) ? 4 : chosen.color.ordinal());
         cards.get(idx).remove(chosen);
     }
 

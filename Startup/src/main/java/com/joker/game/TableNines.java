@@ -1,5 +1,10 @@
 package com.joker.game;
 
+import com.joker.model.dto.CardDTO;
+import com.joker.model.dto.TableResponse;
+import com.joker.model.enums.CardColor;
+import com.joker.model.enums.CardValue;
+
 import java.util.List;
 
 public class TableNines extends BasicTable {
@@ -12,7 +17,7 @@ public class TableNines extends BasicTable {
     private int currActivePlayer;
     private int alreadyDeclared;
 
-    public TableNines(int id1, int id2, int id3, int id4) {
+    public TableNines(long id1,long id2,long id3,long id4) {
         super(id1, id2, id3, id4);
         setVariables();
         initGrids();
@@ -53,6 +58,10 @@ public class TableNines extends BasicTable {
 
     @Override
     public void setSuperiorCard(int color) {
+        CardDTO card = new CardDTO();
+        card.setValue(CardValue.ACE);
+        card.setColor(CardColor.CLUBS);
+        tableResp.setSuperior(card);
         superior = color;
     }
 
@@ -71,6 +80,7 @@ public class TableNines extends BasicTable {
         players[currActivePlayer++].setDeclared(x);
         currActivePlayer %= 4;
         alreadyDeclared += x;
+
         return ++playersMoved == 3 ? CARDS_PER_TURN - alreadyDeclared : -1;
     }
 
@@ -149,5 +159,17 @@ public class TableNines extends BasicTable {
         res += "\nplayer 2 has: " + players[2].getPlayerCards().toString();
         res += "\nplayer 3 has: " + players[3].getPlayerCards().toString();
         return res;
+    }
+
+    @Override
+    public TableResponse getTable() {
+        TableResponse resp = new TableResponse();
+        List<Integer>
+        return null;
+    }
+
+    @Override
+    public int getVersion() {
+        return 0;
     }
 }

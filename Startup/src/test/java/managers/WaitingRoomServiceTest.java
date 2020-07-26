@@ -2,7 +2,7 @@ package managers;
 
 import com.joker.dao.waitingroom.InMemoryWaitingRoomDao;
 import com.joker.services.waitingroom.WaitingRoomServiceBean;
-import com.joker.model.GameMode;
+import com.joker.model.enums.GameMode;
 import com.joker.model.Room;
 import com.joker.model.User;
 import org.junit.BeforeClass;

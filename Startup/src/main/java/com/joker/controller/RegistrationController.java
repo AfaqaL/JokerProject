@@ -1,6 +1,6 @@
 package com.joker.controller;
 
-import com.joker.model.AuthenticationAction;
+import com.joker.model.enums.AuthenticationAction;
 import com.joker.services.mail.MailServiceBean;
 import com.joker.helper.*;
 import com.joker.model.User;

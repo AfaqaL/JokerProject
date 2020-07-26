@@ -1,31 +1,12 @@
 package com.joker.game;
 
+import com.joker.model.enums.CardColor;
+import com.joker.model.enums.CardValue;
+
 public class Card implements Comparable {
 
-    public static final int VALID_COLORS = 0;
-    public static final int VALID_SUPERIOR = 1;
-
-
-    public static final int NO_COLOR = -1;
-    public static final int CLUBS = 0;
-    public static final int DIAMONDS = 1;
-    public static final int SPADES = 2;
-    public static final int HEARTS = 3;
-
-    public static final int SIX = 0;
-    public static final int SEVEN = 1;
-    public static final int EIGHT = 2;
-    public static final int NINE = 3;
-    public static final int TEN = 4;
-    public static final int JACK = 5;
-    public static final int QUEEN = 6;
-    public static final int KING = 7;
-    public static final int ACE = 8;
-    public static final int JOKER = 9;
-
-
-    public int value;
-    public int color;
+    public CardValue value;
+    public CardColor color;
     private boolean valid;
 
     /**
@@ -34,7 +15,7 @@ public class Card implements Comparable {
      * @param value "number"
      * @param color "color"
      */
-    public Card(int value, int color) {
+    public Card(CardValue value, CardColor color) {
         this.value = value;
         this.color = color;
     }
@@ -60,40 +41,42 @@ public class Card implements Comparable {
      * @param superior
      * @return 1 if this > taker, -1 if this < taker
      */
-    public int compare(Card taker, int superior) {
+    public int compare(Card taker, CardColor superior) {
         if (taker instanceof JokerCard) {
             return compareJoker((JokerCard) taker, superior);
         }
 
-        if (taker.color == this.color) {
-            if (this.value > taker.value)
+        if (taker.color.ordinal() == this.color.ordinal()) {
+            if (this.value.ordinal() > taker.value.ordinal())
                 return 1;
             else
                 return -1;
         }
 
-        if (taker.color == superior) {
+        if (taker.color.ordinal() == superior.ordinal()) {
             return -1;
         }
 
-        if (this.color == superior) {
+        if (this.color.ordinal() == superior.ordinal()) {
             return 1;
         }
 
         return -1;
     }
 
-    private int compareJoker(JokerCard taker, int superior) {
+    private int compareJoker(JokerCard taker, CardColor superior) {
         switch (taker.mode) {
             case JokerCard.OVER_MODE:
                 return -1;
             case JokerCard.GIVE_HIGHEST_MODE:
-                if (this.color == superior && taker.color != superior)
+                if (this.color.ordinal() == superior.ordinal() &&
+                        taker.color.ordinal() != superior.ordinal())
                     return 1;
                 else
                     return -1;
             case JokerCard.TAKE_MODE:
-                if (this.color == taker.color || this.color == superior)
+                if (this.color.ordinal() == taker.color.ordinal() ||
+                        this.color.ordinal() == superior.ordinal())
                     return 1;
                 else
                     return -1;
@@ -103,75 +86,65 @@ public class Card implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        return ((Card) o).value - this.value;
+        return ((Card) o).value.ordinal() - this.value.ordinal();
     }
 
     @Override
     public boolean equals(Object obj) {
         Card curr = (Card) obj;
-        return this.color == curr.color && this.value == curr.value;
+        return this.color.ordinal() == curr.color.ordinal() &&
+                this.value.ordinal() == curr.value.ordinal();
     }
+//if necessary
+//    @Override
+//    public String toString() {
+//        String s = "(";
+//        switch (this.value) {
+//            case SIX:
+//                s += "6";
+//                break;
+//            case SEVEN:
+//                s += "7";
+//                break;
+//            case EIGHT:
+//                s += "8";
+//                break;
+//            case NINE:
+//                s += "9";
+//                break;
+//            case TEN:
+//                s += "10";
+//                break;
+//            case JACK:
+//                s += "J";
+//                break;
+//            case QUEEN:
+//                s += "Q";
+//                break;
+//            case KING:
+//                s += "K";
+//                break;
+//            case ACE:
+//                s += "A";
+//                break;
+//        }
+//        s += ", ";
+//        switch (color) {
+//            case CLUBS:
+//                s += "jv";
+//                break;
+//            case SPADES:
+//                s += "yv";
+//                break;
+//            case HEARTS:
+//                s += "gu";
+//                break;
+//            case DIAMONDS:
+//                s += "ag";
+//                break;
+//        }
+//        s += ")";
+//        return s;
+//    }
 
-    @Override
-    public String toString() {
-        String s = "(";
-        switch (this.value) {
-            case SIX:
-                s += "6";
-                break;
-            case SEVEN:
-                s += "7";
-                break;
-            case EIGHT:
-                s += "8";
-                break;
-            case NINE:
-                s += "9";
-                break;
-            case TEN:
-                s += "10";
-                break;
-            case JACK:
-                s += "J";
-                break;
-            case QUEEN:
-                s += "Q";
-                break;
-            case KING:
-                s += "K";
-                break;
-            case ACE:
-                s += "A";
-                break;
-        }
-        s += ", ";
-        switch (color) {
-            case CLUBS:
-                s += "jv";
-                break;
-            case SPADES:
-                s += "yv";
-                break;
-            case HEARTS:
-                s += "gu";
-                break;
-            case DIAMONDS:
-                s += "ag";
-                break;
-        }
-        s += ")";
-        return s;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public String getValue() {
-        if (value == 5) return "J";
-        if (value == 6) return "Q";
-        if (value == 7) return "K";
-        if (value == 8) return "A";
-        return value + 6 + "";
-    }
 }

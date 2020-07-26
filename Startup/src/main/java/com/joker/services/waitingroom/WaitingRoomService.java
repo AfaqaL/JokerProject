@@ -1,6 +1,6 @@
 package com.joker.services.waitingroom;
 
-import com.joker.model.GameMode;
+import com.joker.model.enums.GameMode;
 import com.joker.model.Room;
 import com.joker.model.User;
 

@@ -1,18 +1,22 @@
-package com.joker.model;
+package com.joker.model.dto;
+
+import com.joker.model.enums.PlayAction;
 
 import java.util.List;
 
-public class Table {
+public class TableResponse {
 
     private long id;
 
-    private Card superior;
+    private CardDTO superior;
 
-    private List<Card> cards;
+    private List<CardDTO> cards;
 
-    private List<Card> playedCards;
+    private List<CardDTO> playedCards;
 
     private List<Integer> declares;
+
+    private List<Integer> taken;
 
     private List<Integer> scores;
 
@@ -28,27 +32,27 @@ public class Table {
         this.id = id;
     }
 
-    public Card getSuperior() {
+    public CardDTO getSuperior() {
         return superior;
     }
 
-    public void setSuperior(Card superior) {
+    public void setSuperior(CardDTO superior) {
         this.superior = superior;
     }
 
-    public List<Card> getCards() {
+    public List<CardDTO> getCards() {
         return cards;
     }
 
-    public void setCards(List<Card> cards) {
+    public void setCards(List<CardDTO> cards) {
         this.cards = cards;
     }
 
-    public List<Card> getPlayedCards() {
+    public List<CardDTO> getPlayedCards() {
         return playedCards;
     }
 
-    public void setPlayedCards(List<Card> playedCards) {
+    public void setPlayedCards(List<CardDTO> playedCards) {
         this.playedCards = playedCards;
     }
 
