@@ -12,10 +12,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <link href="<c:url value="/resources/CSS/Table/hand.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/CSS/Table/Suit.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/CSS/Table/Card.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/CSS/Table/Table.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/CSS/Table/PlayerLabels.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/CSS/Table/PointGrid.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/CSS/Table/Card.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/CSS/Table/hand.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/CSS/Table/MiddleTable.css" />" rel="stylesheet">
 </head>
 <body onload="update()">
@@ -38,6 +39,50 @@
 
     <div class="hand" id="hand"></div>
 
+    <table>
+        <tr>
+            <th></th>
+            <th>${sessionScope.usernames.get(0)}</th>
+            <th class = "num"></th>
+            <th>${sessionScope.usernames.get(1)}</th>
+            <th class = "num"></th>
+            <th>${sessionScope.usernames.get(2)}</th>
+            <th class = "num"></th>
+            <th>${sessionScope.usernames.get(3)}</th>
+        </tr>
+        <% for (int i = 0; i < 5; i++){ %>
+        <tr>
+            <td>1</td>
+            <td class="red">100</td>
+            <td>-</td>
+            <td class="green">0</td>
+            <td>-</td>
+            <td>10</td>
+            <td>-</td>
+            <td class="last">20</td>
+        </tr>
+        <% } %>
+        <tr class="final_points">
+            <td></td>
+            <td>25.2</td>
+            <td></td>
+            <td>20</td>
+            <td></td>
+            <td>40</td>
+            <td></td>
+            <td class="last">20</td>
+        </tr>
+        <tr class="final_points last">
+            <td></td>
+            <td>25.2</td>
+            <td></td>
+            <td>20</td>
+            <td></td>
+            <td>40</td>
+            <td></td>
+            <td class="last">20</td>
+        </tr>
+    </table>
 
 </body>
 </html>
