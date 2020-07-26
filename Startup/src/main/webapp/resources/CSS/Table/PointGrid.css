@@ -4,7 +4,9 @@ table {
     left: 10px;
     width: 300px;
     background-color: black;
-    opacity: 0.8;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
 }
 
 th{
@@ -23,10 +25,6 @@ td{
     height: 5px;
     color: white;
     padding: 5px;
-}
-
-table, th, td{
-    border: 1px solid white;
 }
 
 .red{
