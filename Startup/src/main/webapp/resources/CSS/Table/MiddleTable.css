@@ -13,14 +13,14 @@
 .card1{
     position: relative;
     float: left;
-    left: 390px;
+    left: 350px;
     top: 45%;
 }
 
 .card2{
     position: absolute;
     top: 100px;
-    left: 45%;
+    left: 42%;
 }
 
 .card3{
@@ -32,7 +32,7 @@
 
 .card4{
     position: absolute;
-    left: 45%;
+    left: 42%;
     bottom: 0;
 }
 
