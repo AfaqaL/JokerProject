@@ -1,5 +1,4 @@
 img{
-    margin-left: -33px;
     width: auto;
     height: 190px;
     -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
@@ -9,4 +8,18 @@ img{
 
 img:hover {
     cursor: pointer;
+}
+
+.superior_card{
+    position: absolute;
+    margin-right: 20px;
+    right: 100px;
+    top: 30px;
+    width: 200px;
+    height:200px;
+}
+
+figcaption{
+    margin-left: -20px;
+    color: white;
 }

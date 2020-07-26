@@ -20,69 +20,80 @@
     <link href="<c:url value="/resources/CSS/Table/MiddleTable.css" />" rel="stylesheet">
 </head>
 <body onload="update()">
-    <div class="player1" data-letters="A">
-        <p>${sessionScope.usernames.get(0)}</p>
-    </div>
-    <div class="player2">
-        <p>${sessionScope.usernames.get(1)}</p>
-    </div>
-    <div class="player3">
-        <p>${sessionScope.usernames.get(2)}</p>
-    </div>
-    <div class="player4">
-        <p>${sessionScope.usernames.get(3)}</p>
-    </div>
+<div class="player1" data-letters="A">
+    <p>${sessionScope.usernames.get(0)}</p>
+</div>
+<div class="player2">
+    <p>${sessionScope.usernames.get(1)}</p>
+</div>
+<div class="player3">
+    <p>${sessionScope.usernames.get(2)}</p>
+</div>
+<div class="player4">
+    <p>${sessionScope.usernames.get(3)}</p>
+</div>
 
-    <div class="container">
-        <div class="midTable" id="midTable"></div>
-    </div>
-
-    <div class="hand" id="hand"></div>
-
-    <table>
-        <tr>
-            <th></th>
-            <th>${sessionScope.usernames.get(0)}</th>
-            <th class = "num"></th>
-            <th>${sessionScope.usernames.get(1)}</th>
-            <th class = "num"></th>
-            <th>${sessionScope.usernames.get(2)}</th>
-            <th class = "num"></th>
-            <th>${sessionScope.usernames.get(3)}</th>
-        </tr>
-        <% for (int i = 0; i < 5; i++){ %>
-        <tr>
-            <td>1</td>
-            <td class="red">100</td>
-            <td>-</td>
-            <td class="green">0</td>
-            <td>-</td>
-            <td>10</td>
-            <td>-</td>
-            <td class="last">20</td>
-        </tr>
+<div class="container">
+    <div class="midTable" id="midTable"></div>
+    <div class="btn-group" style="display: block" id = "sayNum">
+        <% for (int i = 0; i < 10; i++) { %>
+        <button onclick = "removeSayNum()"><%=i%></button>
         <% } %>
-        <tr class="final_points">
-            <td></td>
-            <td>25.2</td>
-            <td></td>
-            <td>20</td>
-            <td></td>
-            <td>40</td>
-            <td></td>
-            <td class="last">20</td>
-        </tr>
-        <tr class="final_points last">
-            <td></td>
-            <td>25.2</td>
-            <td></td>
-            <td>20</td>
-            <td></td>
-            <td>40</td>
-            <td></td>
-            <td class="last">20</td>
-        </tr>
-    </table>
+    </div>
+</div>
+
+<div class="hand" id="hand"></div>
+
+<table>
+    <tr>
+        <th></th>
+        <th>${sessionScope.usernames.get(0)}</th>
+        <th class="num"></th>
+        <th>${sessionScope.usernames.get(1)}</th>
+        <th class="num"></th>
+        <th>${sessionScope.usernames.get(2)}</th>
+        <th class="num"></th>
+        <th>${sessionScope.usernames.get(3)}</th>
+    </tr>
+    <% for (int i = 0; i < 5; i++) { %>
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+    <% } %>
+    <tr class="final_points">
+        <td></td>
+        <td>25.2</td>
+        <td></td>
+        <td>20</td>
+        <td></td>
+        <td>40</td>
+        <td></td>
+        <td class="last">20</td>
+    </tr>
+    <tr class="final_points last">
+        <td></td>
+        <td>25.2</td>
+        <td></td>
+        <td>20</td>
+        <td></td>
+        <td>40</td>
+        <td></td>
+        <td class="last">20</td>
+    </tr>
+</table>
+<div class="superior_card" id="superior_card">
+    <figure>
+        <img src="${pageContext.request.contextPath}/resources/images/6C.png" alt="superior_card">
+        <figcaption>კოზირი: ბეზი</figcaption>
+    </figure>
+</div>
 
 </body>
 </html>

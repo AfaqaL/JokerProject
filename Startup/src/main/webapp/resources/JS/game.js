@@ -63,9 +63,9 @@ function drawCards(cards) {
             }
         }
 
-        // if (!card.valid) {
-        //     img.style.opacity = '0.5';
-        // }
+         if (!card.valid) {
+             img.setAttribute("style", "filter: brightness(25%)")
+         }
 
         document.getElementById('hand').appendChild(img);
     });
@@ -130,4 +130,13 @@ function putCard(card) {
     // TODO: send putCard request to server
     console.log(card.value);
     console.log(card.color);
+}
+
+function removeSayNum(){
+    var x = document.getElementById("sayNum");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
 }
