@@ -65,7 +65,7 @@ public class TableController {
 
         // მოთამაშის კარტები
         List<Card> cards = new ArrayList<>();
-        for (int i = 1; i <= 5; i++){
+        for (int i = 1; i <= 9; i++){
             int randomIndex = (int) (rand.nextFloat() * arr.size());
             cards.add(arr.get(randomIndex));
         }

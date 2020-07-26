@@ -23,7 +23,7 @@ Object.freeze(Color);
 Object.freeze(Value);
 
 function update() {
-    setInterval(function() {
+    setInterval(function () {
         let xhr = new XMLHttpRequest();
         let url = '/table/update';
 
@@ -54,20 +54,20 @@ function drawCards(cards) {
     document.getElementById('hand').innerHTML = '';
 
     [].forEach.call(cards, (card) => {
-        let div = document.createElement('div');
-        div.className = 'card ' + card.color;
-        div.innerHTML = '<p>' + getCardValue(card.value) + '</p>';
-        div.onclick = function () {
+        var img = document.createElement('img');
+        img.setAttribute("src", "resources/images/" + getCardValue(card.value) + getCardColor(card.color) + ".png");
+        console.log(img.getAttribute("src"));
+        img.onclick = function () {
             if (card.valid) {
                 putCard(card)
             }
         }
 
-        if (!card.valid) {
-            div.style.opacity = '0.5';
-        }
+        // if (!card.valid) {
+        //     img.style.opacity = '0.5';
+        // }
 
-        document.getElementById('hand').appendChild(div);
+        document.getElementById('hand').appendChild(img);
     });
 }
 
@@ -76,11 +76,11 @@ function drawPlayedCards(playedCards) {
 
     let player = 1;
     [].forEach.call(playedCards, (card) => {
-        let div = document.createElement('div');
-        div.innerHTML = '<p>' + getCardValue(card.value) + '</p>';
-        div.className = 'card' + player + ' card ' + card.color;
-
-        document.getElementById('midTable').appendChild(div);
+        var img = document.createElement('img');
+        img.setAttribute("src", "resources/images/" + getCardValue(card.value) + getCardColor(card.color) + ".png");
+        img.className = 'card' + player;
+        console.log(img.className);
+        document.getElementById('midTable').appendChild(img);
 
         player++;
     });
@@ -108,6 +108,21 @@ function getCardValue(value) {
             return 'A';
         case Value.JOKER:
             return '$';
+    }
+}
+
+function getCardColor(color) {
+    switch (color) {
+        case Color.NO_COLOR:
+            return '';
+        case Color.CLUBS:
+            return 'C';
+        case Color.DIAMONDS:
+            return 'D';
+        case Color.SPADES:
+            return 'S';
+        case Color.HEARTS:
+            return 'H';
     }
 }
 
