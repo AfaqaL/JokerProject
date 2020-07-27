@@ -53,16 +53,15 @@
 <div class="hand" id="hand"></div>
 
 <table>
+    <thead>
     <tr>
-        <th></th>
         <th>${sessionScope.usernames.get(0)}</th>
-        <th class="num"></th>
         <th>${sessionScope.usernames.get(1)}</th>
-        <th class="num"></th>
         <th>${sessionScope.usernames.get(2)}</th>
-        <th class="num"></th>
         <th>${sessionScope.usernames.get(3)}</th>
     </tr>
+    </thead>
+    <tbody>
     <% for (int i = 0; i < 5; i++) { %>
     <tr>
         <td>1</td>
@@ -95,6 +94,7 @@
         <td></td>
         <td class="last">20</td>
     </tr>
+    </tbody>
 </table>
 <div class="superior_card" id="superior_card">
     <figure>
