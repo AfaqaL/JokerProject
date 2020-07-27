@@ -86,7 +86,7 @@ public abstract class GameBasic implements Table{
         cards = new ArrayList<>(36);
         for (CardColor color : CardColor.values()) {
             for (CardValue val : CardValue.values()) {
-                if(val == CardValue.JOKER || color == CardColor.N0_COLOR) continue;
+                if(val == CardValue.JOKER || color == CardColor.NO_COLOR) continue;
 
                 if(val == CardValue.SIX && (color == CardColor.SPADES || color == CardColor.CLUBS)){
                     cards.add(new JokerCard());
