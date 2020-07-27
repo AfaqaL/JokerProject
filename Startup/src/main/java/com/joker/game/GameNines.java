@@ -62,7 +62,6 @@ public class GameNines extends GameBasic {
         tableResp.setStageScores(stageScores);
 
 
-
     }
 
     private void initGrids() {
@@ -82,13 +81,22 @@ public class GameNines extends GameBasic {
     }
 
     @Override
-    public List<Card> getFirst3() {
-        return null;
+    public void setFirst3() {
+        List<Card> three = players[currActivePlayer].getThreeCards();
+
+        List<CardDTO> cards = new ArrayList<>(3);
+        for (int i = 0; i < 3; i++) {
+            CardDTO card = new CardDTO();
+            card.setColor(three.get(i).color);
+            card.setValue(three.get(i).value);
+            cards.add(card);
+        }
+        tableResp.setCards(cards);
     }
 
     @Override
-    public void setSuperiorCard(int color) {
-
+    public void setSuperiorCard(CardColor color) {
+        superior = color;
     }
 
     @Override
@@ -149,7 +157,7 @@ public class GameNines extends GameBasic {
      * (In this case it gets called 9 times each (16) round)
      */
     private void resetAfterTake(){
-        for (CardDTO card: tableResp.getPlayedCards()){
+        for (CardDTO card : tableResp.getPlayedCards()){
             card.setColor(CardColor.NO_COLOR);
             card.setValue(CardValue.ACE);
         }
@@ -240,12 +248,12 @@ public class GameNines extends GameBasic {
                 finalScores.add(res);
             }
         }
-
         tableResp.setFinalScores(finalScores);
     }
 
     @Override
     public TableResponse getTable(long playerId) {
+                //TODO:
         return tableResp;
     }
 

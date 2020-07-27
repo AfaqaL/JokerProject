@@ -1,6 +1,8 @@
 package com.joker.game;
 
+import com.joker.model.dto.CardDTO;
 import com.joker.model.dto.TableResponse;
+import com.joker.model.enums.CardColor;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public interface Table {
      *
      * @return List of 3 cards to call superior from
      */
-    List<Card> getFirst3();
+    void setFirst3();
 
     /**
      * at the beginning of a round sets which color
@@ -36,7 +38,7 @@ public interface Table {
      *
      * @param color which is the superior card in this round
      */
-    void setSuperiorCard(int color);
+    void setSuperiorCard(CardColor color);
 
     /**
      * gives server the list of cards for the player,

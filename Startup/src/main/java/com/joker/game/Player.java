@@ -6,6 +6,7 @@ import com.joker.model.enums.JokerMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Player {
     private List<List<Card>> cards;
@@ -93,6 +94,22 @@ public class Player {
             ls.addAll(cards.get(i));
         }
         return ls;
+    }
+
+    public List<Card> getThreeCards(){
+        List<Card> ls = getPlayerCards();
+        List<Card> res = new ArrayList<>(3);
+
+        int first = ThreadLocalRandom.current().nextInt(0, 3);
+        res.add(ls.get(first));
+
+        int second = ThreadLocalRandom.current().nextInt(3, 6);
+        res.add(ls.get(second));
+
+        int third = ThreadLocalRandom.current().nextInt(6, 9);
+        res.add(ls.get(third));
+
+        return res;
     }
 
     public int getScore(int maxCards) {
