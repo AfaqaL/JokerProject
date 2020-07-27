@@ -29,16 +29,15 @@
 
 
 div[class*='player'] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     content:attr(data-letters);
-    display:inline-block;
     font-size:1em;
     width:5.21%;
     height:10.52%;
-    line-height: 600%;
-    text-align:center;
     border-radius:50%;
     background: darkslategrey;
-    vertical-align:middle;
     margin-right:1em;
     color:white;
 }
