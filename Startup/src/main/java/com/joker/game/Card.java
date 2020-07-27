@@ -2,6 +2,7 @@ package com.joker.game;
 
 import com.joker.model.enums.CardColor;
 import com.joker.model.enums.CardValue;
+import com.joker.model.enums.JokerMode;
 
 public class Card implements Comparable {
 
@@ -18,16 +19,16 @@ public class Card implements Comparable {
     public Card(CardValue value, CardColor color) {
         this.value = value;
         this.color = color;
+        valid = false;
     }
 
 
     /**
      * Checks if this card is valid to be put or not
      *
-     * @param first
      * @return
      */
-    boolean isValid(Card first) {
+    boolean isValid() {
         return valid;
     }
 
@@ -66,15 +67,13 @@ public class Card implements Comparable {
 
     private int compareJoker(JokerCard taker, CardColor superior) {
         switch (taker.mode) {
-            case JokerCard.OVER_MODE:
-                return -1;
-            case JokerCard.GIVE_HIGHEST_MODE:
+            case GIVE:
                 if (this.color.ordinal() == superior.ordinal() &&
                         taker.color.ordinal() != superior.ordinal())
                     return 1;
                 else
                     return -1;
-            case JokerCard.TAKE_MODE:
+            case TAKE:
                 if (this.color.ordinal() == taker.color.ordinal() ||
                         this.color.ordinal() == superior.ordinal())
                     return 1;

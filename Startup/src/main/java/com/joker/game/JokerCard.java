@@ -24,7 +24,7 @@ public class JokerCard extends Card {
     }
 
     @Override
-    boolean isValid(Card first) {
+    boolean isValid() {
         return true;
     }
 
@@ -37,7 +37,7 @@ public class JokerCard extends Card {
     }
 
     public List<JokerMode> getValidModes(int turn) {
-        if (turn == 1) {
+        if (turn == 0) {
             return Arrays.asList(JokerMode.TAKE,JokerMode.GIVE);
         } else {
             return Arrays.asList(JokerMode.UNDER,JokerMode.OVER);
@@ -46,6 +46,6 @@ public class JokerCard extends Card {
 
     @Override
     public boolean equals(Object obj) {
-        return ((JokerCard) obj).value.ordinal() == CardValue.JOKER.ordinal();
+        return ((Card) obj).value.ordinal() == CardValue.JOKER.ordinal();
     }
 }

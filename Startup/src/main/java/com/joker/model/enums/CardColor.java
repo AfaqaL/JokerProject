@@ -4,5 +4,6 @@ public enum CardColor {
     CLUBS,
     DIAMONDS,
     SPADES,
-    HEARTS
+    HEARTS,
+    NO_COLOR
 }
