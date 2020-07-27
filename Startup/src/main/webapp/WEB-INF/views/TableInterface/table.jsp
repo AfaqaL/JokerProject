@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width">
     <title>Table Interface</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -39,6 +40,13 @@
         <% for (int i = 0; i < 10; i++) { %>
         <button onclick = "removeSayNum()"><%=i%></button>
         <% } %>
+    </div>
+    <div class="btn-group sup" style="display: none" id = "sup-btn-group">
+        <button class = "club">♣</button>
+        <button class = "diamond" style="color: red">♦</button>
+        <button class = "spade">♠</button>
+        <button class = "heart" style="color: red">♥</button>
+        <button class = "nothing">J</button>
     </div>
 </div>
 
