@@ -1,3 +1,4 @@
+
 .player1{
     position: relative;
     top: 45%;
@@ -8,7 +9,7 @@
 
 .player2{
     position: absolute;
-    right: 48.5%;
+    right: 47.5%;
     margin-top: 1.04%;
 }
 
