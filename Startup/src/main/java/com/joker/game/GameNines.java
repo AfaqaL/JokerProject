@@ -48,7 +48,7 @@ public class GameNines extends GameBasic {
 
         List<CardDTO> playedCards = new ArrayList<>();
         CardDTO empty = new CardDTO();
-        empty.setColor(CardColor.N0_COLOR);
+        empty.setColor(CardColor.NO_COLOR);
         empty.setValue(CardValue.ACE);
         for (int i = 0; i < MAX_CARDS_PLAYED; i++) {
             playedCards.add(empty);
@@ -150,7 +150,7 @@ public class GameNines extends GameBasic {
      */
     private void resetAfterTake(){
         for (CardDTO card: tableResp.getPlayedCards()){
-            card.setColor(CardColor.N0_COLOR);
+            card.setColor(CardColor.NO_COLOR);
             card.setValue(CardValue.ACE);
         }
     }
