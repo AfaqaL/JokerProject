@@ -23,6 +23,7 @@ Object.freeze(Color);
 Object.freeze(Value);
 
 function update() {
+    console.log($(window.innerWidth), $(window.innerHeight));
     setInterval(function () {
         let xhr = new XMLHttpRequest();
         let url = '/table/update';
