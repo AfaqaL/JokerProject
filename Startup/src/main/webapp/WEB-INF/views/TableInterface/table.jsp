@@ -36,7 +36,7 @@
 
 <div class="container">
     <div class="midTable" id="midTable"></div>
-    <div class="btn-group" style="display: block" id = "sayNum">
+    <div class="btn-group" style="display: block; visibility: hidden" id = "sayNum">
         <% for (int i = 0; i < 10; i++) { %>
         <button onclick = "removeSayNum()"><%=i%></button>
         <% } %>
