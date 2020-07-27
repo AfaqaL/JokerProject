@@ -67,3 +67,24 @@
 .btn-group button:hover{
     cursor:pointer;
 }
+
+.sup {
+    background-color: black;
+    top: 50%;
+    width: 50%;
+    z-index: 10;
+    height: 15.78%;
+    border-radius: 10px;
+}
+
+.sup button{
+    height: 40%;
+    width: 10%;
+    background-color: white ;
+    margin-left: 1.75%;
+    margin-top: 5%;
+}
+
+.sup button:first-child{
+    margin-left: 20%;
+}
