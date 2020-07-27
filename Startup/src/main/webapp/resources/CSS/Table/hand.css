@@ -1,7 +1,7 @@
-
 .hand {
     position: absolute;
-    left:40%;
+    left:17%;
+    height: 19.97%;
     margin-bottom: 20px;
     bottom: 0;
 }
@@ -20,7 +20,4 @@
     zoom:1;
 }
 
-.card:hover {
-    cursor: pointer;
-}
 

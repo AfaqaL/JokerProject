@@ -1,35 +1,69 @@
 .container{
+    display: flex;
     height: 100%;
-    align-content: center;
+    width: 100%;
+    justify-content: center;
 }
 .midTable{
-    position: relative;
-    width: 1080px;
-    height: 600px;
-    margin-top: 130px;
+    position: absolute;
+    width: 56.25%;
+    height: 63.1%;
+    margin-top: 5%;
     margin-bottom: auto;
 }
 
 .card1{
     position: relative;
     float: left;
-    margin-left: 5px;
+    left: 32.4%;
     top: 45%;
 }
 
 .card2{
     position: absolute;
-    left: 45%;
+    top: 16.67%;
+    left: 42%;
 }
 
 .card3{
     position: relative;
     float: right;
+    right: 37.04%;
     top: 45%;
 }
 
 .card4{
     position: absolute;
-    left: 45%;
+    left: 42%;
     bottom: 0;
+}
+
+.btn-group{
+    background-color: black;
+    top:50%;
+    width: 100%;
+    z-index: 10;
+    height: 15.78%;
+    border-radius: 10px;
+}
+
+.btn-group button{
+    height: 40%;
+    width: 5.7%;
+    background-color: white ;
+    color: black;
+    margin-left: 1.75%;
+    margin-top:2.67%;
+    font-weight: bold;
+    font-size: 1.5em;
+    vertical-align: middle;
+    line-height: 0;
+}
+
+.btn-group button:first-child{
+    margin-left: 10%;
+}
+
+.btn-group button:hover{
+    cursor:pointer;
 }
