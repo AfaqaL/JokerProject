@@ -39,7 +39,6 @@ public class GameServiceBean implements GameService {
 
     @Override
     public void declareNumber(long tableId, int num) {
-        table.declareNumber(num);
     }
 
     @Override
