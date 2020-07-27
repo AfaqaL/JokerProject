@@ -2,13 +2,13 @@ package com.joker.services.game;
 
 import com.joker.game.Card;
 import com.joker.model.Room;
-import com.joker.model.Table;
+import com.joker.model.dto.TableResponse;
 
 public interface GameService {
 
     void createTable(Room room);
 
-    Table getTable(long tableId, long userId);
+    TableResponse getTable(long tableId, long userId);
 
     int getVersion(long tableId);
 

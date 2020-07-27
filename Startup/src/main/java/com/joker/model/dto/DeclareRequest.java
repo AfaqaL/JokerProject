@@ -1,4 +1,4 @@
-package com.joker.dto.game;
+package com.joker.model.dto;
 
 public class DeclareRequest {
 

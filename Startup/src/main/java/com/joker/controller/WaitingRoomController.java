@@ -3,6 +3,8 @@ package com.joker.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.joker.model.dto.WaitingRoomResponse;
+import com.joker.model.enums.GameMode;
 import com.joker.services.waitingroom.WaitingRoomService;
 import com.joker.services.waitingroom.WaitingRoomServiceBean;
 import com.joker.model.*;
@@ -10,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Controller
@@ -45,24 +49,30 @@ public class WaitingRoomController {
 
 
     @PostMapping("/waitingRoom/join")
-    public @ResponseBody String joinTable( HttpSession session,
-                           @RequestBody String roomInfo ){
+    public @ResponseBody String joinTable(HttpServletResponse response,
+                                        HttpSession session,
+                                        @RequestBody String roomInfo ){
         Gson converter = new Gson();
         EnterRoom roomData = converter.fromJson(roomInfo, EnterRoom.class);
 
         User player = (User)session.getAttribute("user");
         String password = roomData.getPassword();
-        Long id = roomData.getId();
+        long id = roomData.getId();
 
 
         if(waitingRoomService.isRoomReady(id)) {
             return "FALSE";
         }
 
-        Boolean result =  waitingRoomService.addUser(player, id, password);
+        boolean result =  waitingRoomService.addUser(player, id, password);
 
         if(waitingRoomService.isRoomReady(id)) {
-            waitingRoomService.getReadyRoom(id);
+            Room newRoom = waitingRoomService.getReadyRoom(id);
+            try {
+                response.sendRedirect("");
+            } catch (IOException e) {
+
+            }
         }
 
         if(result) {
@@ -75,7 +85,7 @@ public class WaitingRoomController {
 
     @GetMapping("/waitingRoom/update")
     public @ResponseBody String update(HttpSession session){
-        UIinfo res = new UIinfo();
+        WaitingRoomResponse res = new WaitingRoomResponse();
         ObjectMapper mapper = new ObjectMapper();
 
         int managerVersion = waitingRoomService.getVersion();

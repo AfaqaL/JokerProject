@@ -1,16 +1,19 @@
 package com.joker.game;
 
+import com.joker.model.enums.CardColor;
+import com.joker.model.enums.JokerMode;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Player {
     private List<List<Card>> cards;
-    private final int id;
+    private final long id;
     private int taken;
     private int declared;
 
-    public Player(int id) {
+    public Player(long id) {
         this.id = id;
         taken = 0;
         cards = new ArrayList<>(5);
@@ -18,20 +21,22 @@ public class Player {
             cards.add(new ArrayList<>(9));
     }
 
-    public void setValidCards(Card firstCard, int superior) {
-        if (firstCard instanceof JokerCard)
+    public void setValidCards(Card firstCard, CardColor superior) {
+        if (firstCard instanceof JokerCard) {
             setValidCardsJoker((JokerCard) firstCard, superior);
-
-        int color = firstCard.color;
-        setValid(cards.get(4));
-
-        if (!cards.get(color).isEmpty()) {
-            setValid(cards.get(color));
             return;
         }
 
-        if (superior != Card.NO_COLOR && !cards.get(superior).isEmpty()) {
-            setValid(cards.get(superior));
+        CardColor color = firstCard.color;
+        setValid(cards.get(4));
+
+        if (!cards.get(color.ordinal()).isEmpty()) {
+            setValid(cards.get(color.ordinal()));
+            return;
+        }
+
+        if (superior != CardColor.NO_COLOR && !cards.get(superior.ordinal()).isEmpty()) {
+            setValid(cards.get(superior.ordinal()));
             return;
         }
 
@@ -39,17 +44,25 @@ public class Player {
             setValid(cards.get(i));
     }
 
-    private void setValidCardsJoker(JokerCard firstCard, int superior) {
-        int color = firstCard.color;
+    private void setValidCardsJoker(JokerCard firstCard, CardColor superior) {
+        CardColor color = firstCard.color;
         setValid(cards.get(4));
 
-        if (!cards.get(color).isEmpty()) {
-            cards.get(color).get(0);
-            return;
+        if (firstCard.mode == JokerMode.GIVE) {
+            if (!cards.get(color.ordinal()).isEmpty()) {
+                cards.get(color.ordinal()).get(0).setValid(true);
+                return;
+            }
+
+        } else if (firstCard.mode == JokerMode.TAKE) {
+            if (!cards.get(color.ordinal()).isEmpty()) {
+                setValid(cards.get(color.ordinal()));
+                return;
+            }
         }
 
-        if (superior != Card.NO_COLOR && !cards.get(superior).isEmpty()) {
-            setValid(cards.get(superior));
+        if (superior != CardColor.NO_COLOR && !cards.get(superior.ordinal()).isEmpty()) {
+            setValid(cards.get(superior.ordinal()));
             return;
         }
 
@@ -63,7 +76,7 @@ public class Player {
     }
 
     public void removeCard(Card chosen) {
-        int idx = ((chosen instanceof JokerCard) ? 4 : chosen.color);
+        int idx = ((chosen instanceof JokerCard) ? 4 : chosen.color.ordinal());
         cards.get(idx).remove(chosen);
     }
 

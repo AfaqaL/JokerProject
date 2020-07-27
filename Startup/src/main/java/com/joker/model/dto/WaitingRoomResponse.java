@@ -1,8 +1,10 @@
-package com.joker.model;
+package com.joker.model.dto;
+
+import com.joker.model.Room;
 
 import java.util.List;
 
-public class UIinfo {
+public class WaitingRoomResponse {
 
     private String isChanged;
 

@@ -1,18 +1,19 @@
 package com.joker.game;
 
+import com.joker.model.dto.TableResponse;
+
 import java.util.List;
 
 public interface Table {
     int NUM_STAGES = 4;
     int NUM_PLAYERS = 4;
+    int MAX_CARDS_PLAYED = 4;
 
     /**
      * shuffles cards for that round and then
      * deals them to the players
-     *
-     * @return true if the game is still going, false otherwise
      */
-    boolean shuffleCards();
+    void shuffleCards();
 
     /**
      * after every round sets every counter to
@@ -59,7 +60,7 @@ public interface Table {
      * @param x how much current player wants to call
      * @return for the 4th player, returns the value which can not be declared, -1 otherwise
      */
-    int declareNumber(int x);
+    void declareNumber(int x);
 
     /**
      * takes a put card request from server and
@@ -74,14 +75,14 @@ public interface Table {
      *
      * @return array of size 4 with each players score in it
      */
-    int[] getRoundScores();
+    void setRoundScores();
 
-    /**
-     * if a stage is finished or not
-     *
-     * @return true if 4 rounds have been played, false otherwise
-     */
-    boolean isStageFinished();
+//    /**
+//     * if a stage is finished or not
+//     *
+//     * @return true if 4 rounds have been played, false otherwise
+//     */
+//    boolean isStageFinished();
 
     /**
      * after every 4 round calculates total score
@@ -89,12 +90,21 @@ public interface Table {
      *
      * @return array of size 2/4 with each team/player score in that stage
      */
-    int[] getStageScores();
+    void setStageScores();
 
     /**
      * calculates all stage score
      *
      * @return array of size 2/4 with each team/player total scores
      */
-    int[] getFinalScores();
+    void setFinalScore();
+
+    /**
+     * used for communication with JS
+     * @return table state (contains current
+     * table state, updated with every move)
+     */
+    TableResponse getTable(long playerId);
+
+    int getVersion();
 }

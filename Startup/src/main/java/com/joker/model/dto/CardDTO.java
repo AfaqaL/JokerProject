@@ -1,15 +1,18 @@
-package com.joker.model;
+package com.joker.model.dto;
 
-import com.joker.game.CardColor;
-import com.joker.game.CardValue;
+import com.joker.model.enums.CardColor;
+import com.joker.model.enums.CardValue;
+import com.joker.model.enums.JokerMode;
 
-public class Card {
+public class CardDTO {
 
     private CardColor color;
 
     private CardValue value;
 
     private boolean valid;
+
+    private JokerMode jokerMode;
 
     public CardColor getColor() {
         return color;
@@ -33,5 +36,13 @@ public class Card {
 
     public void setValid(boolean valid) {
         this.valid = valid;
+    }
+
+    public JokerMode getJokerMode() {
+        return jokerMode;
+    }
+
+    public void setJokerMode(JokerMode jokerMode) {
+        this.jokerMode = jokerMode;
     }
 }

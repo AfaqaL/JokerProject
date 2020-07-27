@@ -1,7 +1,7 @@
 package com.joker.controller;
 
 import com.joker.services.mail.MailService;
-import com.joker.model.AuthenticationAction;
+import com.joker.model.enums.AuthenticationAction;
 import com.joker.helper.RandomCodeGenerator;
 import com.joker.model.User;
 import com.joker.services.user.UserService;

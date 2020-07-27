@@ -1,51 +1,51 @@
 package com.joker.game;
 
+import com.joker.model.enums.CardColor;
+import com.joker.model.enums.CardValue;
+import com.joker.model.enums.JokerMode;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class JokerCard extends Card {
-    public static final int UNDER_MODE = 0;
-    public static final int TAKE_MODE = 1;
-    public static final int GIVE_HIGHEST_MODE = 2;
-    public static final int OVER_MODE = 3;
 
-    public int mode;
+    public JokerMode mode;
 
     /**
      * Sets up a joker card
      */
     public JokerCard() {
-        super(JOKER, -100);
+        super(CardValue.JOKER, null);
     }
 
-    public void setMode(int mode, int color) {
+    public void setMode(JokerMode mode, CardColor color) {
         this.mode = mode;
         this.color = color;
     }
 
     @Override
-    boolean isValid(Card first) {
+    boolean isValid() {
         return true;
     }
 
     @Override
-    public int compare(Card taker, int superior) {
-        if (this.mode == OVER_MODE)
+    public int compare(Card taker, CardColor superior) {
+        if (this.mode == JokerMode.OVER)
             return 1;
         else // UNDER_MODE
             return -1;
     }
 
-    public List<Integer> getValidModes(int turn) {
-        if (turn == 1) {
-            return Arrays.asList(TAKE_MODE, GIVE_HIGHEST_MODE);
+    public List<JokerMode> getValidModes(int turn) {
+        if (turn == 0) {
+            return Arrays.asList(JokerMode.TAKE,JokerMode.GIVE);
         } else {
-            return Arrays.asList(UNDER_MODE, OVER_MODE);
+            return Arrays.asList(JokerMode.UNDER,JokerMode.OVER);
         }
     }
 
     @Override
     public boolean equals(Object obj) {
-        return ((JokerCard) obj).value == JOKER;
+        return ((Card) obj).value.ordinal() == CardValue.JOKER.ordinal();
     }
 }

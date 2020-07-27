@@ -1,5 +1,7 @@
 package com.joker.model;
 
+import com.joker.model.enums.GameMode;
+
 import java.util.List;
 
 public class Room {

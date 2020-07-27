@@ -1,5 +1,9 @@
 package com.joker.game;
 
+import com.joker.model.dto.TableResponse;
+import com.joker.model.enums.CardColor;
+import com.joker.model.enums.CardValue;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,14 +24,17 @@ public abstract class BasicTable implements Table {
     protected int currTakerID;
 
     //keeps track of superior card color and first card color (to calculate validity)
-    protected int firstCardColor;
-    protected int superior;
+    protected CardColor firstCardColor;
+    protected CardColor superior;
 
     //first player idx (0 .. 4) and their first 3 cards to call from
     protected int currFirstPlayer;
     protected List<Card> threeCardList;
 
-    protected BasicTable(int id1, int id2, int id3, int id4) {
+
+
+
+    protected BasicTable(long id1, long id2, long id3,long id4) {
         int first = ThreadLocalRandom.current().nextInt(0, 4);
         players = new Player[4];
         players[first++] = new Player(id1);
@@ -41,12 +48,18 @@ public abstract class BasicTable implements Table {
     }
 
     private void initCards() {
-        cards = new ArrayList<>(36);
-        for (int i = Card.CLUBS; i <= Card.HEARTS; i++) {
-            for (int j = Card.SIX; j <= Card.ACE; j++) {
-                cards.add(new Card(j, i));
-            }
-        }
+//        cards = new ArrayList<>(36);
+//        for (CardColor color : CardColor.values()) {
+//            for (CardValue val : CardValue.values()) {
+//                if(val == CardValue.JOKER) continue;
+//
+//                if(val == CardValue.SIX && (color == CardColor.SPADES || color == CardColor.CLUBS)){
+//                    cards.add(new JokerCard());
+//                    continue;
+//                }
+//                cards.add(new Card(val, color));
+//            }
+//        }
     }
 
     @Override
@@ -68,7 +81,7 @@ public abstract class BasicTable implements Table {
                 if (i == currFirstPlayer && threeCardList.size() < 3)
                     threeCardList.add(cards.get(j));
                 Card curr = cards.get(j);
-                int idx = ((curr instanceof JokerCard) ? 4 : curr.color);
+                int idx = ((curr instanceof JokerCard) ? 4 : curr.color.ordinal());
                 playerCards.get(idx).add(curr);
             }
             players[i].setDealtCards(playerCards);
