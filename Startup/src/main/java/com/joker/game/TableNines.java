@@ -49,11 +49,8 @@ public class TableNines extends BasicTable {
 
 
     @Override
-    public boolean shuffleCards() {
-        if (currRound == ROUNDS) return false;
-
+    public void shuffleCards() {
         super.shuffle(CARDS_PER_TURN);
-        return true;
     }
 
     @Override

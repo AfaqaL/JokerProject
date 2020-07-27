@@ -48,12 +48,18 @@ public abstract class BasicTable implements Table {
     }
 
     private void initCards() {
-        cards = new ArrayList<>(36);
-        for (CardColor color : CardColor.values()) {
-            for (CardValue val : CardValue.values()) {
-                cards.add(new Card(val, color));
-            }
-        }
+//        cards = new ArrayList<>(36);
+//        for (CardColor color : CardColor.values()) {
+//            for (CardValue val : CardValue.values()) {
+//                if(val == CardValue.JOKER) continue;
+//
+//                if(val == CardValue.SIX && (color == CardColor.SPADES || color == CardColor.CLUBS)){
+//                    cards.add(new JokerCard());
+//                    continue;
+//                }
+//                cards.add(new Card(val, color));
+//            }
+//        }
     }
 
     @Override
