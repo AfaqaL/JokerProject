@@ -3,13 +3,13 @@
     top: 45%;
     width: 100%;
     float: left;
-    margin-left: 20px;
+    margin-left: 1.04%;
 }
 
 .player2{
     position: absolute;
     right: 48.5%;
-    margin-top: 20px;
+    margin-top: 1.04%;
 }
 
 .player3{
@@ -17,14 +17,14 @@
     top: 45%;
     float: right;
     width: 100%;
-    margin-right: 20px;
+    margin-right: 1.04%;
 }
 
 .player4{
     position: absolute;
     left: 10%;
     bottom: 0;
-    margin-bottom: 20px;
+    margin-bottom: 1.04%;
 }
 
 
@@ -32,9 +32,9 @@ div[class*='player'] {
     content:attr(data-letters);
     display:inline-block;
     font-size:1em;
-    width:100px;
-    height:100px;
-    line-height: 100px;
+    width:5.21%;
+    height:10.52%;
+    line-height: 600%;
     text-align:center;
     border-radius:50%;
     background: darkslategrey;
