@@ -50,9 +50,9 @@ table thead, table tbody tr {
 td, th{
     text-align: left;
 }
-
-tr th{
+th{
     text-align: center;
+    padding:  2px;
 }
 tr :nth-child(odd){
     width: 2px;
