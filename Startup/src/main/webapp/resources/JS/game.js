@@ -55,6 +55,7 @@ function update() {
 function drawTable(table) {
     if (!table.changed) return;
 
+    drawGrid();
     drawCards(table.cards);
     drawPlayedCards(table.playedCards, table.playerIndex);
     drawSuperior(table.superior);
@@ -71,6 +72,23 @@ function drawTable(table) {
     }
     if (table.action === PlayAction.DECLARE_SUPERIOR) {
         declareSuperior = true;
+    }
+}
+
+function drawGrid() {
+    let table = document.getElementById("pointGrid");
+    if (document.getElementById('tbody1') == null) {
+        for (var i = 0; i < 4; i++) {
+            var tbody = document.createElement('tbody');
+            tbody.id = 'tbody' + i;
+            if (i === 0)  tbody.style.display = 'block';
+            else tbody.style.display = 'none';
+            var numRows = (i % 2 === 0)? 9 : 4;
+            insertRows(tbody, numRows);
+            table.appendChild(tbody);
+        }
+        addFinalPoints(table);
+
     }
 }
 
@@ -91,9 +109,9 @@ function drawCards(cards) {
             }
         }
 
-         if (!card.valid) {
-             img.setAttribute("style", "filter: brightness(25%)")
-         }
+        if (!card.valid) {
+            img.setAttribute("style", "filter: brightness(25%)")
+        }
 
         document.getElementById('hand').appendChild(img);
     });
@@ -241,13 +259,42 @@ function setSuperior(card) {
 }
 
 function extendTable() {
-    if (document.getElementById("second").style.display === 'none') {
-        document.getElementById("second").style.display = 'block';
-        document.getElementById("third").style.display = 'block';
-        document.getElementById("fourth").style.display = 'block';
-    }else{
-        document.getElementById("second").style.display = 'none';
-        document.getElementById("third").style.display = 'none';
-        document.getElementById("fourth").style.display = 'none';
+    if (document.getElementById("tbody1").style.display === 'none') {
+        document.getElementById("tbody1").style.display = 'block';
+        document.getElementById("tbody2").style.display = 'block';
+        document.getElementById("tbody3").style.display = 'block';
+    } else {
+        document.getElementById("tbody1").style.display = 'none';
+        document.getElementById("tbody2").style.display = 'none';
+        document.getElementById("tbody3").style.display = 'none';
     }
+}
+
+
+function insertRows(tbody,numRows) {
+    for (var i = 0; i < numRows + 1; i++) {
+        var tr = document.createElement('tr');
+        if (i === numRows) tr.className = 'game_points';
+        tbody.appendChild(tr);
+        for (var j = 0; j < 8; j++) {
+            var td = document.createElement('td');
+            if (i === numRows && j % 2 === 1) td.innerHTML = '0.0';
+            tr.appendChild(td);
+        }
+    }
+}
+
+function addFinalPoints(table) {
+    var tbody = document.createElement('tbody');
+    tbody.id = 'tbody4';
+    tbody.style.display = 'block';
+    var final_points = document.createElement('tr');
+    final_points.id = 'finalPoints';
+    for (var i = 0; i < 8; i++) {
+        var td = document.createElement('td');
+        if (i % 2 === 1)  td.innerHTML = '0.0';
+        final_points.appendChild(td);
+    }
+    tbody.appendChild(final_points);
+    table.appendChild(tbody)
 }
