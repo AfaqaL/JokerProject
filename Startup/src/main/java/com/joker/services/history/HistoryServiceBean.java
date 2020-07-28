@@ -4,18 +4,12 @@ import com.joker.dao.history.HistoryDao;
 import com.joker.dao.user.UserDao;
 import com.joker.model.TableHistory;
 import com.joker.model.User;
-import com.joker.services.game.GameServiceBean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class HistoryServiceBean implements HistoryService {
-
-    private static final Logger log = LoggerFactory.getLogger(GameServiceBean.class);
-    public static int n_Call = 0;
 
     @Autowired
     private HistoryDao historyDao;
@@ -35,9 +29,7 @@ public class HistoryServiceBean implements HistoryService {
 
     @Override
     public String getUsername(long id) {
-        ++n_Call;
         User user = userDao.searchById(id);
-        log.info("History Service .getUsername: N - " + n_Call);
         return user.getUsername();
     }
 

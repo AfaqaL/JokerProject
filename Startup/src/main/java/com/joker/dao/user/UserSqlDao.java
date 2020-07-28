@@ -9,10 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Repository("userDao")
 public class UserSqlDao implements UserDao {
@@ -39,9 +36,11 @@ public class UserSqlDao implements UserDao {
             String password = rs.getString(4);
             int rank = rs.getInt(5);
 
+            commit();
             connection.close();
             return new User(id, username, mail, password, rank);
         } catch (SQLException e) {
+            rollback();
             log.error(e.getMessage());
             return null;
         }
@@ -64,9 +63,11 @@ public class UserSqlDao implements UserDao {
             String password = rs.getString(4);
             int rank = rs.getInt(5);
 
+            commit();
             connection.close();
             return new User(id, username, mail, password, rank);
         } catch (SQLException e) {
+            rollback();
             log.error(e.getMessage());
             return null;
         }
@@ -89,9 +90,11 @@ public class UserSqlDao implements UserDao {
             String password = rs.getString(4);
             int rank = rs.getInt(5);
 
+            commit();
             connection.close();
             return new User(id, username, mail, password, rank);
         } catch (SQLException e) {
+            rollback();
             log.error(e.getMessage());
             return null;
         }
@@ -116,9 +119,11 @@ public class UserSqlDao implements UserDao {
             String mail = rs.getString(3);
             int rank = rs.getInt(5);
 
+            commit();
             connection.close();
             return new User(id, username, mail, password, rank);
         } catch (SQLException e) {
+            rollback();
             log.error(e.getMessage());
             return null;
         }
@@ -143,9 +148,11 @@ public class UserSqlDao implements UserDao {
             String password = rs.getString(3);
             int rank = rs.getInt(5);
 
+            commit();
             connection.close();
             return new User(id, username, mail, password, rank);
         } catch (SQLException e) {
+            rollback();
             log.error(e.getMessage());
             return null;
         }
@@ -171,10 +178,12 @@ public class UserSqlDao implements UserDao {
             insert.setString(3, password);
 
             insert.execute();
-            
+
+            commit();
             connection.close();
             return true;
         } catch (SQLException e) {
+            rollback();
             log.error(e.getMessage());
             return false;
         }
@@ -193,9 +202,11 @@ public class UserSqlDao implements UserDao {
 
             update.execute();
 
+            commit();
             connection.close();
             return true;
         } catch (SQLException e) {
+            rollback();
             log.error(e.getMessage());
             return false;
         }
@@ -214,11 +225,31 @@ public class UserSqlDao implements UserDao {
 
             update.execute();
 
+            commit();
             connection.close();
             return true;
         } catch (SQLException e) {
+            rollback();
             log.error(e.getMessage());
             return false;
+        }
+    }
+
+    private void commit() throws SQLException {
+        Connection connection = db.getConnection();
+        Statement stm = connection.createStatement();
+        stm.executeQuery("COMMIT");
+        connection.close();
+    }
+
+    private void rollback() {
+        try {
+            Connection connection = db.getConnection();
+            Statement stm = connection.createStatement();
+            stm.executeQuery("ROLLBACK");
+            connection.close();
+        } catch (SQLException ignored) {
+            log.error(ignored.getMessage());
         }
     }
 }
