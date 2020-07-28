@@ -41,7 +41,7 @@
         <button onclick = "removeSayNum()"><%=i%></button>
         <% } %>
     </div>
-    <div class="btn-group sup" style="display: none" id = "sup-btn-group">
+    <div class="btn-group sup" style="display: block" id = "sup-btn-group">
         <button class = "club">♣</button>
         <button class = "diamond" style="color: red">♦</button>
         <button class = "spade">♠</button>

@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 public class GameController {
@@ -113,6 +114,14 @@ public class GameController {
         response.setInvalidCall(4);
         response.setPlayerIndex(2);
 
+        int randomStage = ThreadLocalRandom.current().nextInt(0, 4);;
+        response.setCurrentStage(randomStage);
+
+        if (randomStage % 2 == 0) {
+            response.setCurrentRound(ThreadLocalRandom.current().nextInt(0, 4));
+        } else {
+            response.setCurrentRound(ThreadLocalRandom.current().nextInt(0, 4));
+        }
         return response;
 //        long tableId = (long) session.getAttribute("tableId");
 //        User user = (User) session.getAttribute("user");

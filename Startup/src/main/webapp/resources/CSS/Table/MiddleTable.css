@@ -39,6 +39,7 @@
 }
 
 .btn-group{
+    position: relative;
     background-color: black;
     top:50%;
     width: 100%;
@@ -68,13 +69,15 @@
     cursor:pointer;
 }
 
-.sup {
+.sup{
+    position: relative;
     background-color: black;
     top: 50%;
-    width: 50%;
+    width: 100%;
     z-index: 10;
     height: 15.78%;
     border-radius: 10px;
+    right: 20%;
 }
 
 .sup button{
