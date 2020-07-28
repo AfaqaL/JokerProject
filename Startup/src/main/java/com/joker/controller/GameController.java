@@ -64,6 +64,7 @@ public class GameController {
     @PostMapping("/table/update")
     public @ResponseBody TableResponse update(HttpSession session) {
         TableResponse response = new TableResponse();
+        response.setChanged(true);
         response.setId(23);
         response.setDeclares(null);
 
