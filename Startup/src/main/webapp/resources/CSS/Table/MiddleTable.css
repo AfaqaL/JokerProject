@@ -39,7 +39,11 @@
 }
 
 .btn-group{
+    position: relative;
     background-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     top:50%;
     width: 100%;
     z-index: 10;
@@ -68,7 +72,8 @@
     cursor:pointer;
 }
 
-.sup {
+.sup{
+    position: relative;
     background-color: black;
     top: 50%;
     width: 50%;
@@ -87,4 +92,30 @@
 
 .sup button:first-child{
     margin-left: 20%;
+}
+
+.club:before {
+    content: '♣';
+}
+
+.diamond:before {
+    content: "♦";
+    color: #ff0000;
+}
+
+.spade:before {
+    content: '♣';
+}
+
+.spade:before {
+    content: "♠";
+}
+
+.heart:before {
+    content: "♥";
+    color: #ff0000;
+}
+
+.no_color:before {
+    content: 'J';
 }

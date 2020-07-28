@@ -34,6 +34,7 @@ let wait = true;
 let declareSuperior = false;
 
 function update() {
+    drawGrid();
     setInterval(function () {
         let xhr = new XMLHttpRequest();
         let url = '/table/update';
@@ -55,11 +56,12 @@ function update() {
 function drawTable(table) {
     if (!table.changed) return;
 
-    drawGrid();
+    extendTable(table.currentStage);
+    updateDeclare(table.currentRound, table.currentStage, table.playerIndex, table.declares[table.playerIndex])
+    updateScore(table.currentRound, table.currentStage, table.playerIndex, table.scores[table.playerIndex]);
     drawCards(table.cards);
     drawPlayedCards(table.playedCards, table.playerIndex);
     drawSuperior(table.superior);
-    drawScores(table.scores);
 
     if (table.action === PlayAction.DECLARE) {
         drawDeclareNumPanel(table.invalidCall, table.cards.length);
@@ -71,25 +73,23 @@ function drawTable(table) {
         wait = false;
     }
     if (table.action === PlayAction.DECLARE_SUPERIOR) {
+        drawDeclareSuperiorPanel();
         declareSuperior = true;
     }
 }
 
 function drawGrid() {
     let table = document.getElementById("pointGrid");
-    if (document.getElementById('tbody1') == null) {
-        for (var i = 0; i < 4; i++) {
-            var tbody = document.createElement('tbody');
-            tbody.id = 'tbody' + i;
-            if (i === 0)  tbody.style.display = 'block';
-            else tbody.style.display = 'none';
-            var numRows = (i % 2 === 0)? 9 : 4;
-            insertRows(tbody, numRows);
-            table.appendChild(tbody);
-        }
-        addFinalPoints(table);
-
+    for (var i = 0; i < 4; i++) {
+        var tbody = document.createElement('tbody');
+        tbody.id = 'tbody' + i;
+        if (i === 0) tbody.style.display = 'block';
+        else tbody.style.display = 'none';
+        var numRows = (i % 2 === 0) ? 9 : 4;
+        insertRows(tbody, numRows);
+        table.appendChild(tbody);
     }
+    addFinalPoints(table);
 }
 
 function drawCards(cards) {
@@ -147,32 +147,16 @@ function drawSuperior(superior) {
     superiorCard.appendChild(figure);
 }
 
-function drawScores(scores) {
-    let tr = document.createElement('tr');
-
-    [].forEach.call(scores, (score) => {
-        let declaredNum = document.createElement('td');
-        declaredNum.innerHTML = '1';
-
-        let scoreTag = document.createElement('td');
-        scoreTag.innerHTML = score;
-
-        tr.appendChild(declaredNum);
-        tr.appendChild(scoreTag);
-    })
-
-    // document.getElementById('scores').appendChild(tr);
-}
 
 function drawDeclareNumPanel(invalidCall, maxSize) {
     document.getElementById('sayNum').innerHTML = '';
-    document.getElementById("sayNum").style.visibility = 'visible';
+    document.getElementById("sayNum").style.display = 'block';
 
     for (let num = 0; num <= maxSize; num++) {
         let button = document.createElement('button');
         button.innerHTML = '' + num;
         button.onclick = function () {
-            document.getElementById("sayNum").style.visibility = 'hidden';
+            document.getElementById("sayNum").style.display = 'none';
             declareNum(num);
         }
 
@@ -185,6 +169,18 @@ function drawDeclareNumPanel(invalidCall, maxSize) {
     }
 }
 
+function drawDeclareSuperiorPanel() {
+    document.getElementById('sup-btn-group').innerHTML = '';
+    document.getElementById("sup-btn-group").style.display = 'block';
+    for (let i = 0; i < 5; i++){
+        let button = document.createElement('button');
+        button.className = getButtonClass(i);
+        button.onclick = function (){
+            document.getElementById("sup-btn-group").style.display = 'none';
+        }
+        document.getElementById('sup-btn-group').appendChild(button);
+    }
+}
 function getCardValue(value) {
     switch (value) {
         case Value.SIX:
@@ -258,20 +254,7 @@ function setSuperior(card) {
     xhr.send(data);
 }
 
-function extendTable() {
-    if (document.getElementById("tbody1").style.display === 'none') {
-        document.getElementById("tbody1").style.display = 'block';
-        document.getElementById("tbody2").style.display = 'block';
-        document.getElementById("tbody3").style.display = 'block';
-    } else {
-        document.getElementById("tbody1").style.display = 'none';
-        document.getElementById("tbody2").style.display = 'none';
-        document.getElementById("tbody3").style.display = 'none';
-    }
-}
-
-
-function insertRows(tbody,numRows) {
+function insertRows(tbody, numRows) {
     for (var i = 0; i < numRows + 1; i++) {
         var tr = document.createElement('tr');
         if (i === numRows) tr.className = 'game_points';
@@ -292,9 +275,80 @@ function addFinalPoints(table) {
     final_points.id = 'finalPoints';
     for (var i = 0; i < 8; i++) {
         var td = document.createElement('td');
-        if (i % 2 === 1)  td.innerHTML = '0.0';
+        if (i % 2 === 1) td.innerHTML = 0.0;
         final_points.appendChild(td);
     }
     tbody.appendChild(final_points);
     table.appendChild(tbody)
+}
+
+function updateScore(round, stage, playerIndex, score) {
+    console.log(stage)
+    if (score === -1) return;
+    var tbody = document.getElementById('tbody' + stage);
+    var row = tbody.rows;
+    var col = row[round].cells;
+    if (col[playerIndex * 2 + 1].innerHTML !== '') return;
+    col[playerIndex * 2 + 1].innerHTML = score;
+    console.log(row.length);
+    col = row[row.length - 1].cells;
+    col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + score;
+    var final_points = document.getElementById('finalPoints');
+    col = final_points.cells;
+    col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + score;
+
+
+
+}
+
+function updateDeclare(round, stage, playerIndex, declare) {
+    if (declare === -1) return;
+    var tbody = document.getElementById('tbody' + stage);
+    var row = tbody.rows;
+    var col = row[round].cells;
+    if (col[playerIndex * 2].innerHTML !== '') return;
+    col[playerIndex * 2].innerHTML = declare;
+
+}
+
+function extendTable(stage) {
+    var currentStage = document.getElementById('tbody' + stage);
+    if (currentStage.style.display === 'none'){
+        for (var i = 0; i < 4; i++) {
+            var tbody = document.getElementById('tbody' + i);
+            tbody.style.display = 'none';
+        }
+        currentStage.style.display = 'block';
+    }
+
+    document.getElementById("pointGrid").onclick = function () {
+        let tbody;
+        var tbody1 = document.getElementById('tbody' + 0);
+        var tbody2 = document.getElementById('tbody' + 1);
+        if (tbody1.style.display === 'none' || tbody2.style.display === 'none') {
+            for (var i = 0; i < 4; i++) {
+                tbody = document.getElementById('tbody' + i);
+                tbody.style.display = 'block';
+            }
+        } else {
+            for (var i = 0; i < 4; i++) {
+                tbody = document.getElementById('tbody' + i);
+                if (i !== stage) tbody.style.display = 'none';
+            }
+        }
+    }
+}
+
+function getButtonClass(value) {
+    switch (value) {
+        case 0:
+            return 'club';
+        case 1:
+            return 'diamond';
+        case 2:
+            return 'spade';
+        case 3:
+            return 'heart';
+    }
+    return 'no_color';
 }
