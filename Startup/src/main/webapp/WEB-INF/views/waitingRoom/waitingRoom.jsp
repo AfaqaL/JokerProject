@@ -35,5 +35,9 @@
         <button onclick="createTable()" id="create">Create Table</button>
     </div>
 
+    <div id = "histories">
+        <a href="/histories"> თამაშების ისტორიის ნახვა </a>
+    </div>
+
 </body>
 </html>

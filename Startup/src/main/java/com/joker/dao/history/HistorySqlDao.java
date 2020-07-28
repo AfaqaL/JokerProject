@@ -1,10 +1,13 @@
 package com.joker.dao.history;
 
 import com.joker.model.TableHistory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import javax.transaction.Transactional;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +15,16 @@ import java.util.List;
 @Repository("historyDao")
 public class HistorySqlDao implements HistoryDao {
 
+    private static final Logger log = LoggerFactory.getLogger(HistorySqlDao.class);
+
     @Autowired
     private DataSource db;
 
     @Override
     public List<TableHistory> getUserHistory(long id) {
         try {
-            PreparedStatement query = db.getConnection().prepareStatement(
+            Connection connection = db.getConnection();
+            PreparedStatement query = connection.prepareStatement(
                     "SELECT * FROM histories\n" +
                             "WHERE user_id1 = ? OR\n" +
                             "    user_id2 = ? OR\n" +
@@ -44,9 +50,12 @@ public class HistorySqlDao implements HistoryDao {
             }
 
             commit();
+
+            connection.close();
             return res;
         } catch (SQLException e) {
             rollback();
+            log.error(e.getMessage());
             return null;
         }
     }
@@ -54,7 +63,8 @@ public class HistorySqlDao implements HistoryDao {
     @Override
     public boolean addHistory(TableHistory history) {
         try {
-            PreparedStatement insert = db.getConnection().prepareStatement(
+            Connection connection = db.getConnection();
+            PreparedStatement insert = connection.prepareStatement(
                     "INSERT INTO histories \n" +
                             "VALUES (?, ?, ?, ?, ?,\n" +
                             "        ?, ?, ?, ?);"
@@ -71,24 +81,31 @@ public class HistorySqlDao implements HistoryDao {
 
             insert.execute();
             commit();
+
+            connection.close();
             return true;
         } catch (SQLException e) {
             rollback();
+            log.error(e.getMessage());
             return false;
         }
     }
 
     private void commit() throws SQLException {
-        Statement stm = db.getConnection().createStatement();
+        Connection connection = db.getConnection();
+        Statement stm = connection.createStatement();
         stm.executeQuery("COMMIT");
+        connection.close();
     }
 
     private void rollback() {
         try {
-            Statement stm = db.getConnection().createStatement();
+            Connection connection = db.getConnection();
+            Statement stm = connection.createStatement();
             stm.executeQuery("ROLLBACK");
+            connection.close();
         } catch (SQLException ignored) {
-
+            log.error(ignored.getMessage());
         }
     }
 }
