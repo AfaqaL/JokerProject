@@ -34,6 +34,7 @@ let wait = true;
 let declareSuperior = false;
 
 function update() {
+    drawGrid();
     setInterval(function () {
         let xhr = new XMLHttpRequest();
         let url = '/table/update';
@@ -55,6 +56,7 @@ function update() {
 function drawTable(table) {
     if (!table.changed) return;
 
+    addPoints(table.currentRound, table.currentStage, table.playerIndex);
     drawCards(table.cards);
     drawPlayedCards(table.playedCards, table.playerIndex);
     drawSuperior(table.superior);
@@ -74,6 +76,20 @@ function drawTable(table) {
     }
 }
 
+function drawGrid() {
+    let table = document.getElementById("pointGrid");
+    for (var i = 0; i < 4; i++) {
+        var tbody = document.createElement('tbody');
+        tbody.id = 'tbody' + i;
+        if (i === 0) tbody.style.display = 'block';
+        else tbody.style.display = 'none';
+        var numRows = (i % 2 === 0) ? 9 : 4;
+        insertRows(tbody, numRows);
+        table.appendChild(tbody);
+    }
+    addFinalPoints(table);
+}
+
 function drawCards(cards) {
     document.getElementById('hand').innerHTML = '';
 
@@ -91,9 +107,9 @@ function drawCards(cards) {
             }
         }
 
-         if (!card.valid) {
-             img.setAttribute("style", "filter: brightness(25%)")
-         }
+        if (!card.valid) {
+            img.setAttribute("style", "filter: brightness(25%)")
+        }
 
         document.getElementById('hand').appendChild(img);
     });
@@ -241,13 +257,75 @@ function setSuperior(card) {
 }
 
 function extendTable() {
-    if (document.getElementById("second").style.display === 'none') {
-        document.getElementById("second").style.display = 'block';
-        document.getElementById("third").style.display = 'block';
-        document.getElementById("fourth").style.display = 'block';
-    }else{
-        document.getElementById("second").style.display = 'none';
-        document.getElementById("third").style.display = 'none';
-        document.getElementById("fourth").style.display = 'none';
+    if (document.getElementById("tbody1").style.display === 'none') {
+        document.getElementById("tbody1").style.display = 'block';
+        document.getElementById("tbody2").style.display = 'block';
+        document.getElementById("tbody3").style.display = 'block';
+    } else {
+        document.getElementById("tbody1").style.display = 'none';
+        document.getElementById("tbody2").style.display = 'none';
+        document.getElementById("tbody3").style.display = 'none';
+    }
+}
+
+
+function insertRows(tbody, numRows) {
+    for (var i = 0; i < numRows + 1; i++) {
+        var tr = document.createElement('tr');
+        if (i === numRows) tr.className = 'game_points';
+        tbody.appendChild(tr);
+        for (var j = 0; j < 8; j++) {
+            var td = document.createElement('td');
+            if (i === numRows && j % 2 === 1) td.innerHTML = '0.0';
+            tr.appendChild(td);
+        }
+    }
+}
+
+function addFinalPoints(table) {
+    var tbody = document.createElement('tbody');
+    tbody.id = 'tbody4';
+    tbody.style.display = 'block';
+    var final_points = document.createElement('tr');
+    final_points.id = 'finalPoints';
+    for (var i = 0; i < 8; i++) {
+        var td = document.createElement('td');
+        if (i % 2 === 1) td.innerHTML = 0.0;
+        final_points.appendChild(td);
+    }
+    tbody.appendChild(final_points);
+    table.appendChild(tbody)
+}
+
+function addPoints(round, stage, playerIndex) {
+    console.log(stage)
+    var tbody = document.getElementById('tbody' + stage);
+    var row = tbody.rows;
+    var col = row[round].cells;
+    col[playerIndex * 2].innerHTML = '5';
+    col[playerIndex * 2 + 1].innerHTML = '4';
+    console.log(row.length);
+    col = row[row.length - 1].cells;
+    col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + 4;
+    var final_points = document.getElementById('finalPoints');
+    col = final_points.cells;
+    col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + 4;
+
+
+    document.getElementById("pointGrid").onclick = function () {
+        var tbody1 = document.getElementById('tbody' + 0);
+        var tbody2 = document.getElementById('tbody' + 1);
+        if (tbody1.style.display === 'none' || tbody2.style.display === 'none'){
+            for (var i = 0; i < 4; i++){
+                var tbody = document.getElementById('tbody' + i);
+                tbody.style.display = 'block';
+            }
+        }
+        else {
+            for (var i = 0; i < 4; i++){
+                var tbody = document.getElementById('tbody' + i);
+                if (i !== stage) tbody.style.display = 'none';
+            }
+        }
     }
 }
