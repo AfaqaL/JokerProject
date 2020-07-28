@@ -44,6 +44,6 @@ public class GameServiceBean implements GameService {
 
     @Override
     public void setSuperiorCard(long tableId, Card card) {
-        tableDao.getTable(tableId).setSuperiorCard(card.color);
+        tableDao.getTable(tableId).setSuperiorCard(card);
     }
 }
