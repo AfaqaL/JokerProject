@@ -1,8 +1,6 @@
 package com.joker.game;
 
-import com.joker.model.dto.CardDTO;
 import com.joker.model.dto.TableResponse;
-import com.joker.model.enums.CardColor;
 
 import java.util.List;
 
@@ -12,55 +10,19 @@ public interface Table {
     int MAX_CARDS_PLAYED = 4;
 
     /**
-     * shuffles cards for that round and then
-     * deals them to the players
-     */
-    void shuffleCards();
-
-    /**
-     * after every round sets every counter to
-     * zero and sets next player as a dealer
-     */
-    void startRound();
-
-    /**
-     * gives server first 3 cards of the player
-     * who calls the superior card
-     *
-     * @return List of 3 cards to call superior from
-     */
-    void setFirst3();
-
-    /**
      * at the beginning of a round sets which color
      * card is the superior one, so other cards can
      * get their priorities set easily
      *
-     * @param color which is the superior card in this round
+     * @param card which is the superior card in this round
      */
-    void setSuperiorCard(CardColor color);
-
-    /**
-     * gives server the list of cards for the player,
-     * containing valid and invalid cards for that turn
-     *
-     * @return list of valid and invalid cards
-     */
-    List<Card> getUserCards();
-
-    /**
-     * notifies the server which user can take action
-     *
-     * @return id of the currently active player
-     */
-    int getActiveUser();
+    void setSuperiorCard(Card card);
 
     /**
      * takes a declaration request from server about
      * how much a certain player wants to call that round
      *
      * @param x how much current player wants to call
-     * @return for the 4th player, returns the value which can not be declared, -1 otherwise
      */
     void declareNumber(int x);
 
@@ -78,13 +40,6 @@ public interface Table {
      * @return array of size 4 with each players score in it
      */
     void setRoundScores();
-
-//    /**
-//     * if a stage is finished or not
-//     *
-//     * @return true if 4 rounds have been played, false otherwise
-//     */
-//    boolean isStageFinished();
 
     /**
      * after every 4 round calculates total score
