@@ -19,8 +19,18 @@ const Value = {
     JOKER: "JOKER"
 };
 
+const PlayAction = {
+    PUT: "PUT",
+    WAIT: "WAIT",
+    DECLARE: "DECLARE",
+    DECLARE_SUPERIOR: "DECLARE_SUPERIOR"
+};
+
 Object.freeze(Color);
 Object.freeze(Value);
+Object.freeze(PlayAction);
+
+let wait = true;
 
 function update() {
     setInterval(function () {
@@ -42,11 +52,25 @@ function update() {
 }
 
 function drawTable(table) {
+    if (!table.changed) return;
+
     drawCards(table.cards);
-    drawPlayedCards(table.playedCards);
+    drawPlayedCards(table.playedCards, table.playerIndex);
     drawSuperior(table.superior);
     drawScores(table.scores);
-    drawDeclareNumPanel(table.invalidCall, table.cards.length);
+
+    if (table.action === PlayAction.DECLARE) {
+        drawDeclareNumPanel(table.invalidCall, table.cards.length);
+    }
+    if (table.action === PlayAction.WAIT) {
+        wait = true;
+    }
+    if (table.action === PlayAction.PUT) {
+        wait = false;
+    }
+    if (table.action === PlayAction.DECLARE_SUPERIOR) {
+        // TODO: show three cards and call setSuperior method
+    }
 }
 
 function drawCards(cards) {
@@ -56,7 +80,7 @@ function drawCards(cards) {
         let img = document.createElement('img');
         img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
         img.onclick = function () {
-            if (card.valid) {
+            if (!wait && card.valid) {
                 putCard(card)
             }
         }
@@ -69,19 +93,17 @@ function drawCards(cards) {
     });
 }
 
-function drawPlayedCards(playedCards) {
+function drawPlayedCards(playedCards, playerIndex) {
     document.getElementById('midTable').innerHTML = '';
 
-    let player = 1;
-    [].forEach.call(playedCards, (card) => {
+    for (let i = 1; i <= 4; i++) {
+        let card = playedCards[(playerIndex + i) % 4];
         let img = document.createElement('img');
         img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
-        img.className = 'card' + player;
+        img.className = 'card' + i;
 
         document.getElementById('midTable').appendChild(img);
-
-        player++;
-    });
+    }
 }
 
 function drawSuperior(superior) {

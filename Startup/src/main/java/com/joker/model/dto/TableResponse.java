@@ -8,6 +8,8 @@ public class TableResponse {
 
     private long id;
 
+    private boolean changed;
+
     /**
      * Transfer Type Card, containing info for
      * current superior card (in this round)
@@ -46,12 +48,16 @@ public class TableResponse {
      */
     private List<Integer> taken;
 
+    private boolean roundFinished;
+
     /**
      * returns the list of scores for the current round
      * !
      * Only gets updated after the round is finished
      */
     private List<Integer> scores;
+
+    private boolean stageFinished;
 
     /**
      * contains total scores for the current stage
@@ -60,6 +66,8 @@ public class TableResponse {
      * contains -1 or previous stage's scores
      */
     private List<Integer> stageScores;
+
+    private boolean gameFinished;
 
     /**
      * contains the total scores of each player after
@@ -210,5 +218,37 @@ public class TableResponse {
 
     public void setOddLeft(int oddLeft) {
         this.oddLeft = oddLeft;
+    }
+
+    public boolean isChanged() {
+        return changed;
+    }
+
+    public void setChanged(boolean changed) {
+        this.changed = changed;
+    }
+
+    public boolean isRoundFinished() {
+        return roundFinished;
+    }
+
+    public void setRoundFinished(boolean roundFinished) {
+        this.roundFinished = roundFinished;
+    }
+
+    public boolean isStageFinished() {
+        return stageFinished;
+    }
+
+    public void setStageFinished(boolean stageFinished) {
+        this.stageFinished = stageFinished;
+    }
+
+    public boolean isGameFinished() {
+        return gameFinished;
+    }
+
+    public void setGameFinished(boolean gameFinished) {
+        this.gameFinished = gameFinished;
     }
 }
