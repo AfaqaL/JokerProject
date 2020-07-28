@@ -21,7 +21,7 @@
     <link href="<c:url value="/resources/CSS/Table/MiddleTable.css" />" rel="stylesheet">
 </head>
 <body onload="update()">
-<div class="player1" data-letters="A">
+<div class="player1">
     <p>${sessionScope.usernames.get(0)}</p>
 </div>
 <div class="player2">
