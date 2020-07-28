@@ -16,7 +16,7 @@ table thead {
     and it's not scaled when table is resized */
     color: white;
     flex: 0 0 auto;
-    width: 99%;
+    width: 100%;
 }
 
 .red {
@@ -30,7 +30,8 @@ table thead {
 
 table tbody tr {
     color: white;
-    width: 99%;
+    width: 100%;
+    min-height: 18px;
 }
 
 table thead, table tbody tr {

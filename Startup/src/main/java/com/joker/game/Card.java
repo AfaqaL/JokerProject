@@ -1,5 +1,6 @@
 package com.joker.game;
 
+import com.joker.model.dto.CardDTO;
 import com.joker.model.enums.CardColor;
 import com.joker.model.enums.CardValue;
 import com.joker.model.enums.JokerMode;
@@ -146,4 +147,10 @@ public class Card implements Comparable {
 //        return s;
 //    }
 
+    public CardDTO convertToTransferObj(){
+        CardDTO card = new CardDTO();
+        card.setColor(this.color);
+        card.setValue(this.value);
+        return card;
+    }
 }
