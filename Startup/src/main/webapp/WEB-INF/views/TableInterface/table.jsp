@@ -52,17 +52,20 @@
 
 <div class="hand" id="hand"></div>
 
-<table>
+<table onclick="extendTable()">
     <thead>
     <tr>
-        <th>${sessionScope.usernames.get(0)}</th>
-        <th>${sessionScope.usernames.get(1)}</th>
-        <th>${sessionScope.usernames.get(2)}</th>
-        <th>${sessionScope.usernames.get(3)}</th>
+        <th></th>
+        <th>user_A</th>
+        <th></th>
+        <th>user_B</th>
+        <th></th>
+        <th>user_C</th>
+        <th></th>
+        <th>user_D</th>
     </tr>
     </thead>
-    <tbody>
-    <% for (int i = 0; i < 5; i++) { %>
+    <tbody id="first" style="display: block">
     <tr>
         <td>1</td>
         <td class="red">100</td>
@@ -73,18 +76,41 @@
         <td>-</td>
         <td class="last">20</td>
     </tr>
-    <% } %>
-    <tr class="final_points">
-        <td></td>
-        <td>25.2</td>
-        <td></td>
-        <td>20</td>
-        <td></td>
-        <td>40</td>
-        <td></td>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
         <td class="last">20</td>
     </tr>
-    <tr class="final_points last">
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr class="game_points">
         <td></td>
         <td>25.2</td>
         <td></td>
@@ -95,7 +121,299 @@
         <td class="last">20</td>
     </tr>
     </tbody>
+    <tbody id="second" style="display: none">
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td class="last">20</td>
+    </tr>
+
+    <tr class="game_points">
+        <td></td>
+        <td>25.2</td>
+        <td></td>
+        <td>20</td>
+        <td></td>
+        <td>40</td>
+        <td></td>
+        <td class="last">20</td>
+    </tr>
+    </tbody>
+    <tbody id="third" style="display: none">
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr class="game_points">
+        <td></td>
+        <td>25.2</td>
+        <td></td>
+        <td>20</td>
+        <td></td>
+        <td>40</td>
+        <td></td>
+        <td>20</td>
+    </tr>
+    </tbody>
+    <tbody id="fourth" style="display: none">
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td class="red">100</td>
+        <td>-</td>
+        <td class="green">0</td>
+        <td>-</td>
+        <td>10</td>
+        <td>-</td>
+        <td>20</td>
+    </tr>
+
+    <tr class="game_points">
+        <td></td>
+        <td>25.2</td>
+        <td></td>
+        <td>20</td>
+        <td></td>
+        <td>40</td>
+        <td></td>
+        <td>20</td>
+    </tr>
+    </tbody>
+    <tr id="final_points">
+        <td></td>
+        <td>100</td>
+        <td></td>
+        <td>200</td>
+        <td></td>
+        <td>0</td>
+        <td></td>
+        <td>25</td>
+    </tr>
 </table>
+
 
 <div class="superior_card" id="superior_card"></div>
 

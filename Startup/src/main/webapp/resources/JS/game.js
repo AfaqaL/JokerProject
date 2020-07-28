@@ -239,3 +239,15 @@ function setSuperior(card) {
     let data = JSON.stringify(card);
     xhr.send(data);
 }
+
+function extendTable() {
+    if (document.getElementById("second").style.display === 'none') {
+        document.getElementById("second").style.display = 'block';
+        document.getElementById("third").style.display = 'block';
+        document.getElementById("fourth").style.display = 'block';
+    }else{
+        document.getElementById("second").style.display = 'none';
+        document.getElementById("third").style.display = 'none';
+        document.getElementById("fourth").style.display = 'none';
+    }
+}
