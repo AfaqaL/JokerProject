@@ -31,6 +31,7 @@ Object.freeze(Value);
 Object.freeze(PlayAction);
 
 let wait = true;
+let declareSuperior = false;
 
 function update() {
     setInterval(function () {
@@ -69,7 +70,7 @@ function drawTable(table) {
         wait = false;
     }
     if (table.action === PlayAction.DECLARE_SUPERIOR) {
-        // TODO: show three cards and call setSuperior method
+        declareSuperior = true;
     }
 }
 
@@ -81,7 +82,12 @@ function drawCards(cards) {
         img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
         img.onclick = function () {
             if (!wait && card.valid) {
-                putCard(card)
+                if (declareSuperior) {
+                    setSuperior(card);
+                    declareSuperior = false;
+                } else {
+                    putCard(card);
+                }
             }
         }
 

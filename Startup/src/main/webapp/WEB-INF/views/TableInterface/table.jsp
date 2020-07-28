@@ -96,12 +96,8 @@
     </tr>
     </tbody>
 </table>
-<div class="superior_card" id="superior_card">
-    <figure>
-        <img src="${pageContext.request.contextPath}/resources/images/6C.png" alt="superior_card">
-        <figcaption>კოზირი: ბეზი</figcaption>
-    </figure>
-</div>
+
+<div class="superior_card" id="superior_card"></div>
 
 </body>
 </html>
