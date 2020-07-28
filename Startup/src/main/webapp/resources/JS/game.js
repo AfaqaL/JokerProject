@@ -19,11 +19,21 @@ const Value = {
     JOKER: "JOKER"
 };
 
+const PlayAction = {
+    PUT: "PUT",
+    WAIT: "WAIT",
+    DECLARE: "DECLARE",
+    DECLARE_SUPERIOR: "DECLARE_SUPERIOR"
+};
+
 Object.freeze(Color);
 Object.freeze(Value);
+Object.freeze(PlayAction);
+
+let wait = true;
+let declareSuperior = false;
 
 function update() {
-    console.log($(window.innerWidth), $(window.innerHeight));
     setInterval(function () {
         let xhr = new XMLHttpRequest();
         let url = '/table/update';
@@ -33,8 +43,6 @@ function update() {
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(this.responseText);
-
                 let table = JSON.parse(this.responseText);
                 drawTable(table);
             }
@@ -45,22 +53,41 @@ function update() {
 }
 
 function drawTable(table) {
-    console.log('Drawing table with id:' + table.id);
+    if (!table.changed) return;
 
     drawCards(table.cards);
-    drawPlayedCards(table.playedCards);
+    drawPlayedCards(table.playedCards, table.playerIndex);
+    drawSuperior(table.superior);
+    drawScores(table.scores);
+
+    if (table.action === PlayAction.DECLARE) {
+        drawDeclareNumPanel(table.invalidCall, table.cards.length);
+    }
+    if (table.action === PlayAction.WAIT) {
+        wait = true;
+    }
+    if (table.action === PlayAction.PUT) {
+        wait = false;
+    }
+    if (table.action === PlayAction.DECLARE_SUPERIOR) {
+        declareSuperior = true;
+    }
 }
 
 function drawCards(cards) {
     document.getElementById('hand').innerHTML = '';
 
     [].forEach.call(cards, (card) => {
-        var img = document.createElement('img');
-        img.setAttribute("src", "resources/images/" + getCardValue(card.value) + getCardColor(card.color) + ".png");
-        console.log(img.getAttribute("src"));
+        let img = document.createElement('img');
+        img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
         img.onclick = function () {
-            if (card.valid) {
-                putCard(card)
+            if (!wait && card.valid) {
+                if (declareSuperior) {
+                    setSuperior(card);
+                    declareSuperior = false;
+                } else {
+                    putCard(card);
+                }
             }
         }
 
@@ -72,19 +99,72 @@ function drawCards(cards) {
     });
 }
 
-function drawPlayedCards(playedCards) {
+function drawPlayedCards(playedCards, playerIndex) {
     document.getElementById('midTable').innerHTML = '';
 
-    let player = 1;
-    [].forEach.call(playedCards, (card) => {
-        var img = document.createElement('img');
-        img.setAttribute("src", "resources/images/" + getCardValue(card.value) + getCardColor(card.color) + ".png");
-        img.className = 'card' + player;
-        console.log(img.className);
-        document.getElementById('midTable').appendChild(img);
+    for (let i = 1; i <= 4; i++) {
+        let card = playedCards[(playerIndex + i) % 4];
+        let img = document.createElement('img');
+        img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
+        img.className = 'card' + i;
 
-        player++;
-    });
+        document.getElementById('midTable').appendChild(img);
+    }
+}
+
+function drawSuperior(superior) {
+    let img = document.createElement('img');
+    img.src = 'resources/images/' + getCardValue(superior.value) + getCardColor(superior.color) + '.png';
+    img.alt = 'superior_card';
+
+    let figcaption = document.createElement('figcaption');
+    figcaption.innerHTML = 'კოზირი';
+
+    let figure = document.createElement('figure');
+    figure.appendChild(img);
+    figure.appendChild(figcaption);
+
+    let superiorCard = document.getElementById('superior_card');
+    superiorCard.innerHTML = '';
+    superiorCard.appendChild(figure);
+}
+
+function drawScores(scores) {
+    let tr = document.createElement('tr');
+
+    [].forEach.call(scores, (score) => {
+        let declaredNum = document.createElement('td');
+        declaredNum.innerHTML = '1';
+
+        let scoreTag = document.createElement('td');
+        scoreTag.innerHTML = score;
+
+        tr.appendChild(declaredNum);
+        tr.appendChild(scoreTag);
+    })
+
+    // document.getElementById('scores').appendChild(tr);
+}
+
+function drawDeclareNumPanel(invalidCall, maxSize) {
+    document.getElementById('sayNum').innerHTML = '';
+    document.getElementById("sayNum").style.visibility = 'visible';
+
+    for (let num = 0; num <= maxSize; num++) {
+        let button = document.createElement('button');
+        button.innerHTML = '' + num;
+        button.onclick = function () {
+            document.getElementById("sayNum").style.visibility = 'hidden';
+            declareNum(num);
+        }
+
+        if (num === invalidCall) {
+            button.disabled = true;
+            button.setAttribute("style", "filter: brightness(25%)")
+        }
+
+        document.getElementById('sayNum').appendChild(button);
+    }
 }
 
 function getCardValue(value) {
@@ -128,16 +208,46 @@ function getCardColor(color) {
 }
 
 function putCard(card) {
-    // TODO: send putCard request to server
-    console.log(card.value);
-    console.log(card.color);
+    let xhr = new XMLHttpRequest();
+    let url = '/table/put';
+
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    let data = JSON.stringify(card);
+    xhr.send(data);
 }
 
-function removeSayNum(){
-    var x = document.getElementById("sayNum");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
+function declareNum(num) {
+    let xhr = new XMLHttpRequest();
+    let url = '/table/declare';
+
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    let data = JSON.stringify({number: num});
+    xhr.send(data);
+}
+
+function setSuperior(card) {
+    let xhr = new XMLHttpRequest();
+    let url = '/table/set-superior';
+
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    let data = JSON.stringify(card);
+    xhr.send(data);
+}
+
+function extendTable() {
+    if (document.getElementById("second").style.display === 'none') {
+        document.getElementById("second").style.display = 'block';
+        document.getElementById("third").style.display = 'block';
+        document.getElementById("fourth").style.display = 'block';
+    }else{
+        document.getElementById("second").style.display = 'none';
+        document.getElementById("third").style.display = 'none';
+        document.getElementById("fourth").style.display = 'none';
     }
 }
