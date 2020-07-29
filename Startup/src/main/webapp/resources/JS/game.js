@@ -61,7 +61,7 @@ function drawTable(table) {
     drawCards(table.cards);
     drawPlayedCards(table.playedCards, table.playerIndex);
     drawSuperior(table.superior);
-
+    chooseJokerActionPanel()
     if (table.action === PlayAction.DECLARE) {
         drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
     }
@@ -99,6 +99,7 @@ function drawCards(cards) {
         img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
         img.onclick = function () {
             if (!wait && card.valid) {
+                if (card.value() === Value.JOKER) chooseJokerActionPanel();
                 putCard(card);
             }
         }
@@ -361,4 +362,22 @@ function getButtonClass(value) {
             return 'heart';
     }
     return 'no_color';
+}
+
+function chooseJokerActionPanel() {
+    document.getElementById('joker-activated').innerHTML = '';
+    document.getElementById('joker-activated').style.display = 'block';
+    let button_strong = document.createElement('button');
+    button_strong.innerHTML = 'მოჯოკვრა';
+    button_strong.onclick = function (){
+        document.getElementById('joker-activated').style.display = 'none';
+    }
+
+    let button_weak = document.createElement('button');
+    button_weak.innerHTML = 'გატანება';
+    button_weak.onclick = function (){
+        document.getElementById('joker-activated').style.display = 'none';
+    }
+    document.getElementById('joker-activated').appendChild(button_strong);
+    document.getElementById('joker-activated').appendChild(button_weak);
 }
