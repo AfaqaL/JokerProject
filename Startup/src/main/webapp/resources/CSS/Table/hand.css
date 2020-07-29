@@ -1,6 +1,6 @@
 .hand {
     position: absolute;
-    left:17%;
+    left: 17%;
     height: 19.97%;
     margin-bottom: 20px;
     bottom: 0;
@@ -8,16 +8,16 @@
 
 .hand:before,
 .hand:after {
-    content:"";
-    display:table;
+    content: "";
+    display: table;
 }
 
 .hand:after {
-    clear:both;
+    clear: both;
 }
 
 .hand {
-    zoom:1;
+    zoom: 1;
 }
 
 

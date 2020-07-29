@@ -31,6 +31,8 @@ public abstract class GameBasic implements Table{
     protected int[][] scoresGrid;
     protected int[][] sumsGrid;
 
+    protected boolean[] respAlreadySent;
+
     /*
         player index, who should start (become
         currActivePlayer) on the next round
@@ -107,6 +109,7 @@ public abstract class GameBasic implements Table{
             first %= Table.NUM_PLAYERS;
         }
 
+        respAlreadySent = new boolean[]{ false, false, false, false };
         initCards();
     }
 
