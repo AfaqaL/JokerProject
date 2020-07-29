@@ -24,8 +24,9 @@ public class InMemoryTableDao implements  TableDao {
             case NINES:
                 newTable = new GameNines(room.getPlayers(), room.getBayonet());
             case STANDARD:
+                log.error("Standard not implemented yet");
             default:
-                log.error("Not implemented Yet");
+                log.error("Unknown game mode");
         }
         tables.put(room.getId(), newTable);
     }
