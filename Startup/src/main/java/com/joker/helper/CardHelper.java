@@ -11,6 +11,8 @@ public class CardHelper {
         Card card;
         if (dto.getValue() == CardValue.JOKER) {
             card = new JokerCard();
+            card.color = dto.getColor();
+            ((JokerCard)card).mode = dto.getJokerMode();
         } else {
             card = new Card(dto.getValue(), dto.getColor());
         }
