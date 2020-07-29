@@ -261,7 +261,7 @@ public class GameNines extends GameBasic {
 
     @Override
     public TableResponse getTable(long playerId) {
-        int idx = findById(playerId);
+        int idx = getIndex(playerId);
 
         if(cardsPut > 0)
             tableResp.setFirst(true);

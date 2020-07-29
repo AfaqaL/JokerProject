@@ -64,4 +64,6 @@ public interface Table {
     TableResponse getTable(long playerId);
 
     int getVersion();
+
+    int getIndex(long playerId);
 }

@@ -168,7 +168,8 @@ public abstract class GameBasic implements Table{
      * @param id by which the player was initialized
      * @return index in players array
      */
-    protected int findById(long id){
+    @Override
+    public int getIndex(long id){
         for(int i = 0; i < players.length; i++){
             if(players[i].getId() == id) return i;
         }
@@ -190,4 +191,6 @@ public abstract class GameBasic implements Table{
         ++version;
         lock.unlock();
     }
+
+
 }
