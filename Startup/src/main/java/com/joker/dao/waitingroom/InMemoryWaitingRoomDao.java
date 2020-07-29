@@ -44,17 +44,11 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
 
     @Override
     public int getVersion() {
-        int result;
-
-        lock.lock();
-        result = version;
-        lock.unlock();
-
-        return result;
+        return version;
     }
 
     @Override
-    public boolean addUser(User user, long roomId, String password) {
+    public synchronized boolean addUser(User user, long roomId, String password) {
         Room room = rooms.get(roomId);
 
         if (room.getPassword() != null && !room.getPassword().equals(password)) {
@@ -65,9 +59,7 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
             return false;
         }
 
-        synchronized (Room.class) {
-            room.getPlayers().add(user);
-        }
+        room.getPlayers().add(user);
 
         increaseVersion();
         return true;
@@ -105,5 +97,10 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
         lock.lock();
         version++;
         lock.unlock();
+    }
+
+    // For testing
+    public Room getRoom(long roomId) {
+        return rooms.get(roomId);
     }
 }
