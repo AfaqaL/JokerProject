@@ -42,6 +42,19 @@ public class UserServiceTest {
     }
 
     @Test
+    public void testGetUsernameThrowsException() {
+        when(userDao.searchById(anyLong())).thenReturn(null);
+        assertThrows(NullPointerException.class, () -> userService.getUsername(anyLong()));
+    }
+
+    @Test
+    public void testGetUsername() {
+        when(userDao.searchById(anyLong())).thenReturn(user);
+
+        assertEquals(user.getUsername(), userService.getUsername(anyLong()));
+    }
+
+    @Test
     public void testGetByUsernameAndPassword() {
         when(userDao.searchByUsernameAndPassword(anyString(), anyString())).thenReturn(null);
         assertNull(userService.getByUsernameAndPassword(anyString(), anyString()));

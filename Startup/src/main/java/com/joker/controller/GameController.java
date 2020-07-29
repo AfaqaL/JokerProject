@@ -108,7 +108,7 @@ public class GameController {
         response.setInvalidCall(4);
         response.setPlayerIndex(ThreadLocalRandom.current().nextInt(0, 4));
 
-        int randomStage = ThreadLocalRandom.current().nextInt(0, 4);;
+        int randomStage = ThreadLocalRandom.current().nextInt(0, 4);
         response.setCurrentStage(randomStage);
 
         if (randomStage % 2 == 0) {
@@ -130,20 +130,11 @@ public class GameController {
 
     @PostMapping("/table/put")
     public void put(HttpSession session, @RequestBody CardDTO request) {
-        Card card;
-        if (request.getValue() == CardValue.JOKER) {
-            card = new JokerCard();
-        } else {
-            card = new Card(request.getValue(), request.getColor());
-        }
-
-        gameService.putCard((long) session.getAttribute("tableId"), card);
+        gameService.putCard((long) session.getAttribute("tableId"), request);
     }
 
     @PostMapping("/table/set-superior")
     public void setSuperiorCard(HttpSession session, @RequestBody CardDTO request) {
-        Card card = new Card(request.getValue(), request.getColor());
-        System.out.println(card.color + " " + card.value);
-        gameService.setSuperiorCard((long) session.getAttribute("tableId"), card);
+        gameService.setSuperiorCard((long) session.getAttribute("tableId"), request);
     }
 }

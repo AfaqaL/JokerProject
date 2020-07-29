@@ -9,6 +9,4 @@ public interface HistoryService {
     List<TableHistory> getUserHistory(long id);
 
     boolean addHistory(TableHistory history);
-
-    String getUsername(long id);
 }
