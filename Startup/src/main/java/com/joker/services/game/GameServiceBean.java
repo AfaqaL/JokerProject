@@ -24,6 +24,11 @@ public class GameServiceBean implements GameService {
     }
 
     @Override
+    public int getIndex(long tableId, long userId) {
+        return tableDao.getTable(tableId).getIndex(userId);
+    }
+
+    @Override
     public TableResponse getTable(long tableId, long userId) {
         return tableDao.getTable(tableId).getTable(userId);
     }

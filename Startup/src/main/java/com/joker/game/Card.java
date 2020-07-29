@@ -151,6 +151,7 @@ public class Card implements Comparable {
         CardDTO card = new CardDTO();
         card.setColor(this.color);
         card.setValue(this.value);
+        card.setValid(this.valid);
         return card;
     }
 }

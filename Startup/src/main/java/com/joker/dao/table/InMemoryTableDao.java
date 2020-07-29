@@ -19,15 +19,15 @@ public class InMemoryTableDao implements  TableDao {
 
     @Override
     public void createTable(Room room) {
-        Table newTable = null;
-        switch (room.getGameMode()){
-            case NINES:
-                newTable = new GameNines(room.getPlayers(), room.getBayonet());
-            case STANDARD:
-                log.error("Standard not implemented yet");
-            default:
-                log.error("Unknown game mode");
-        }
+        Table newTable = new GameNines(room.getPlayers(), room.getBayonet());;
+//        switch (room.getGameMode()){`
+//            case NINES:
+//                newTable = new GameNines(room.getPlayers(), room.getBayonet());
+//            case STANDARD:
+//                log.error("Standard not implemented yet");
+//            default:
+//                log.error("Unknown game mode");
+//        }`
         tables.put(room.getId(), newTable);
     }
 

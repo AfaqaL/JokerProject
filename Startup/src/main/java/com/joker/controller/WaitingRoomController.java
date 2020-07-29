@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.joker.model.dto.WaitingRoomResponse;
 import com.joker.model.enums.GameMode;
+import com.joker.services.game.GameService;
 import com.joker.services.waitingroom.WaitingRoomService;
 import com.joker.services.waitingroom.WaitingRoomServiceBean;
 import com.joker.model.*;
@@ -24,12 +25,11 @@ import java.util.ArrayList;
 public class WaitingRoomController {
     private static final Logger log = LoggerFactory.getLogger(WaitingRoomController.class);
 
-    private final WaitingRoomService waitingRoomService;
+    @Autowired
+    private WaitingRoomService waitingRoomService;
 
     @Autowired
-    public WaitingRoomController(WaitingRoomServiceBean waitingRoomManager) {
-        this.waitingRoomService = waitingRoomManager;
-    }
+    private GameService gameService;
 
     @GetMapping("/waitingRoom")
     public String getHomepage() {
@@ -67,7 +67,8 @@ public class WaitingRoomController {
         boolean result =  waitingRoomService.addUser(player, id, password);
 
         if(waitingRoomService.isRoomReady(id)) {
-            Room newRoom = waitingRoomService.getReadyRoom(id);
+            Room room = waitingRoomService.getReadyRoom(id);
+            gameService.createTable(room);
         }
 
         if(result) {

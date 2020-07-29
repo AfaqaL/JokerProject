@@ -27,13 +27,13 @@ public class GameNines extends GameBasic {
     /* how many players did already declare */
     private int numPlayersDeclared;
 
-    TableResponse tableResp;
+    private TableResponse tableResp;
 
     private TableState currTableState;
 
     private int bayonet;
 
-    Card first;
+    private Card first;
 
     public GameNines(List<User> users, int bayonet){
         super(users);
@@ -43,6 +43,8 @@ public class GameNines extends GameBasic {
         initTableResp();
 
         initVariables(bayonet);
+
+        super.shuffle();
     }
 
     private void initVariables(int bayonet) {
@@ -62,10 +64,10 @@ public class GameNines extends GameBasic {
         tableResp.setDeclares(declares);
 
         List<CardDTO> playedCards = new ArrayList<>();
-        CardDTO empty = new CardDTO();
-        empty.setColor(CardColor.NO_COLOR);
-        empty.setValue(CardValue.ACE);
         for (int i = 0; i < MAX_CARDS_PLAYED; i++) {
+            CardDTO empty = new CardDTO();
+            empty.setColor(CardColor.NO_COLOR);
+            empty.setValue(CardValue.ACE);
             playedCards.add(empty);
         }
         tableResp.setPlayedCards(playedCards);
@@ -100,7 +102,7 @@ public class GameNines extends GameBasic {
     public void setSuperiorCard(Card card) {
         superior = card.color;
         tableResp.setSuperior(card.convertToTransferObj());
-
+        currTableState = TableState.DECLARE;
         increaseVersion();
     }
 
@@ -135,6 +137,7 @@ public class GameNines extends GameBasic {
         }else if(numPlayersDeclared == 3){
             tableResp.setOddLeft(CARDS_PER_ROUND - alreadyDeclared);
             tableResp.setAction(PlayAction.WAIT);
+            currTableState = TableState.PLAY;
             setAllValid();
         }else{
             tableResp.setToFill(CARDS_PER_ROUND - alreadyDeclared);
@@ -173,6 +176,7 @@ public class GameNines extends GameBasic {
 
         if(cardsPut == 0){
             currTakerCard = card;
+            first = card;
             currTaker = currActivePlayer;
             resetAfterTake();
         }else{
@@ -187,6 +191,12 @@ public class GameNines extends GameBasic {
         CardDTO currentCard = played.get(currActivePlayer);
         currentCard.setValue(card.value);
         currentCard.setColor(card.color);
+
+        log.info("============GameNines========" + cardsPut);
+        for (CardDTO card1 : tableResp.getPlayedCards()) {
+            log.info(card1.getValue().name());
+            log.info(card1.getColor().name());
+        }
 
         ++currActivePlayer;
         currActivePlayer %= 4;
@@ -282,7 +292,9 @@ public class GameNines extends GameBasic {
         else
             tableResp.setFirst(false);
 
-        players[idx].setValidCards(first, superior);
+        if (first != null) {
+            players[idx].setValidCards(first, superior);
+        }
 
         tableResp.setCurrentRound(currRound);
         tableResp.setCurrentStage(currStage);

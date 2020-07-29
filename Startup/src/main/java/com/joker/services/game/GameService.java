@@ -8,6 +8,8 @@ public interface GameService {
 
     void createTable(Room room);
 
+    int getIndex(long tableId, long userId);
+
     TableResponse getTable(long tableId, long userId);
 
     int getVersion(long tableId);
