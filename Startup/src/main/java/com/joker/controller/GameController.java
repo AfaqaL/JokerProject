@@ -95,30 +95,26 @@ public class GameController {
         }
         response.setScores(scores);
 
-        List<Integer> stageScores = new ArrayList<>();
+        List<Integer> declares = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            stageScores.add(rand.nextInt() % 100);
+            declares.add(rand.nextInt() % 9);
         }
-        response.setStageScores(stageScores);
+        response.setDeclares(declares);
 
-        List<Integer> finalScores = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            finalScores.add(rand.nextInt() % 100);
-        }
-        response.setFinalScores(finalScores);
 
         int randomIndex = (int) (rand.nextFloat() * arr.size());
         CardDTO superior = arr.get(randomIndex);
         response.setSuperior(superior);
 
         response.setInvalidCall(4);
-        response.setPlayerIndex(2);
+        response.setPlayerIndex(ThreadLocalRandom.current().nextInt(0, 4));
 
         int randomStage = ThreadLocalRandom.current().nextInt(0, 4);;
         response.setCurrentStage(randomStage);
 
         if (randomStage % 2 == 0) {
-            response.setCurrentRound(ThreadLocalRandom.current().nextInt(0, 4));
+            response.setCurrentRound(ThreadLocalRandom.current().nextInt(0, 9));
+
         } else {
             response.setCurrentRound(ThreadLocalRandom.current().nextInt(0, 4));
         }
@@ -148,6 +144,7 @@ public class GameController {
     @PostMapping("/table/set-superior")
     public void setSuperiorCard(HttpSession session, @RequestBody CardDTO request) {
         Card card = new Card(request.getValue(), request.getColor());
+        System.out.println(card.color + " " + card.value);
         gameService.setSuperiorCard((long) session.getAttribute("tableId"), card);
     }
 }

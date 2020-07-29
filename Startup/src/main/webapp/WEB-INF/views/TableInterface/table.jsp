@@ -36,23 +36,14 @@
 
 <div class="container">
     <div class="midTable" id="midTable"></div>
-    <div class="btn-group" style="display: block; visibility: hidden" id = "sayNum">
-        <% for (int i = 0; i < 10; i++) { %>
-        <button onclick = "removeSayNum()"><%=i%></button>
-        <% } %>
-    </div>
-    <div class="btn-group sup" style="display: block" id = "sup-btn-group">
-        <button class = "club">♣</button>
-        <button class = "diamond" style="color: red">♦</button>
-        <button class = "spade">♠</button>
-        <button class = "heart" style="color: red">♥</button>
-        <button class = "nothing">J</button>
-    </div>
+    <div class="btn-group" style="display: none;" id = "sayNum"></div>
+    <div class="btn-group sup" style="display: none;"  id = "sup-btn-group"></div>
+
 </div>
 
 <div class="hand" id="hand"></div>
 
-<table id = "pointGrid" onclick="extendTable()">
+<table id = "pointGrid">
     <thead>
     <tr>
         <th></th>
