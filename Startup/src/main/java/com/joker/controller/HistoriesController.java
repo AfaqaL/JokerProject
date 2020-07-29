@@ -5,6 +5,7 @@ import com.joker.model.User;
 import com.joker.model.dto.HistoryResponse;
 import com.joker.services.game.GameServiceBean;
 import com.joker.services.history.HistoryService;
+import com.joker.services.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,11 @@ public class HistoriesController {
     @Autowired
     private HistoryService historyService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/histories")
-    public String Tablehistories(HttpSession session) {
+    public String TableHistories() {
         return "histories/histories";
     }
 
@@ -38,13 +42,12 @@ public class HistoriesController {
         List<TableHistory> games = historyService.getUserHistory(id);
 
         List<HistoryResponse> response = new ArrayList<>(4);
-        int iter = 0;
         for(TableHistory table : games) {
             HistoryResponse respElem = new HistoryResponse(table);
-            respElem.setName1(historyService.getUsername(table.getId1()));
-            respElem.setName2(historyService.getUsername(table.getId2()));
-            respElem.setName3(historyService.getUsername(table.getId3()));
-            respElem.setName4(historyService.getUsername(table.getId4()));
+            respElem.setName1(userService.getUsername(table.getId1()));
+            respElem.setName2(userService.getUsername(table.getId2()));
+            respElem.setName3(userService.getUsername(table.getId3()));
+            respElem.setName4(userService.getUsername(table.getId4()));
             response.add(respElem);
         }
         return response;
