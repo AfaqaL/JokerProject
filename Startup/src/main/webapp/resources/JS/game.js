@@ -57,14 +57,13 @@ function drawTable(table) {
     if (!table.changed) return;
 
     extendTable(table.currentStage);
-    updateDeclare(table.currentRound, table.currentStage, table.playerIndex, table.declares[table.playerIndex])
     updateScore(table.currentRound, table.currentStage, table.playerIndex, table.scores[table.playerIndex]);
     drawCards(table.cards);
     drawPlayedCards(table.playedCards, table.playerIndex);
     drawSuperior(table.superior);
 
     if (table.action === PlayAction.DECLARE) {
-        drawDeclareNumPanel(table.invalidCall, table.cards.length);
+        drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
     }
     if (table.action === PlayAction.WAIT) {
         wait = true;
@@ -73,7 +72,7 @@ function drawTable(table) {
         wait = false;
     }
     if (table.action === PlayAction.DECLARE_SUPERIOR) {
-        drawDeclareSuperiorPanel();
+        drawDeclareSuperiorPanel(table.superior);
         declareSuperior = true;
     }
 }
@@ -100,12 +99,7 @@ function drawCards(cards) {
         img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
         img.onclick = function () {
             if (!wait && card.valid) {
-                if (declareSuperior) {
-                    setSuperior(card);
-                    declareSuperior = false;
-                } else {
-                    putCard(card);
-                }
+                putCard(card);
             }
         }
 
@@ -148,16 +142,18 @@ function drawSuperior(superior) {
 }
 
 
-function drawDeclareNumPanel(invalidCall, maxSize) {
+function drawDeclareNumPanel(invalidCall, maxSize, round, stage, playerIndex) {
     document.getElementById('sayNum').innerHTML = '';
     document.getElementById("sayNum").style.display = 'block';
 
     for (let num = 0; num <= maxSize; num++) {
         let button = document.createElement('button');
         button.innerHTML = '' + num;
+        if (num === 0 ) button.innerHTML = '-';
         button.onclick = function () {
             document.getElementById("sayNum").style.display = 'none';
             declareNum(num);
+            updateDeclare(round, stage, playerIndex, button.innerHTML);
         }
 
         if (num === invalidCall) {
@@ -169,7 +165,7 @@ function drawDeclareNumPanel(invalidCall, maxSize) {
     }
 }
 
-function drawDeclareSuperiorPanel() {
+function drawDeclareSuperiorPanel(superior) {
     document.getElementById('sup-btn-group').innerHTML = '';
     document.getElementById("sup-btn-group").style.display = 'block';
     for (let i = 0; i < 5; i++){
@@ -177,6 +173,17 @@ function drawDeclareSuperiorPanel() {
         button.className = getButtonClass(i);
         button.onclick = function (){
             document.getElementById("sup-btn-group").style.display = 'none';
+            superior.value = Value.ACE;
+            if (button.className === 'club') {superior.color = Color.CLUBS;}
+            else if (button.className === 'diamond') {superior.color = Color.DIAMONDS;}
+            else if (button.className === 'spade') {superior.color = Color.SPADES;}
+            else if (button.className === 'heart') {superior.color = Color.HEARTS;}
+            else {
+                superior.color = Color.NO_COLOR;
+                superior.value = Value.JOKER;
+            }
+            drawSuperior(superior);
+            setSuperior(superior);
         }
         document.getElementById('sup-btn-group').appendChild(button);
     }

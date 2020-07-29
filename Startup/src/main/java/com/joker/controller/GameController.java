@@ -143,6 +143,7 @@ public class GameController {
     @PostMapping("/table/set-superior")
     public void setSuperiorCard(HttpSession session, @RequestBody CardDTO request) {
         Card card = new Card(request.getValue(), request.getColor());
+        System.out.println(card.color + " " + card.value);
         gameService.setSuperiorCard((long) session.getAttribute("tableId"), card);
     }
 }
