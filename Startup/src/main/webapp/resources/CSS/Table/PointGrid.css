@@ -1,4 +1,4 @@
-table  {
+table {
     position: absolute;
     display: table;
     top: 1.05%;
@@ -39,23 +39,24 @@ table thead, table tbody tr {
     table-layout: fixed;
 }
 
-tr :not(:last-child){
+tr :not(:last-child) {
     border-right: 1px solid white;
 }
-td, th{
+
+td, th {
     text-align: center;
     margin-left: 2px;
 }
 
-table tr:first-child td{
+table tr:first-child td {
     border-top: 1px solid white;
 }
 
-tr :nth-child(odd){
+tr :nth-child(odd) {
     width: 5%;
 }
 
-tr :nth-child(even){
+tr :nth-child(even) {
     width: 20%;
 }
 

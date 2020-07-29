@@ -1,10 +1,11 @@
-.container{
+.container {
     display: flex;
     height: 100%;
     width: 100%;
     justify-content: center;
 }
-.midTable{
+
+.midTable {
     position: absolute;
     width: 56.25%;
     height: 63.1%;
@@ -12,48 +13,48 @@
     margin-bottom: auto;
 }
 
-.card1{
+.card1 {
     position: relative;
     float: left;
     left: 32.4%;
     top: 45%;
 }
 
-.card2{
+.card2 {
     position: absolute;
     top: 16.67%;
     left: 42%;
 }
 
-.card3{
+.card3 {
     position: relative;
     float: right;
     right: 37.04%;
     top: 45%;
 }
 
-.card4{
+.card4 {
     position: absolute;
     left: 42%;
     bottom: 0;
 }
 
-.btn-group-horizontal{
+.btn-group-horizontal {
     position: relative;
     background-color: black;
     padding: 2%;
-    top:50%;
+    top: 50%;
     width: auto;
     z-index: 10;
     height: 15.78%;
     border-radius: 10px;
 }
 
-.btn-group-horizontal button{
+.btn-group-horizontal button {
     padding: 2px;
     height: 40%;
     min-width: 50px;
-    background-color: white ;
+    background-color: white;
     color: black;
     font-weight: bold;
     font-size: 1.5em;
@@ -61,8 +62,8 @@
     margin-top: 10%;
 }
 
-.btn-group-horizontal button:hover{
-    cursor:pointer;
+.btn-group-horizontal button:hover {
+    cursor: pointer;
 }
 
 .club:before {

@@ -36,9 +36,9 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping("/table")
-    public String table(HttpSession ses){
-        for (int i = 0; i < 4; i++){
-            for (int j = 0; j < 9; j++){
+    public String table(HttpSession ses) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 9; j++) {
                 CardDTO card = new CardDTO();
                 card.setColor(CardColor.values()[i]);
                 card.setValue(CardValue.values()[j]);
@@ -48,12 +48,12 @@ public class GameController {
             }
         }
 
-        ArrayList <String> usernames = new ArrayList<>();
-        for (char c = 'A'; c<='D'; c++) {
+        ArrayList<String> usernames = new ArrayList<>();
+        for (char c = 'A'; c <= 'D'; c++) {
             usernames.add("user_" + c);
         }
 
-        ses.setAttribute("usernames",usernames);
+        ses.setAttribute("usernames", usernames);
 
         // არაა საჭირო. NullPointer რომ არ მოხდეს იმიტომ მიწერია
         ses.setAttribute("tableId", 1L);
@@ -62,21 +62,22 @@ public class GameController {
     }
 
     @PostMapping("/table/update")
-    public @ResponseBody TableResponse update(HttpSession session) {
+    public @ResponseBody
+    TableResponse update(HttpSession session) {
         TableResponse response = new TableResponse();
         response.setChanged(true);
         response.setId(23);
         response.setDeclares(null);
 
         List<CardDTO> cards = new ArrayList<>();
-        for (int i = 1; i <= 5; i++){
+        for (int i = 1; i <= 5; i++) {
             int randomIndex = (int) (rand.nextFloat() * arr.size());
             cards.add(arr.get(randomIndex));
         }
         response.setCards(cards);
 
         List<CardDTO> playedCards = new ArrayList<>();
-        for (int i = 1; i <= 4; i++){
+        for (int i = 1; i <= 4; i++) {
             int randomIndex = (int) (rand.nextFloat() * arr.size());
             playedCards.add(arr.get(randomIndex));
         }

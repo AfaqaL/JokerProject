@@ -36,14 +36,14 @@
 
 <div class="container">
     <div class="midTable" id="midTable"></div>
-    <div class="btn-group-horizontal" style="display: none;" id = "sayNum"></div>
-    <div class="btn-group-horizontal" style="display: none;"  id = "sup-btn-group"></div>
-    <div class = "btn-group-horizontal" style="display: none" id = "joker-activated"></div>
+    <div class="btn-group-horizontal" style="display: none;" id="sayNum"></div>
+    <div class="btn-group-horizontal" style="display: none" id="sup-btn-group"></div>
+    <div class="btn-group-horizontal" style="display: none" id="joker-activated"></div>
 </div>
 
 <div class="hand" id="hand"></div>
 
-<table id = "pointGrid">
+<table id="pointGrid">
     <thead>
     <tr>
         <th></th>
