@@ -79,12 +79,12 @@ function drawTable(table) {
 
 function drawGrid() {
     let table = document.getElementById("pointGrid");
-    for (var i = 0; i < 4; i++) {
-        var tbody = document.createElement('tbody');
+    for (let i = 0; i < 4; i++) {
+        let tbody = document.createElement('tbody');
         tbody.id = 'tbody' + i;
         if (i === 0) tbody.style.display = 'block';
         else tbody.style.display = 'none';
-        var numRows = (i % 2 === 0) ? 9 : 4;
+        let numRows = (i % 2 === 0) ? 9 : 4;
         insertRows(tbody, numRows);
         table.appendChild(tbody);
     }
@@ -263,12 +263,12 @@ function setSuperior(card) {
 
 
 function insertRows(tbody, numRows) {
-    for (var i = 0; i < numRows + 1; i++) {
-        var tr = document.createElement('tr');
+    for (let i = 0; i < numRows + 1; i++) {
+        let tr = document.createElement('tr');
         if (i === numRows) tr.className = 'game_points';
         tbody.appendChild(tr);
-        for (var j = 0; j < 8; j++) {
-            var td = document.createElement('td');
+        for (let j = 0; j < 8; j++) {
+            let td = document.createElement('td');
             if (i === numRows && j % 2 === 1) td.innerHTML = '0.0';
             tr.appendChild(td);
         }
@@ -276,13 +276,13 @@ function insertRows(tbody, numRows) {
 }
 
 function addFinalPoints(table) {
-    var tbody = document.createElement('tbody');
+    let tbody = document.createElement('tbody');
     tbody.id = 'tbody4';
     tbody.style.display = 'block';
-    var final_points = document.createElement('tr');
+    let final_points = document.createElement('tr');
     final_points.id = 'finalPoints';
-    for (var i = 0; i < 8; i++) {
-        var td = document.createElement('td');
+    for (let i = 0; i < 8; i++) {
+        let td = document.createElement('td');
         if (i % 2 === 1) td.innerHTML = 0.0;
         final_points.appendChild(td);
     }
@@ -294,15 +294,15 @@ function addFinalPoints(table) {
 function updateScore(round, stage, playerIndex, score) {
     console.log(stage)
     if (score === -1) return;
-    var tbody = document.getElementById('tbody' + stage);
-    var row = tbody.rows;
-    var col = row[round].cells;
+    let tbody = document.getElementById('tbody' + stage);
+    let row = tbody.rows;
+    let col = row[round].cells;
     if (col[playerIndex * 2 + 1].innerHTML !== '') return;
     col[playerIndex * 2 + 1].innerHTML = score;
     console.log(row.length);
     col = row[row.length - 1].cells;
     col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + score;
-    var final_points = document.getElementById('finalPoints');
+    let final_points = document.getElementById('finalPoints');
     col = final_points.cells;
     col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + score;
 
@@ -312,35 +312,36 @@ function updateScore(round, stage, playerIndex, score) {
 
 function updateDeclare(round, stage, playerIndex, declare) {
     if (declare === -1) return;
-    var tbody = document.getElementById('tbody' + stage);
-    var row = tbody.rows;
-    var col = row[round].cells;
+    let tbody = document.getElementById('tbody' + stage);
+    let row = tbody.rows;
+    let col = row[round].cells;
     if (col[playerIndex * 2].innerHTML !== '') return;
     col[playerIndex * 2].innerHTML = declare;
 
 }
 
 function extendTable(stage) {
-    var currentStage = document.getElementById('tbody' + stage);
+    let currentStage = document.getElementById('tbody' + stage);
     if (currentStage.style.display === 'none'){
-        for (var i = 0; i < 4; i++) {
-            var tbody = document.getElementById('tbody' + i);
+        for (let i = 0; i < 4; i++) {
+            let tbody = document.getElementById('tbody' + i);
             tbody.style.display = 'none';
         }
         currentStage.style.display = 'block';
     }
 
     document.getElementById("pointGrid").onclick = function () {
+        let i;
         let tbody;
-        var tbody1 = document.getElementById('tbody' + 0);
-        var tbody2 = document.getElementById('tbody' + 1);
+        let tbody1 = document.getElementById('tbody' + 0);
+        let tbody2 = document.getElementById('tbody' + 1);
         if (tbody1.style.display === 'none' || tbody2.style.display === 'none') {
-            for (var i = 0; i < 4; i++) {
+            for (i = 0; i < 4; i++) {
                 tbody = document.getElementById('tbody' + i);
                 tbody.style.display = 'block';
             }
         } else {
-            for (var i = 0; i < 4; i++) {
+            for (i = 0; i < 4; i++) {
                 tbody = document.getElementById('tbody' + i);
                 if (i !== stage) tbody.style.display = 'none';
             }
