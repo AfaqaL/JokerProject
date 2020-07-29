@@ -37,6 +37,7 @@ public class GameController {
 
     @GetMapping("/table")
     public String table(HttpSession ses){
+        log.info("I got here xoupfully");
         for (int i = 0; i < 4; i++){
             for (int j = 0; j < 9; j++){
                 CardDTO card = new CardDTO();

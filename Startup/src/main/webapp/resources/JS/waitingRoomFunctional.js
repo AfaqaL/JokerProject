@@ -116,10 +116,9 @@ function fetchData() {
                     if(respData.isChanged === "TRUE") {
 
                         /* new data incoming! */
-                        console.log("Channfvvtgbthtgged");
+                        console.log("Changed");
                         document.getElementById("existingTables").innerHTML ="";
 
-                        console.log("baroo");
                         /* new list of rooms (some removed, some added) */
                         [].forEach.call(respData.rooms, (room) => {
 
@@ -128,6 +127,9 @@ function fetchData() {
 
                             if (respData.tableId === room.id) {
                                 innerDiv.style.border = "thick solid #0000FF";
+                                if (room.players.length === 4) {
+                                    window.location.href = "/table"
+                                }
                             }
 
                             /* re-label */

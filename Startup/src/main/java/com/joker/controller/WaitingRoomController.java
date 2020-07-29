@@ -68,11 +68,6 @@ public class WaitingRoomController {
 
         if(waitingRoomService.isRoomReady(id)) {
             Room newRoom = waitingRoomService.getReadyRoom(id);
-//            try {
-//                response.sendRedirect("/table");
-//            } catch (IOException e) {
-//                log.error(e.getMessage());
-//            }
         }
 
         if(result) {
@@ -85,7 +80,7 @@ public class WaitingRoomController {
     }
 
     @GetMapping("/waitingRoom/update")
-    public @ResponseBody String update(HttpSession session){
+    public @ResponseBody String update(HttpSession session, HttpServletResponse response) throws IOException {
         WaitingRoomResponse res = new WaitingRoomResponse();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -99,8 +94,7 @@ public class WaitingRoomController {
             try {
                 return mapper.writeValueAsString(res);
             } catch (JsonProcessingException e) {
-                System.out.println(res);
-                System.out.println("Bad JSON Format");
+                log.error("Bad GSON format  " + e.getMessage());
                 return "";
             }
         }
@@ -111,8 +105,7 @@ public class WaitingRoomController {
         try {
             return mapper.writeValueAsString(res);
         } catch (JsonProcessingException e) {
-            System.out.println(res);
-            System.out.println("Bad JSON Format");
+            log.error("Bad GSON format  " + e.getMessage());
             return "";
         }
     }
