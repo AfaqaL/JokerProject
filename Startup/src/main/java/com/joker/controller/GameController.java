@@ -2,7 +2,6 @@ package com.joker.controller;
 
 import com.joker.game.Card;
 import com.joker.game.JokerCard;
-import com.joker.model.User;
 import com.joker.model.dto.CardDTO;
 import com.joker.model.dto.DeclareRequest;
 import com.joker.model.dto.TableResponse;
