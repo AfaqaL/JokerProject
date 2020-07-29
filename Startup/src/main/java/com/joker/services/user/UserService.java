@@ -4,6 +4,8 @@ import com.joker.model.User;
 
 public interface UserService {
 
+    String getUsername(long id);
+
     User getByUsernameAndPassword(String username, String password);
 
     User getByUsernameAndMail(String username, String mail);

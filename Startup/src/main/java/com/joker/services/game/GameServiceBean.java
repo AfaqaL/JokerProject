@@ -1,8 +1,9 @@
 package com.joker.services.game;
 
 import com.joker.dao.table.TableDao;
-import com.joker.game.*;
+import com.joker.helper.CardHelper;
 import com.joker.model.Room;
+import com.joker.model.dto.CardDTO;
 import com.joker.model.dto.TableResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class GameServiceBean implements GameService {
 
     @Override
     public int getVersion(long tableId) {
-        return 0;
+        return tableDao.getTable(tableId).getVersion();
     }
 
     @Override
@@ -38,12 +39,12 @@ public class GameServiceBean implements GameService {
     }
 
     @Override
-    public void putCard(long tableId, Card card) {
-        tableDao.getTable(tableId).putCard(card);
+    public void putCard(long tableId, CardDTO card) {
+        tableDao.getTable(tableId).putCard(CardHelper.fromDTO(card));
     }
 
     @Override
-    public void setSuperiorCard(long tableId, Card card) {
-        tableDao.getTable(tableId).setSuperiorCard(card);
+    public void setSuperiorCard(long tableId, CardDTO card) {
+        tableDao.getTable(tableId).setSuperiorCard(CardHelper.fromDTO(card));
     }
 }

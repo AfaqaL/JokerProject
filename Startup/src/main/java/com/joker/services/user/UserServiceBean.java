@@ -11,6 +11,12 @@ public class UserServiceBean implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Override
+    public String getUsername(long id) {
+        User user = userDao.searchById(id);
+        return user.getUsername();
+    }
+
     public User getByUsernameAndPassword(String username, String password) {
         return userDao.searchByUsernameAndPassword(username, password);
     }
