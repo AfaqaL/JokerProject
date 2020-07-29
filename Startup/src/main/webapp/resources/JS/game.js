@@ -56,14 +56,14 @@ function update() {
 function drawTable(table) {
     if (!table.changed) return;
 
-    addPoints(table.currentRound, table.currentStage, table.playerIndex);
+    extendTable(table.currentStage);
+    updateScore(table.currentRound, table.currentStage, table.playerIndex, table.scores[table.playerIndex]);
     drawCards(table.cards);
     drawPlayedCards(table.playedCards, table.playerIndex);
     drawSuperior(table.superior);
-    drawScores(table.scores);
 
     if (table.action === PlayAction.DECLARE) {
-        drawDeclareNumPanel(table.invalidCall, table.cards.length);
+        drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
     }
     if (table.action === PlayAction.WAIT) {
         wait = true;
@@ -72,6 +72,7 @@ function drawTable(table) {
         wait = false;
     }
     if (table.action === PlayAction.DECLARE_SUPERIOR) {
+        drawDeclareSuperiorPanel(table.superior);
         declareSuperior = true;
     }
 }
@@ -98,12 +99,7 @@ function drawCards(cards) {
         img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
         img.onclick = function () {
             if (!wait && card.valid) {
-                if (declareSuperior) {
-                    setSuperior(card);
-                    declareSuperior = false;
-                } else {
-                    putCard(card);
-                }
+                putCard(card);
             }
         }
 
@@ -145,33 +141,19 @@ function drawSuperior(superior) {
     superiorCard.appendChild(figure);
 }
 
-function drawScores(scores) {
-    let tr = document.createElement('tr');
 
-    [].forEach.call(scores, (score) => {
-        let declaredNum = document.createElement('td');
-        declaredNum.innerHTML = '1';
-
-        let scoreTag = document.createElement('td');
-        scoreTag.innerHTML = score;
-
-        tr.appendChild(declaredNum);
-        tr.appendChild(scoreTag);
-    })
-
-    // document.getElementById('scores').appendChild(tr);
-}
-
-function drawDeclareNumPanel(invalidCall, maxSize) {
+function drawDeclareNumPanel(invalidCall, maxSize, round, stage, playerIndex) {
     document.getElementById('sayNum').innerHTML = '';
-    document.getElementById("sayNum").style.visibility = 'visible';
+    document.getElementById("sayNum").style.display = 'block';
 
     for (let num = 0; num <= maxSize; num++) {
         let button = document.createElement('button');
         button.innerHTML = '' + num;
+        if (num === 0 ) button.innerHTML = '-';
         button.onclick = function () {
-            document.getElementById("sayNum").style.visibility = 'hidden';
+            document.getElementById("sayNum").style.display = 'none';
             declareNum(num);
+            updateDeclare(round, stage, playerIndex, button.innerHTML);
         }
 
         if (num === invalidCall) {
@@ -183,6 +165,29 @@ function drawDeclareNumPanel(invalidCall, maxSize) {
     }
 }
 
+function drawDeclareSuperiorPanel(superior) {
+    document.getElementById('sup-btn-group').innerHTML = '';
+    document.getElementById("sup-btn-group").style.display = 'block';
+    for (let i = 0; i < 5; i++){
+        let button = document.createElement('button');
+        button.className = getButtonClass(i);
+        button.onclick = function (){
+            document.getElementById("sup-btn-group").style.display = 'none';
+            superior.value = Value.ACE;
+            if (button.className === 'club') {superior.color = Color.CLUBS;}
+            else if (button.className === 'diamond') {superior.color = Color.DIAMONDS;}
+            else if (button.className === 'spade') {superior.color = Color.SPADES;}
+            else if (button.className === 'heart') {superior.color = Color.HEARTS;}
+            else {
+                superior.color = Color.NO_COLOR;
+                superior.value = Value.JOKER;
+            }
+            drawSuperior(superior);
+            setSuperior(superior);
+        }
+        document.getElementById('sup-btn-group').appendChild(button);
+    }
+}
 function getCardValue(value) {
     switch (value) {
         case Value.SIX:
@@ -256,18 +261,6 @@ function setSuperior(card) {
     xhr.send(data);
 }
 
-function extendTable() {
-    if (document.getElementById("tbody1").style.display === 'none') {
-        document.getElementById("tbody1").style.display = 'block';
-        document.getElementById("tbody2").style.display = 'block';
-        document.getElementById("tbody3").style.display = 'block';
-    } else {
-        document.getElementById("tbody1").style.display = 'none';
-        document.getElementById("tbody2").style.display = 'none';
-        document.getElementById("tbody3").style.display = 'none';
-    }
-}
-
 
 function insertRows(tbody, numRows) {
     for (var i = 0; i < numRows + 1; i++) {
@@ -297,35 +290,74 @@ function addFinalPoints(table) {
     table.appendChild(tbody)
 }
 
-function addPoints(round, stage, playerIndex) {
+
+function updateScore(round, stage, playerIndex, score) {
     console.log(stage)
+    if (score === -1) return;
     var tbody = document.getElementById('tbody' + stage);
     var row = tbody.rows;
     var col = row[round].cells;
-    col[playerIndex * 2].innerHTML = '5';
-    col[playerIndex * 2 + 1].innerHTML = '4';
+    if (col[playerIndex * 2 + 1].innerHTML !== '') return;
+    col[playerIndex * 2 + 1].innerHTML = score;
     console.log(row.length);
     col = row[row.length - 1].cells;
-    col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + 4;
+    col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + score;
     var final_points = document.getElementById('finalPoints');
     col = final_points.cells;
-    col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + 4;
+    col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + score;
 
+
+
+}
+
+function updateDeclare(round, stage, playerIndex, declare) {
+    if (declare === -1) return;
+    var tbody = document.getElementById('tbody' + stage);
+    var row = tbody.rows;
+    var col = row[round].cells;
+    if (col[playerIndex * 2].innerHTML !== '') return;
+    col[playerIndex * 2].innerHTML = declare;
+
+}
+
+function extendTable(stage) {
+    var currentStage = document.getElementById('tbody' + stage);
+    if (currentStage.style.display === 'none'){
+        for (var i = 0; i < 4; i++) {
+            var tbody = document.getElementById('tbody' + i);
+            tbody.style.display = 'none';
+        }
+        currentStage.style.display = 'block';
+    }
 
     document.getElementById("pointGrid").onclick = function () {
+        let tbody;
         var tbody1 = document.getElementById('tbody' + 0);
         var tbody2 = document.getElementById('tbody' + 1);
-        if (tbody1.style.display === 'none' || tbody2.style.display === 'none'){
-            for (var i = 0; i < 4; i++){
-                var tbody = document.getElementById('tbody' + i);
+        if (tbody1.style.display === 'none' || tbody2.style.display === 'none') {
+            for (var i = 0; i < 4; i++) {
+                tbody = document.getElementById('tbody' + i);
                 tbody.style.display = 'block';
             }
-        }
-        else {
-            for (var i = 0; i < 4; i++){
-                var tbody = document.getElementById('tbody' + i);
+        } else {
+            for (var i = 0; i < 4; i++) {
+                tbody = document.getElementById('tbody' + i);
                 if (i !== stage) tbody.style.display = 'none';
             }
         }
     }
+}
+
+function getButtonClass(value) {
+    switch (value) {
+        case 0:
+            return 'club';
+        case 1:
+            return 'diamond';
+        case 2:
+            return 'spade';
+        case 3:
+            return 'heart';
+    }
+    return 'no_color';
 }
