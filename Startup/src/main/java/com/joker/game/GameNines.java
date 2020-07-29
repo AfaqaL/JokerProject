@@ -47,6 +47,7 @@ public class GameNines extends GameBasic {
         currRound = 0;
         currStage = 0;
         currTableState = TableState.CALL_SUPERIOR;
+        tableResp.setGameFinished(false);
     }
 
     private void initTableResp() {
@@ -72,6 +73,14 @@ public class GameNines extends GameBasic {
         List<Integer> taken = new ArrayList<>(Arrays.asList(0, 0, 0, 0));
         tableResp.setTaken(taken);
 
+        List<Boolean> updateScores = new ArrayList<>(Arrays.asList(false, false, false, false));
+        tableResp.setRoundFinished(updateScores);
+
+        List<Boolean> updateStage = new ArrayList<>(Arrays.asList(false, false, false, false));
+        tableResp.setStageFinished(updateStage);
+
+
+
     }
 
     private void initGrids() {
@@ -85,6 +94,7 @@ public class GameNines extends GameBasic {
     public void setSuperiorCard(Card card) {
         superior = card.color;
         tableResp.setSuperior(card.convertToTransferObj());
+        increaseVersion();
     }
 
     /**
@@ -126,6 +136,8 @@ public class GameNines extends GameBasic {
         currActivePlayer %= 4;
 
         numPlayersDeclared++;
+
+        increaseVersion();
 
     }
 
@@ -179,6 +191,8 @@ public class GameNines extends GameBasic {
         if(totalCardsTaken == CARDS_PER_ROUND){
             setRoundScores();
         }
+
+        increaseVersion();
     }
 
     @Override
@@ -193,8 +207,16 @@ public class GameNines extends GameBasic {
         ++currRound;
         prepareHand();
 
+        flagUpdateBooleans(tableResp.getRoundFinished());
+
         if(currRound % 4 == 0){
             setStageScores();
+        }
+    }
+
+    private void flagUpdateBooleans(List<Boolean> toUpdate) {
+        for (int i = 0; i < toUpdate.size(); i++) {
+            toUpdate.set(i, true);
         }
     }
 
@@ -215,6 +237,8 @@ public class GameNines extends GameBasic {
 
         ++currStage;
 
+        flagUpdateBooleans(tableResp.getStageFinished());
+
         if(currStage == 4){
             setFinalScore();
         }
@@ -230,12 +254,17 @@ public class GameNines extends GameBasic {
                 finalScores.add(res);
             }
         }
+
         tableResp.setFinalScores(finalScores);
+        tableResp.setGameFinished(true);
     }
 
     @Override
     public TableResponse getTable(long playerId) {
         int idx = findById(playerId);
+
+        checkResponseFlag(idx);
+
         if(currTableState == TableState.CALL_SUPERIOR){
             if(idx == currFirstPlayer){
                 tableResp.setCards(threeCardList);
@@ -274,9 +303,23 @@ public class GameNines extends GameBasic {
                 tableResp.setAction(playerAct);
             }
         }
-
+        updateSentFlag(idx);
         tableResp.setPlayerIndex(idx);
         return tableResp;
+    }
+
+    private void updateSentFlag(int idx) {
+        if(tableResp.getRoundFinished().get(idx)){
+            respAlreadySent[idx] = true;
+        }
+    }
+
+    private void checkResponseFlag(int idx) {
+        if(respAlreadySent[idx]){
+            tableResp.getRoundFinished().set(idx, false);
+            tableResp.getStageFinished().set(idx, false);
+            respAlreadySent[idx] = false;
+        }
     }
 
 }

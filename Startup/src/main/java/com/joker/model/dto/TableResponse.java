@@ -50,8 +50,6 @@ public class TableResponse {
      */
     private List<Integer> taken;
 
-    private boolean roundFinished;
-
     /**
      * returns the list of scores for the current round
      * !
@@ -59,7 +57,7 @@ public class TableResponse {
      */
     private List<Integer> scores;
 
-    private boolean stageFinished;
+    private List<Boolean> roundFinished;
 
     /**
      * contains total scores for the current stage
@@ -69,7 +67,7 @@ public class TableResponse {
      */
     private List<Integer> stageScores;
 
-    private boolean gameFinished;
+    private List<Boolean> stageFinished;
 
     /**
      * contains the total scores of each player after
@@ -79,6 +77,9 @@ public class TableResponse {
      * otherwise will be null !!!
      */
     private List<Integer> finalScores;
+
+    private boolean gameFinished;
+
     /**
      * Contains the index of the player calling
      * GetTable method relative to other players
@@ -231,23 +232,23 @@ public class TableResponse {
         this.changed = changed;
     }
 
-    public boolean isRoundFinished() {
+    public List<Boolean> getRoundFinished() {
         return roundFinished;
     }
 
-    public void setRoundFinished(boolean roundFinished) {
+    public void setRoundFinished(List<Boolean> roundFinished) {
         this.roundFinished = roundFinished;
     }
 
-    public boolean isStageFinished() {
+    public List<Boolean> getStageFinished() {
         return stageFinished;
     }
 
-    public void setStageFinished(boolean stageFinished) {
+    public void setStageFinished(List<Boolean> stageFinished) {
         this.stageFinished = stageFinished;
     }
 
-    public boolean isGameFinished() {
+    public boolean getGameFinished() {
         return gameFinished;
     }
 
