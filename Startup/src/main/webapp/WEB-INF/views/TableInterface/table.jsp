@@ -39,6 +39,13 @@
     <div class="btn-group-horizontal" style="display: none;" id="sayNum"></div>
     <div class="btn-group-horizontal" style="display: none" id="sup-btn-group"></div>
     <div class="btn-group-horizontal" style="display: none" id="joker-activated"></div>
+    <div class="joker-first-wrapper" id="joker-first-wrapper" style="display: none">
+        <div class="joker-first-labels" id="joker-first-labels"></div>
+        <div class="joker-first" id="first-player-joker">
+            <div class="btn-group-horizontal" id="high-card"></div>
+            <div class="btn-group-horizontal" id="low-card"></div>
+        </div>
+    </div>
 </div>
 
 <div class="hand" id="hand"></div>
@@ -47,13 +54,13 @@
     <thead>
     <tr>
         <th></th>
-        <th>user_A</th>
+        <th>${sessionScope.usernames.get(0)}</th>
         <th></th>
-        <th>user_B</th>
+        <th>${sessionScope.usernames.get(1)}</th>
         <th></th>
-        <th>user_C</th>
+        <th>${sessionScope.usernames.get(2)}</th>
         <th></th>
-        <th>user_D</th>
+        <th>${sessionScope.usernames.get(3)}</th>
     </tr>
     </thead>
 </table>

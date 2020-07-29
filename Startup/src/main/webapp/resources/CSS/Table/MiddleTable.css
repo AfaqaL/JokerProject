@@ -39,7 +39,7 @@
     bottom: 0;
 }
 
-.btn-group-horizontal {
+.btn-group-horizontal > .container {
     position: relative;
     background-color: black;
     padding: 2%;
@@ -91,3 +91,51 @@
 .no_color:before {
     content: 'J';
 }
+
+.joker-first-wrapper {
+    margin-top: 40%;
+    width: auto;
+    z-index: 10;
+    height: 15.78%;
+    border-radius: 10px;
+    background-color: black;
+}
+
+.joker-first {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 80%;
+}
+
+
+.joker-first-labels {
+    height: 20%;
+}
+
+#high-card button, #low-card button {
+    margin-top: 5%;
+}
+
+#high-card, #low-card {
+    margin-top: 5%;
+    padding: 10px;
+}
+
+#low-card {
+    margin-left: 20px;
+}
+
+#label-high, #label-low {
+    color: white;
+    padding: 5px;
+}
+
+#label-high {
+    margin-left: 17%;
+}
+
+#label-low {
+    margin-left: 36%;
+}
+

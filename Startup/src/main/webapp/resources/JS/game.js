@@ -384,3 +384,39 @@ function chooseJokerActionPanel() {
     document.getElementById('joker-activated').appendChild(button_strong);
     document.getElementById('joker-activated').appendChild(button_weak);
 }
+
+function firstPlayerToPlayHasJoker() {
+    let wrapper = document.getElementById('joker-first-wrapper');
+    wrapper.style.display = 'block';
+
+    let labels = document.getElementById('joker-first-labels');
+    addLabelsToJokerPanel(labels)
+    let high_card = document.getElementById('high-card');
+    addButtonsToJokerPanel(high_card, wrapper);
+    let low_card = document.getElementById('low-card');
+    addButtonsToJokerPanel(low_card, wrapper);
+}
+
+function addButtonsToJokerPanel(elem, wrapper) {
+    elem.innerHTML = '';
+    for (let i = 0; i < 4; i++) {
+        let button = document.createElement('button');
+        button.className = getButtonClass(i);
+        button.onclick = function () {
+            wrapper.style.display = 'none';
+        }
+        elem.appendChild(button);
+    }
+}
+
+function addLabelsToJokerPanel(labels) {
+    labels.innerHTML = '';
+    let high_label = document.createElement('label');
+    high_label.id = 'label-high';
+    high_label.innerHTML = 'მაღალი';
+    let low_label = document.createElement('label');
+    low_label.id = 'label-low';
+    low_label.innerHTML = 'წაიღოს';
+    labels.appendChild(high_label);
+    labels.appendChild(low_label)
+}
