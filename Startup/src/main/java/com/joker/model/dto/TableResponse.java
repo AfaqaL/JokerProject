@@ -10,6 +10,7 @@ public class TableResponse {
 
     private boolean changed;
 
+    private boolean isFirst;
     /**
      * Transfer Type Card, containing info for
      * current superior card (in this round)
@@ -256,10 +257,6 @@ public class TableResponse {
         this.stageFinished = stageFinished;
     }
 
-    public boolean getGameFinished() {
-        return gameFinished;
-    }
-
     public void setGameFinished(boolean gameFinished) {
         this.gameFinished = gameFinished;
     }
@@ -271,4 +268,16 @@ public class TableResponse {
     public int getCurrentRound() { return currentRound; }
 
     public void setCurrentRound(int currentRound) { this.currentRound = currentRound; }
+
+    public boolean isFirst() {
+        return isFirst;
+    }
+
+    public void setFirst(boolean first) {
+        isFirst = first;
+    }
+
+    public boolean isGameFinished() {
+        return gameFinished;
+    }
 }

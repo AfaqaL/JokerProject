@@ -263,6 +263,11 @@ public class GameNines extends GameBasic {
     public TableResponse getTable(long playerId) {
         int idx = findById(playerId);
 
+        if(cardsPut > 0)
+            tableResp.setFirst(true);
+        else
+            tableResp.setFirst(false);
+
         tableResp.setCurrentRound(currRound);
         tableResp.setCurrentStage(currStage);
         checkResponseFlag(idx);
