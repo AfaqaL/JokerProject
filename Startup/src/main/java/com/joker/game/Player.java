@@ -119,10 +119,13 @@ public class Player {
 //        return res;
 //    }
 
-    public int getScore(int maxCards) {
+    public int getScore(int maxCards, int bayonet) {
         if (declared == taken) {
             return taken == maxCards ? maxCards * 100 : (taken + 1) * 50;
+        }else if(taken == 0){
+            return -1 * bayonet;
         }
+
         return taken * 10;
     }
 
@@ -132,5 +135,13 @@ public class Player {
 
     public void setDeclared(int x) {
         declared = x;
+    }
+
+    public void setAllValid() {
+        for (List<Card> ls : cards){
+            for(Card c : ls){
+                c.setValid(true);
+            }
+        }
     }
 }

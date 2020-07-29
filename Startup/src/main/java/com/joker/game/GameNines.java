@@ -31,6 +31,10 @@ public class GameNines extends GameBasic {
 
     private TableState currTableState;
 
+    private int bayonet;
+
+    Card first;
+
     public GameNines(List<User> users, int bayonet){
         super(users);
 
@@ -38,16 +42,18 @@ public class GameNines extends GameBasic {
 
         initTableResp();
 
-        initVariables();
+        initVariables(bayonet);
     }
 
-    private void initVariables() {
+    private void initVariables(int bayonet) {
+        this.bayonet = bayonet;
         alreadyDeclared = 0;
         numPlayersDeclared = 0;
         currRound = 0;
         currStage = 0;
         currTableState = TableState.CALL_SUPERIOR;
         tableResp.setGameFinished(false);
+        tableResp.setInvalidCall(-1);
     }
 
     private void initTableResp() {
@@ -94,6 +100,7 @@ public class GameNines extends GameBasic {
     public void setSuperiorCard(Card card) {
         superior = card.color;
         tableResp.setSuperior(card.convertToTransferObj());
+
         increaseVersion();
     }
 
@@ -128,6 +135,7 @@ public class GameNines extends GameBasic {
         }else if(numPlayersDeclared == 3){
             tableResp.setOddLeft(CARDS_PER_ROUND - alreadyDeclared);
             tableResp.setAction(PlayAction.WAIT);
+            setAllValid();
         }else{
             tableResp.setToFill(CARDS_PER_ROUND - alreadyDeclared);
             tableResp.setInvalidCall(-1);
@@ -139,6 +147,12 @@ public class GameNines extends GameBasic {
 
         increaseVersion();
 
+    }
+
+    private void setAllValid() {
+        for (Player p : players){
+            p.setAllValid();
+        }
     }
 
     /**
@@ -198,7 +212,7 @@ public class GameNines extends GameBasic {
     @Override
     public void setRoundScores() {
         for (int i = 0; i < NUM_PLAYERS; i++) {
-            scoresGrid[currRound][i] = players[i].getScore(CARDS_PER_ROUND);
+            scoresGrid[currRound][i] = players[i].getScore(CARDS_PER_ROUND, bayonet);
         }
         List<Integer> scores = tableResp.getScores();
         for (int i = 0; i < scores.size(); i++) {
@@ -267,6 +281,8 @@ public class GameNines extends GameBasic {
             tableResp.setFirst(true);
         else
             tableResp.setFirst(false);
+
+        players[idx].setValidCards(first, superior);
 
         tableResp.setCurrentRound(currRound);
         tableResp.setCurrentStage(currStage);
