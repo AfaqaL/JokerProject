@@ -61,7 +61,6 @@ function drawTable(table) {
     drawCards(table.cards);
     drawPlayedCards(table.playedCards, table.playerIndex);
     drawSuperior(table.superior);
-    chooseJokerActionPanel()
     if (table.action === PlayAction.DECLARE) {
         drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
     }
@@ -150,7 +149,7 @@ function drawDeclareNumPanel(invalidCall, maxSize, round, stage, playerIndex) {
     for (let num = 0; num <= maxSize; num++) {
         let button = document.createElement('button');
         button.innerHTML = '' + num;
-        if (num === 0 ) button.innerHTML = '-';
+        if (num === 0) button.innerHTML = '-';
         button.onclick = function () {
             document.getElementById("sayNum").style.display = 'none';
             declareNum(num);
@@ -169,17 +168,21 @@ function drawDeclareNumPanel(invalidCall, maxSize, round, stage, playerIndex) {
 function drawDeclareSuperiorPanel(superior) {
     document.getElementById('sup-btn-group').innerHTML = '';
     document.getElementById("sup-btn-group").style.display = 'block';
-    for (let i = 0; i < 5; i++){
+    for (let i = 0; i < 5; i++) {
         let button = document.createElement('button');
         button.className = getButtonClass(i);
-        button.onclick = function (){
+        button.onclick = function () {
             document.getElementById("sup-btn-group").style.display = 'none';
             superior.value = Value.ACE;
-            if (button.className === 'club') {superior.color = Color.CLUBS;}
-            else if (button.className === 'diamond') {superior.color = Color.DIAMONDS;}
-            else if (button.className === 'spade') {superior.color = Color.SPADES;}
-            else if (button.className === 'heart') {superior.color = Color.HEARTS;}
-            else {
+            if (button.className === 'club') {
+                superior.color = Color.CLUBS;
+            } else if (button.className === 'diamond') {
+                superior.color = Color.DIAMONDS;
+            } else if (button.className === 'spade') {
+                superior.color = Color.SPADES;
+            } else if (button.className === 'heart') {
+                superior.color = Color.HEARTS;
+            } else {
                 superior.color = Color.NO_COLOR;
                 superior.value = Value.JOKER;
             }
@@ -189,6 +192,7 @@ function drawDeclareSuperiorPanel(superior) {
         document.getElementById('sup-btn-group').appendChild(button);
     }
 }
+
 function getCardValue(value) {
     switch (value) {
         case Value.SIX:
@@ -308,7 +312,6 @@ function updateScore(round, stage, playerIndex, score) {
     col[playerIndex * 2 + 1].innerHTML = parseFloat(col[playerIndex * 2 + 1].innerHTML) + score;
 
 
-
 }
 
 function updateDeclare(round, stage, playerIndex, declare) {
@@ -323,7 +326,7 @@ function updateDeclare(round, stage, playerIndex, declare) {
 
 function extendTable(stage) {
     let currentStage = document.getElementById('tbody' + stage);
-    if (currentStage.style.display === 'none'){
+    if (currentStage.style.display === 'none') {
         for (let i = 0; i < 4; i++) {
             let tbody = document.getElementById('tbody' + i);
             tbody.style.display = 'none';
@@ -369,15 +372,51 @@ function chooseJokerActionPanel() {
     document.getElementById('joker-activated').style.display = 'block';
     let button_strong = document.createElement('button');
     button_strong.innerHTML = 'მოჯოკვრა';
-    button_strong.onclick = function (){
+    button_strong.onclick = function () {
         document.getElementById('joker-activated').style.display = 'none';
     }
 
     let button_weak = document.createElement('button');
     button_weak.innerHTML = 'გატანება';
-    button_weak.onclick = function (){
+    button_weak.onclick = function () {
         document.getElementById('joker-activated').style.display = 'none';
     }
     document.getElementById('joker-activated').appendChild(button_strong);
     document.getElementById('joker-activated').appendChild(button_weak);
+}
+
+function firstPlayerToPlayHasJoker() {
+    let wrapper = document.getElementById('joker-first-wrapper');
+    wrapper.style.display = 'block';
+
+    let labels = document.getElementById('joker-first-labels');
+    addLabelsToJokerPanel(labels)
+    let high_card = document.getElementById('high-card');
+    addButtonsToJokerPanel(high_card, wrapper);
+    let low_card = document.getElementById('low-card');
+    addButtonsToJokerPanel(low_card, wrapper);
+}
+
+function addButtonsToJokerPanel(elem, wrapper) {
+    elem.innerHTML = '';
+    for (let i = 0; i < 4; i++) {
+        let button = document.createElement('button');
+        button.className = getButtonClass(i);
+        button.onclick = function () {
+            wrapper.style.display = 'none';
+        }
+        elem.appendChild(button);
+    }
+}
+
+function addLabelsToJokerPanel(labels) {
+    labels.innerHTML = '';
+    let high_label = document.createElement('label');
+    high_label.id = 'label-high';
+    high_label.innerHTML = 'მაღალი';
+    let low_label = document.createElement('label');
+    low_label.id = 'label-low';
+    low_label.innerHTML = 'წაიღოს';
+    labels.appendChild(high_label);
+    labels.appendChild(low_label)
 }
