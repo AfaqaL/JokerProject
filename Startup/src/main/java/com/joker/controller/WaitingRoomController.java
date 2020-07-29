@@ -8,6 +8,8 @@ import com.joker.model.enums.GameMode;
 import com.joker.services.waitingroom.WaitingRoomService;
 import com.joker.services.waitingroom.WaitingRoomServiceBean;
 import com.joker.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 @Controller
 @RequestMapping
 public class WaitingRoomController {
+    private static final Logger log = LoggerFactory.getLogger(WaitingRoomController.class);
 
     private final WaitingRoomService waitingRoomService;
 
@@ -50,17 +53,14 @@ public class WaitingRoomController {
 
     @PostMapping("/waitingRoom/join")
     public @ResponseBody String joinTable(HttpServletResponse response,
-                                        HttpSession session,
-                                        @RequestBody String roomInfo ){
-        Gson converter = new Gson();
-        EnterRoom roomData = converter.fromJson(roomInfo, EnterRoom.class);
-
+                                          HttpSession session,
+                                          @RequestBody Room roomData ){
         User player = (User)session.getAttribute("user");
         String password = roomData.getPassword();
         long id = roomData.getId();
 
-
         if(waitingRoomService.isRoomReady(id)) {
+            log.info("Already 4 in there");
             return "FALSE";
         }
 
@@ -68,17 +68,18 @@ public class WaitingRoomController {
 
         if(waitingRoomService.isRoomReady(id)) {
             Room newRoom = waitingRoomService.getReadyRoom(id);
-            try {
-                response.sendRedirect("");
-            } catch (IOException e) {
-
-            }
+//            try {
+//                response.sendRedirect("/table");
+//            } catch (IOException e) {
+//                log.error(e.getMessage());
+//            }
         }
 
         if(result) {
             session.setAttribute("tableId", id);
             return "TRUE";
         } else {
+            log.info("Add user returns false");
             return "FALSE";
         }
     }
