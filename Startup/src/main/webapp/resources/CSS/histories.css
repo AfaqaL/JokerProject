@@ -1,0 +1,49 @@
+body {
+    background-image: url("../images/historiesBackground.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card {
+    background-color: #07260e;
+    border-radius: 0.75rem;
+}
+
+
+.userInfo {
+    color: #f0f3f1;
+    align-self: center;
+}
+
+label {
+    display: inline-block;
+}
+
+.h1, h1 {
+    FONT-WEIGHT: bold;
+    font-size: 4rem;
+}
+
+.text-white {
+    color: #c40d0d !important;
+}
+
+.card-deck {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.h4, h4 {
+    font-size: 1.5rem;
+    align-self: center;
+}
+
+.card-deck .card {
+    -ms-flex: 1 0 0%;
+    flex: 0 0 17%;
+    margin-right: 15px;
+    margin-bottom: 30px;
+    margin-left: 15px;
+}
