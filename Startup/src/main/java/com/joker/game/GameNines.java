@@ -263,6 +263,8 @@ public class GameNines extends GameBasic {
     public TableResponse getTable(long playerId) {
         int idx = findById(playerId);
 
+        tableResp.setCurrentRound(currRound);
+        tableResp.setCurrentStage(currStage);
         checkResponseFlag(idx);
 
         if(currTableState == TableState.CALL_SUPERIOR){
@@ -308,12 +310,32 @@ public class GameNines extends GameBasic {
         return tableResp;
     }
 
+
+    /**
+     * Helper function for returning table response
+     * Used for controlling round/stage score updates
+     * !
+     * Sets flag for .checkResponseFlag() method when scores
+     * grid had been updated and also sent to the caller
+     *
+      * @param idx which player has called .getTable()
+     */
     private void updateSentFlag(int idx) {
         if(tableResp.getRoundFinished().get(idx)){
             respAlreadySent[idx] = true;
         }
     }
 
+    /**
+     * Helper function for returning table response
+     * Used for controlling round/stage score updates
+     * !
+     * checks whether scores have been sent or not, if yes
+     * sets their booleans to false so they don't get re-drawn
+     * again on the next .getTable() from the same user
+     *
+     * @param idx which player has called .getTable()
+     */
     private void checkResponseFlag(int idx) {
         if(respAlreadySent[idx]){
             tableResp.getRoundFinished().set(idx, false);
