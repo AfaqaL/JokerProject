@@ -1,6 +1,7 @@
 package com.joker.services.game;
 
 import com.joker.dao.table.TableDao;
+import com.joker.helper.CardHelper;
 import com.joker.model.Room;
 import com.joker.model.dto.CardDTO;
 import com.joker.model.dto.TableResponse;
@@ -39,11 +40,11 @@ public class GameServiceBean implements GameService {
 
     @Override
     public void putCard(long tableId, CardDTO card) {
-        //tableDao.getTable(tableId).putCard(CardHelper.fromDTO(card));
+        tableDao.getTable(tableId).putCard(CardHelper.fromDTO(card));
     }
 
     @Override
     public void setSuperiorCard(long tableId, CardDTO card) {
-     //   tableDao.getTable(tableId).setSuperiorCard(CardHelper.fromDTO(card));
+        tableDao.getTable(tableId).setSuperiorCard(CardHelper.fromDTO(card));
     }
 }
