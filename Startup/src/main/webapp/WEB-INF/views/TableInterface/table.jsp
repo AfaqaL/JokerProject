@@ -21,16 +21,16 @@
     <link href="<c:url value="/resources/CSS/Table/MiddleTable.css" />" rel="stylesheet">
 </head>
 <body onload="update()">
-<div class="player1">
+<div class="player1" id = "p1">
     <p>${sessionScope.usernames.get(0)}</p>
 </div>
-<div class="player2">
+<div class="player2" id="p2">
     <p>${sessionScope.usernames.get(1)}</p>
 </div>
-<div class="player3">
+<div class="player3" id="p3">
     <p>${sessionScope.usernames.get(2)}</p>
 </div>
-<div class="player4">
+<div class="player4" id="p4">
     <p>${sessionScope.usernames.get(3)}</p>
 </div>
 
