@@ -114,6 +114,7 @@ public class GameController {
 
         if (randomStage % 2 == 0) {
             response.setCurrentRound(ThreadLocalRandom.current().nextInt(0, 9));
+
         } else {
             response.setCurrentRound(ThreadLocalRandom.current().nextInt(0, 4));
         }

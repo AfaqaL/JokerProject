@@ -1,7 +1,7 @@
 USE joker;
 
 CREATE TABLE IF NOT EXISTS histories (
-    table_id BIGINT NOT NULL AUTO_INCREMENT,
+    table_id BIGINT NOT NULL,
     user_id1 BIGINT NOT NULL,
     score1   DOUBLE NOT NULL,
     user_id2 BIGINT NOT NULL,

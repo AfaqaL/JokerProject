@@ -261,6 +261,7 @@ function setSuperior(card) {
     xhr.send(data);
 }
 
+
 function insertRows(tbody, numRows) {
     for (var i = 0; i < numRows + 1; i++) {
         var tr = document.createElement('tr');
@@ -288,6 +289,7 @@ function addFinalPoints(table) {
     tbody.appendChild(final_points);
     table.appendChild(tbody)
 }
+
 
 function updateScore(round, stage, playerIndex, score) {
     console.log(stage)

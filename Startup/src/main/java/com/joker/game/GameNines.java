@@ -6,12 +6,17 @@ import com.joker.model.dto.TableResponse;
 import com.joker.model.enums.CardColor;
 import com.joker.model.enums.CardValue;
 import com.joker.model.enums.PlayAction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class GameNines extends GameBasic {
+
+    private static final Logger log = LoggerFactory.getLogger(GameNines.class);
+
     private static final int NUM_ROUNDS = 16;
     private static final int ROUNDS_PER_STAGE = 4;
     private static final int CARDS_PER_ROUND = 9;
@@ -23,6 +28,8 @@ public class GameNines extends GameBasic {
     private int numPlayersDeclared;
 
     TableResponse tableResp;
+
+    private TableState currTableState;
 
     public GameNines(List<User> users, int bayonet){
         super(users);
@@ -39,6 +46,7 @@ public class GameNines extends GameBasic {
         numPlayersDeclared = 0;
         currRound = 0;
         currStage = 0;
+        currTableState = TableState.CALL_SUPERIOR;
     }
 
     private void initTableResp() {
@@ -61,7 +69,8 @@ public class GameNines extends GameBasic {
         List<Integer> stageScores = new ArrayList<>(Arrays.asList(-1, -1, -1 , -1));
         tableResp.setStageScores(stageScores);
 
-
+        List<Integer> taken = new ArrayList<>(Arrays.asList(0, 0, 0, 0));
+        tableResp.setTaken(taken);
 
     }
 
@@ -71,34 +80,11 @@ public class GameNines extends GameBasic {
         sumsGrid = new int[NUM_STAGES][NUM_PLAYERS];
     }
 
-    @Override
-    public void shuffleCards() {
-        super.shuffle(CARDS_PER_ROUND);
-    }
 
     @Override
-    public void startRound() {
-
-    }
-
-    @Override
-    public List<Card> getFirst3() {
-        return null;
-    }
-
-    @Override
-    public void setSuperiorCard(int color) {
-
-    }
-
-    @Override
-    public List<Card> getUserCards() {
-        return null;
-    }
-
-    @Override
-    public int getActiveUser() {
-        return 0;
+    public void setSuperiorCard(Card card) {
+        superior = card.color;
+        tableResp.setSuperior(card.convertToTransferObj());
     }
 
     /**
@@ -149,7 +135,7 @@ public class GameNines extends GameBasic {
      * (In this case it gets called 9 times each (16) round)
      */
     private void resetAfterTake(){
-        for (CardDTO card: tableResp.getPlayedCards()){
+        for (CardDTO card : tableResp.getPlayedCards()){
             card.setColor(CardColor.NO_COLOR);
             card.setValue(CardValue.ACE);
         }
@@ -185,6 +171,9 @@ public class GameNines extends GameBasic {
             players[currTaker].increaseTaken();
             cardsPut = 0;
             ++totalCardsTaken;
+            List<Integer> taken = tableResp.getTaken();
+            int val = taken.get(currTaker) + 1;
+            taken.set(currTaker, val);
         }
 
         if(totalCardsTaken == CARDS_PER_ROUND){
@@ -203,6 +192,7 @@ public class GameNines extends GameBasic {
         }
         ++currRound;
         prepareHand();
+
         if(currRound % 4 == 0){
             setStageScores();
         }
@@ -240,17 +230,53 @@ public class GameNines extends GameBasic {
                 finalScores.add(res);
             }
         }
-
         tableResp.setFinalScores(finalScores);
     }
 
     @Override
     public TableResponse getTable(long playerId) {
+        int idx = findById(playerId);
+        if(currTableState == TableState.CALL_SUPERIOR){
+            if(idx == currFirstPlayer){
+                tableResp.setCards(threeCardList);
+                tableResp.setAction(PlayAction.DECLARE_SUPERIOR);
+
+            }else{
+                tableResp.setCards(new ArrayList<>());
+                tableResp.setAction(PlayAction.WAIT);
+            }
+        }else{
+            List<Card> ls = players[idx].getPlayerCards();
+            List<CardDTO> dtoCards = new ArrayList<>(ls.size());
+            for (Card c : ls){
+                dtoCards.add(c.convertToTransferObj());
+            }
+            tableResp.setCards(dtoCards);
+            if(currActivePlayer != idx){
+                tableResp.setAction(PlayAction.WAIT);
+            }else{
+                PlayAction playerAct;
+                switch (currTableState){
+                    case CALL_SUPERIOR:
+                        playerAct = PlayAction.DECLARE_SUPERIOR;
+                        break;
+                    case DECLARE:
+                        playerAct = PlayAction.DECLARE;
+                        break;
+                    case PLAY:
+                        playerAct = PlayAction.PUT;
+                        break;
+                    default:
+                        log.error("Switch error: Unknown table state ! (state name: \"" + currTableState.name() + "\")");
+                        playerAct = null;
+                        break;
+                }
+                tableResp.setAction(playerAct);
+            }
+        }
+
+        tableResp.setPlayerIndex(idx);
         return tableResp;
     }
 
-    @Override
-    public int getVersion() {
-        return 0;
-    }
 }

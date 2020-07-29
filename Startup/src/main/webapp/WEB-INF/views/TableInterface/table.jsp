@@ -38,6 +38,7 @@
     <div class="midTable" id="midTable"></div>
     <div class="btn-group" style="display: none;" id = "sayNum"></div>
     <div class="btn-group sup" style="display: none;"  id = "sup-btn-group"></div>
+
 </div>
 
 <div class="hand" id="hand"></div>

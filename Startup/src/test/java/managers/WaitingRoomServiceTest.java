@@ -41,6 +41,9 @@ public class WaitingRoomServiceTest {
     @Captor
     private ArgumentCaptor<GameMode> gameModeCaptor;
 
+    @Captor
+    private ArgumentCaptor<Long> roomIdCaptor;
+
     private static User user;
 
     private static String password;
@@ -94,7 +97,7 @@ public class WaitingRoomServiceTest {
     }
 
     @Test
-    public void testIsRoomReadyReturnsTrue() {
+    public void testIsRoomReady() {
         when(waitingRooms.isRoomReady(1)).thenReturn(true);
         when(waitingRooms.isRoomReady(2)).thenReturn(false);
 
@@ -103,7 +106,7 @@ public class WaitingRoomServiceTest {
 
         verify(waitingRooms, times(1)).isRoomReady(1);
         verify(waitingRooms, times(1)).isRoomReady(2);
-        verify(waitingRooms, times(2)).isRoomReady(any(long.class));
+        verify(waitingRooms, times(2)).isRoomReady(anyLong());
 
         assertTrue(ready1);
         assertFalse(ready2);
@@ -111,22 +114,14 @@ public class WaitingRoomServiceTest {
 
     @Test
     public void testGetVersion() {
-        assertEquals(0, waitingRoomManager.getVersion());
+        int version = 2;
+        when(waitingRooms.getVersion()).thenReturn(version);
 
-        waitingRoomManager.createWaitingRoom(user, password, bayonet, gameMode);
-        assertEquals(1, waitingRoomManager.getVersion());
-
-        when(waitingRooms.addUser(any(User.class), any(long.class), any(String.class))).thenReturn(false);
-        waitingRoomManager.addUser(user, 1, "pass");
-        assertEquals(1, waitingRoomManager.getVersion());
-
-        when(waitingRooms.addUser(any(User.class), any(long.class), any(String.class))).thenReturn(true);
-        waitingRoomManager.addUser(user, 1, "pass");
-        assertEquals(2, waitingRoomManager.getVersion());
+        assertEquals(version, waitingRoomManager.getVersion());
     }
 
     @Test
-    public void testRemoveRoom() {
+    public void testGetReadyRoom() {
         Room room = new Room();
         room.setId(1);
         room.setPassword("pass");
@@ -141,5 +136,15 @@ public class WaitingRoomServiceTest {
         assertEquals(room.getPassword(), result.getPassword());
         assertEquals(room.getBayonet(), result.getBayonet());
         assertEquals(room.getGameMode(), result.getGameMode());
+    }
+
+    @Test
+    public void testRemoveRoom() {
+        long roomId = 3;
+        waitingRoomManager.removeRoom(roomId);
+
+        verify(waitingRooms, times(1)).removeRoom(roomIdCaptor.capture());
+
+        assertEquals(roomId, roomIdCaptor.getValue().longValue());
     }
 }

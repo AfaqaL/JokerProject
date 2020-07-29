@@ -18,6 +18,8 @@ public class TableResponse {
 
 
     /**
+     * if size == 3 then it's for the first
+     * player to set superior card
      * Cards of the Current Active user
      */
     private List<CardDTO> cards;
@@ -108,6 +110,7 @@ public class TableResponse {
      * (value is negative if more than maximum was declared)
      */
     private int oddLeft;
+
     /**
      * Contains the state which the player is
      * currently in (Screen should be re-drawn

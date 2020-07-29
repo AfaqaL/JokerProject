@@ -62,7 +62,8 @@ public abstract class BasicTable implements Table {
 //        }
     }
 
-    @Override
+    //TODO: COPY THIS !! <MASTERMIND>
+  //  @Override
     public List<Card> getFirst3() {
         return threeCardList;
     }

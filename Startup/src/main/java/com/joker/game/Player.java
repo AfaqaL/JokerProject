@@ -1,14 +1,17 @@
 package com.joker.game;
 
+import com.joker.model.dto.CardDTO;
 import com.joker.model.enums.CardColor;
 import com.joker.model.enums.JokerMode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Player {
     private List<List<Card>> cards;
+
     private final long id;
     private int taken;
     private int declared;
@@ -19,6 +22,10 @@ public class Player {
         cards = new ArrayList<>(5);
         for (int i = 0; i < 5; i++)
             cards.add(new ArrayList<>(9));
+    }
+
+    public long getId() {
+        return id;
     }
 
     public void setValidCards(Card firstCard, CardColor superior) {
@@ -89,11 +96,28 @@ public class Player {
 
     public List<Card> getPlayerCards() {
         List<Card> ls = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < cards.size(); i++) {
             ls.addAll(cards.get(i));
         }
+
         return ls;
     }
+
+//    public List<Card> getThreeCards(){
+//        List<Card> ls = getPlayerCards();
+//        List<Card> res = new ArrayList<>(3);
+//
+//        int first = ThreadLocalRandom.current().nextInt(0, 3);
+//        res.add(ls.get(first));
+//
+//        int second = ThreadLocalRandom.current().nextInt(3, 6);
+//        res.add(ls.get(second));
+//
+//        int third = ThreadLocalRandom.current().nextInt(6, 9);
+//        res.add(ls.get(third));
+//
+//        return res;
+//    }
 
     public int getScore(int maxCards) {
         if (declared == taken) {
