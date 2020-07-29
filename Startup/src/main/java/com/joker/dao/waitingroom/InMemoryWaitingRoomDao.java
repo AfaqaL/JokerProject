@@ -76,7 +76,7 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
 
         if (ready) {
             Room room = rooms.get(roomId);
-            rooms.remove(roomId);
+     //       rooms.remove(roomId);
             readyRooms.put(roomId, room);
         }
 
