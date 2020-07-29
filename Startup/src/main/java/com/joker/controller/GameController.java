@@ -118,6 +118,8 @@ public class GameController {
         } else {
             response.setCurrentRound(ThreadLocalRandom.current().nextInt(0, 4));
         }
+
+        response.setFirst(rand.nextBoolean());
         return response;
 //        long tableId = (long) session.getAttribute("tableId");
 //        User user = (User) session.getAttribute("user");
