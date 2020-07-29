@@ -30,9 +30,10 @@
 
 
 div[class*='player'] {
-    display: flex;
-    align-items: center;
+    display: inline;
+    text-align: center;
     justify-content: center;
+    vertical-align: middle;
     content: attr(data-letters);
     font-size: 1em;
     width: 5.21%;
@@ -41,4 +42,8 @@ div[class*='player'] {
     background: darkslategrey;
     margin-right: 1em;
     color: white;
+}
+
+div[class*='player'] p{
+    margin-top: 20%;
 }

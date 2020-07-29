@@ -61,6 +61,7 @@ function drawTable(table) {
     drawCards(table.cards);
     drawPlayedCards(table.playedCards, table.playerIndex);
     drawSuperior(table.superior);
+    drawCurrentTakenState(table.taken);
     if (table.action === PlayAction.DECLARE) {
         drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
     }
@@ -419,4 +420,18 @@ function addLabelsToJokerPanel(labels) {
     low_label.innerHTML = 'წაიღოს';
     labels.appendChild(high_label);
     labels.appendChild(low_label)
+}
+
+function drawCurrentTakenState(taken){
+    for (let i = 0; i < 4; i++){
+        let player = document.getElementById('p' + (i+1));
+        let score = document.getElementById('score' + i);
+        if (score === null) {
+            score = document.createElement('p');
+            score.id = 'score' + i;
+            score.className = 'score';
+        } else {score.innerHTML = ''}
+        score.innerHTML = taken[i];
+        player.appendChild(score);
+    }
 }
