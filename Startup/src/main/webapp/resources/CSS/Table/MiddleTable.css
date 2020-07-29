@@ -39,7 +39,7 @@
     bottom: 0;
 }
 
-.btn-group-horizontal > .container {
+.container > .btn-group-horizontal {
     position: relative;
     background-color: black;
     padding: 2%;
@@ -66,29 +66,25 @@
     cursor: pointer;
 }
 
-.club:before {
+.CLUBS:before {
     content: '♣';
 }
 
-.diamond:before {
+.DIAMONDS:before {
     content: "♦";
     color: #ff0000;
 }
 
-.spade:before {
-    content: '♣';
-}
-
-.spade:before {
+.SPADES:before {
     content: "♠";
 }
 
-.heart:before {
+.HEARTS:before {
     content: "♥";
     color: #ff0000;
 }
 
-.no_color:before {
+.NO_COLOR:before {
     content: 'J';
 }
 
