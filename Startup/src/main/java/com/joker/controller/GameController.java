@@ -2,7 +2,6 @@ package com.joker.controller;
 
 import com.joker.game.Card;
 import com.joker.game.JokerCard;
-import com.joker.model.User;
 import com.joker.model.dto.CardDTO;
 import com.joker.model.dto.DeclareRequest;
 import com.joker.model.dto.TableResponse;
@@ -22,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Controller
 public class GameController {
@@ -36,9 +36,9 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping("/table")
-    public String table(HttpSession ses){
-        for (int i = 0; i < 4; i++){
-            for (int j = 0; j < 9; j++){
+    public String table(HttpSession ses) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 9; j++) {
                 CardDTO card = new CardDTO();
                 card.setColor(CardColor.values()[i]);
                 card.setValue(CardValue.values()[j]);
@@ -48,12 +48,12 @@ public class GameController {
             }
         }
 
-        ArrayList <String> usernames = new ArrayList<>();
-        for (char c = 'A'; c<='D'; c++) {
+        ArrayList<String> usernames = new ArrayList<>();
+        for (char c = 'A'; c <= 'D'; c++) {
             usernames.add("user_" + c);
         }
 
-        ses.setAttribute("usernames",usernames);
+        ses.setAttribute("usernames", usernames);
 
         // არაა საჭირო. NullPointer რომ არ მოხდეს იმიტომ მიწერია
         ses.setAttribute("tableId", 1L);
@@ -62,21 +62,22 @@ public class GameController {
     }
 
     @PostMapping("/table/update")
-    public @ResponseBody TableResponse update(HttpSession session) {
+    public @ResponseBody
+    TableResponse update(HttpSession session) {
         TableResponse response = new TableResponse();
         response.setChanged(true);
         response.setId(23);
         response.setDeclares(null);
 
         List<CardDTO> cards = new ArrayList<>();
-        for (int i = 1; i <= 5; i++){
+        for (int i = 1; i <= 5; i++) {
             int randomIndex = (int) (rand.nextFloat() * arr.size());
             cards.add(arr.get(randomIndex));
         }
         response.setCards(cards);
 
         List<CardDTO> playedCards = new ArrayList<>();
-        for (int i = 1; i <= 4; i++){
+        for (int i = 1; i <= 4; i++) {
             int randomIndex = (int) (rand.nextFloat() * arr.size());
             playedCards.add(arr.get(randomIndex));
         }
@@ -94,25 +95,29 @@ public class GameController {
         }
         response.setScores(scores);
 
-        List<Integer> stageScores = new ArrayList<>();
+        List<Integer> declares = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            stageScores.add(rand.nextInt() % 100);
+            declares.add(rand.nextInt() % 9);
         }
-        response.setStageScores(stageScores);
+        response.setDeclares(declares);
 
-        List<Integer> finalScores = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            finalScores.add(rand.nextInt() % 100);
-        }
-        response.setFinalScores(finalScores);
 
         int randomIndex = (int) (rand.nextFloat() * arr.size());
         CardDTO superior = arr.get(randomIndex);
         response.setSuperior(superior);
 
         response.setInvalidCall(4);
-        response.setPlayerIndex(2);
+        response.setPlayerIndex(ThreadLocalRandom.current().nextInt(0, 4));
 
+        int randomStage = ThreadLocalRandom.current().nextInt(0, 4);
+        response.setCurrentStage(randomStage);
+
+        if (randomStage % 2 == 0) {
+            response.setCurrentRound(ThreadLocalRandom.current().nextInt(0, 9));
+
+        } else {
+            response.setCurrentRound(ThreadLocalRandom.current().nextInt(0, 4));
+        }
         return response;
 //        long tableId = (long) session.getAttribute("tableId");
 //        User user = (User) session.getAttribute("user");
@@ -126,19 +131,11 @@ public class GameController {
 
     @PostMapping("/table/put")
     public void put(HttpSession session, @RequestBody CardDTO request) {
-        Card card;
-        if (request.getValue() == CardValue.JOKER) {
-            card = new JokerCard();
-        } else {
-            card = new Card(request.getValue(), request.getColor());
-        }
-
-        gameService.putCard((long) session.getAttribute("tableId"), card);
+        gameService.putCard((long) session.getAttribute("tableId"), request);
     }
 
     @PostMapping("/table/set-superior")
     public void setSuperiorCard(HttpSession session, @RequestBody CardDTO request) {
-        Card card = new Card(request.getValue(), request.getColor());
-        gameService.setSuperiorCard((long) session.getAttribute("tableId"), card);
+        gameService.setSuperiorCard((long) session.getAttribute("tableId"), request);
     }
 }

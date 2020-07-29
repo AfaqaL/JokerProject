@@ -50,6 +50,9 @@ public class TableResponse {
      */
     private List<Integer> taken;
 
+    private int currentRound;
+
+
     /**
      * returns the list of scores for the current round
      * !
@@ -58,6 +61,11 @@ public class TableResponse {
     private List<Integer> scores;
 
     private List<Boolean> roundFinished;
+    /**
+     * Current Stage of game
+     */
+    private int currentStage;
+
 
     /**
      * contains total scores for the current stage
@@ -255,4 +263,12 @@ public class TableResponse {
     public void setGameFinished(boolean gameFinished) {
         this.gameFinished = gameFinished;
     }
+
+    public int getCurrentStage() { return currentStage; }
+
+    public void setCurrentStage(int currentStage) { this.currentStage = currentStage; }
+
+    public int getCurrentRound() { return currentRound; }
+
+    public void setCurrentRound(int currentRound) { this.currentRound = currentRound; }
 }

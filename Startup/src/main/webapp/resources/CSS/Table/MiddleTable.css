@@ -1,10 +1,11 @@
-.container{
+.container {
     display: flex;
     height: 100%;
     width: 100%;
     justify-content: center;
 }
-.midTable{
+
+.midTable {
     position: absolute;
     width: 56.25%;
     height: 63.1%;
@@ -12,79 +13,129 @@
     margin-bottom: auto;
 }
 
-.card1{
+.card1 {
     position: relative;
     float: left;
     left: 32.4%;
     top: 45%;
 }
 
-.card2{
+.card2 {
     position: absolute;
     top: 16.67%;
     left: 42%;
 }
 
-.card3{
+.card3 {
     position: relative;
     float: right;
     right: 37.04%;
     top: 45%;
 }
 
-.card4{
+.card4 {
     position: absolute;
     left: 42%;
     bottom: 0;
 }
 
-.btn-group{
+.btn-group-horizontal > .container {
+    position: relative;
     background-color: black;
-    top:50%;
-    width: 100%;
+    padding: 2%;
+    top: 50%;
+    width: auto;
     z-index: 10;
     height: 15.78%;
     border-radius: 10px;
 }
 
-.btn-group button{
+.btn-group-horizontal button {
+    padding: 2px;
     height: 40%;
-    width: 5.7%;
-    background-color: white ;
+    min-width: 50px;
+    background-color: white;
     color: black;
-    margin-left: 1.75%;
-    margin-top:2.67%;
     font-weight: bold;
     font-size: 1.5em;
-    vertical-align: middle;
     line-height: 0;
+    margin-top: 10%;
 }
 
-.btn-group button:first-child{
-    margin-left: 10%;
+.btn-group-horizontal button:hover {
+    cursor: pointer;
 }
 
-.btn-group button:hover{
-    cursor:pointer;
+.club:before {
+    content: '♣';
 }
 
-.sup {
-    background-color: black;
-    top: 50%;
-    width: 50%;
+.diamond:before {
+    content: "♦";
+    color: #ff0000;
+}
+
+.spade:before {
+    content: '♣';
+}
+
+.spade:before {
+    content: "♠";
+}
+
+.heart:before {
+    content: "♥";
+    color: #ff0000;
+}
+
+.no_color:before {
+    content: 'J';
+}
+
+.joker-first-wrapper {
+    margin-top: 40%;
+    width: auto;
     z-index: 10;
     height: 15.78%;
     border-radius: 10px;
+    background-color: black;
 }
 
-.sup button{
-    height: 40%;
-    width: 10%;
-    background-color: white ;
-    margin-left: 1.75%;
+.joker-first {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 80%;
+}
+
+
+.joker-first-labels {
+    height: 20%;
+}
+
+#high-card button, #low-card button {
     margin-top: 5%;
 }
 
-.sup button:first-child{
-    margin-left: 20%;
+#high-card, #low-card {
+    margin-top: 5%;
+    padding: 10px;
 }
+
+#low-card {
+    margin-left: 20px;
+}
+
+#label-high, #label-low {
+    color: white;
+    padding: 5px;
+}
+
+#label-high {
+    margin-left: 17%;
+}
+
+#label-low {
+    margin-left: 36%;
+}
+

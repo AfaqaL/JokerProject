@@ -21,7 +21,7 @@
     <link href="<c:url value="/resources/CSS/Table/MiddleTable.css" />" rel="stylesheet">
 </head>
 <body onload="update()">
-<div class="player1" data-letters="A">
+<div class="player1">
     <p>${sessionScope.usernames.get(0)}</p>
 </div>
 <div class="player2">
@@ -36,382 +36,33 @@
 
 <div class="container">
     <div class="midTable" id="midTable"></div>
-    <div class="btn-group" style="display: block; visibility: hidden" id = "sayNum">
-        <% for (int i = 0; i < 10; i++) { %>
-        <button onclick = "removeSayNum()"><%=i%></button>
-        <% } %>
-    </div>
-    <div class="btn-group sup" style="display: none" id = "sup-btn-group">
-        <button class = "club">♣</button>
-        <button class = "diamond" style="color: red">♦</button>
-        <button class = "spade">♠</button>
-        <button class = "heart" style="color: red">♥</button>
-        <button class = "nothing">J</button>
+    <div class="btn-group-horizontal" style="display: none;" id="sayNum"></div>
+    <div class="btn-group-horizontal" style="display: none" id="sup-btn-group"></div>
+    <div class="btn-group-horizontal" style="display: none" id="joker-activated"></div>
+    <div class="joker-first-wrapper" id="joker-first-wrapper" style="display: none">
+        <div class="joker-first-labels" id="joker-first-labels"></div>
+        <div class="joker-first" id="first-player-joker">
+            <div class="btn-group-horizontal" id="high-card"></div>
+            <div class="btn-group-horizontal" id="low-card"></div>
+        </div>
     </div>
 </div>
 
 <div class="hand" id="hand"></div>
 
-<table onclick="extendTable()">
+<table id="pointGrid">
     <thead>
     <tr>
         <th></th>
-        <th>user_A</th>
+        <th>${sessionScope.usernames.get(0)}</th>
         <th></th>
-        <th>user_B</th>
+        <th>${sessionScope.usernames.get(1)}</th>
         <th></th>
-        <th>user_C</th>
+        <th>${sessionScope.usernames.get(2)}</th>
         <th></th>
-        <th>user_D</th>
+        <th>${sessionScope.usernames.get(3)}</th>
     </tr>
     </thead>
-    <tbody id="first" style="display: block">
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr class="game_points">
-        <td></td>
-        <td>25.2</td>
-        <td></td>
-        <td>20</td>
-        <td></td>
-        <td>40</td>
-        <td></td>
-        <td class="last">20</td>
-    </tr>
-    </tbody>
-    <tbody id="second" style="display: none">
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td class="last">20</td>
-    </tr>
-
-    <tr class="game_points">
-        <td></td>
-        <td>25.2</td>
-        <td></td>
-        <td>20</td>
-        <td></td>
-        <td>40</td>
-        <td></td>
-        <td class="last">20</td>
-    </tr>
-    </tbody>
-    <tbody id="third" style="display: none">
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr class="game_points">
-        <td></td>
-        <td>25.2</td>
-        <td></td>
-        <td>20</td>
-        <td></td>
-        <td>40</td>
-        <td></td>
-        <td>20</td>
-    </tr>
-    </tbody>
-    <tbody id="fourth" style="display: none">
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td class="red">100</td>
-        <td>-</td>
-        <td class="green">0</td>
-        <td>-</td>
-        <td>10</td>
-        <td>-</td>
-        <td>20</td>
-    </tr>
-
-    <tr class="game_points">
-        <td></td>
-        <td>25.2</td>
-        <td></td>
-        <td>20</td>
-        <td></td>
-        <td>40</td>
-        <td></td>
-        <td>20</td>
-    </tr>
-    </tbody>
-    <tr id="final_points">
-        <td></td>
-        <td>100</td>
-        <td></td>
-        <td>200</td>
-        <td></td>
-        <td>0</td>
-        <td></td>
-        <td>25</td>
-    </tr>
 </table>
 
 

@@ -84,10 +84,11 @@ function joinTable(table_id) {
                     [].forEach.call(allJoinButtons, (joinBtn) => {
                         joinBtn.setAttribute("disabled", "disabled");
                     })
-                    /* TODO: if joined, disable Create Table options */
+
                     document.getElementById("createTableDiv").innerHTML = "";
 
                 } else {
+                    console.log(respData);
                     alert("Sorry! Could not join the table");
                 }
             }
@@ -115,17 +116,13 @@ function fetchData() {
                     if(respData.isChanged === "TRUE") {
 
                         /* new data incoming! */
-                        console.log("Changed");
+                        console.log("Channfvvtgbthtgged");
                         document.getElementById("existingTables").innerHTML ="";
 
+                        console.log("baroo");
                         /* new list of rooms (some removed, some added) */
                         [].forEach.call(respData.rooms, (room) => {
 
-                            /*
-                             * re-create div
-                             * TODO: if the player is in this current div
-                             *  it needs to be re-highlighted
-                             */
                             let innerDiv = document.createElement("div");
                             innerDiv.setAttribute("id", "div" + room.id);
 
@@ -142,11 +139,6 @@ function fetchData() {
                             childInput.setAttribute("type", "text");
                             childInput.setAttribute("id", "joinPass" + room.id);
 
-                            /*
-                             * join button for the table
-                             * TODO: if the user is in the table,
-                             *  this button has to be disabled
-                             */
                             let childButton = document.createElement("button");
                             childButton.setAttribute("id", room.id);
                             childButton.setAttribute("onclick", "joinTable(this.id)");
