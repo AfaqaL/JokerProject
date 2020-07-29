@@ -25,7 +25,12 @@ const PlayAction = {
     DECLARE: "DECLARE",
     DECLARE_SUPERIOR: "DECLARE_SUPERIOR"
 };
-
+const JokerMode = {
+    UNDER: "UNDER",
+    TAKE: "TAKE",
+    GIVE: "GIVE",
+    OVER: "OVER"
+}
 Object.freeze(Color);
 Object.freeze(Value);
 Object.freeze(PlayAction);
@@ -58,10 +63,10 @@ function drawTable(table) {
 
     extendTable(table.currentStage);
     updateScore(table.currentRound, table.currentStage, table.playerIndex, table.scores[table.playerIndex]);
-    drawCards(table.cards);
+    drawCards(table.cards,table.isFirst);
     drawPlayedCards(table.playedCards, table.playerIndex);
     drawSuperior(table.superior);
-    drawCurrentTakenState(table.taken);
+    drawCurrentTakenState(table.taken)
     if (table.action === PlayAction.DECLARE) {
         drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
     }
@@ -91,7 +96,7 @@ function drawGrid() {
     addFinalPoints(table);
 }
 
-function drawCards(cards) {
+function drawCards(cards, isFirst) {
     document.getElementById('hand').innerHTML = '';
 
     [].forEach.call(cards, (card) => {
@@ -99,8 +104,11 @@ function drawCards(cards) {
         img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
         img.onclick = function () {
             if (!wait && card.valid) {
-                if (card.value() === Value.JOKER) chooseJokerActionPanel();
-                putCard(card);
+                if (card.value === Value.SIX) {
+                    if (isFirst) firstPlayerToPlayHasJoker(card);
+                    else chooseJokerActionPanel(card);
+                   // else chooseJokerActionPanel(card);
+                }else putCard(card);
             }
         }
 
@@ -175,18 +183,8 @@ function drawDeclareSuperiorPanel(superior) {
         button.onclick = function () {
             document.getElementById("sup-btn-group").style.display = 'none';
             superior.value = Value.ACE;
-            if (button.className === 'club') {
-                superior.color = Color.CLUBS;
-            } else if (button.className === 'diamond') {
-                superior.color = Color.DIAMONDS;
-            } else if (button.className === 'spade') {
-                superior.color = Color.SPADES;
-            } else if (button.className === 'heart') {
-                superior.color = Color.HEARTS;
-            } else {
-                superior.color = Color.NO_COLOR;
-                superior.value = Value.JOKER;
-            }
+            superior.color = button.className;
+            if (button.className === Color.NO_COLOR) superior.value = Value.JOKER;
             drawSuperior(superior);
             setSuperior(superior);
         }
@@ -235,6 +233,9 @@ function getCardColor(color) {
 }
 
 function putCard(card) {
+    console.log(card.color)
+    console.log(card.value)
+    console.log(card.jokerMode)
     let xhr = new XMLHttpRequest();
     let url = '/table/put';
 
@@ -357,54 +358,62 @@ function extendTable(stage) {
 function getButtonClass(value) {
     switch (value) {
         case 0:
-            return 'club';
+            return 'CLUBS';
         case 1:
-            return 'diamond';
+            return 'DIAMONDS';
         case 2:
-            return 'spade';
+            return 'SPADES';
         case 3:
-            return 'heart';
+            return 'HEARTS';
     }
-    return 'no_color';
+    return 'NO_COLOR';
 }
 
-function chooseJokerActionPanel() {
+function chooseJokerActionPanel(joker) {
     document.getElementById('joker-activated').innerHTML = '';
     document.getElementById('joker-activated').style.display = 'block';
     let button_strong = document.createElement('button');
     button_strong.innerHTML = 'მოჯოკვრა';
     button_strong.onclick = function () {
         document.getElementById('joker-activated').style.display = 'none';
+        joker.jokerMode = JokerMode.OVER;
+        putCard(joker)
     }
 
     let button_weak = document.createElement('button');
     button_weak.innerHTML = 'გატანება';
     button_weak.onclick = function () {
         document.getElementById('joker-activated').style.display = 'none';
+        joker.jokerMode = JokerMode.UNDER;
+        putCard(joker)
     }
     document.getElementById('joker-activated').appendChild(button_strong);
     document.getElementById('joker-activated').appendChild(button_weak);
 }
 
-function firstPlayerToPlayHasJoker() {
+function firstPlayerToPlayHasJoker(card) {
     let wrapper = document.getElementById('joker-first-wrapper');
     wrapper.style.display = 'block';
 
     let labels = document.getElementById('joker-first-labels');
     addLabelsToJokerPanel(labels)
     let high_card = document.getElementById('high-card');
-    addButtonsToJokerPanel(high_card, wrapper);
+    addButtonsToJokerPanel(high_card, wrapper, card);
     let low_card = document.getElementById('low-card');
-    addButtonsToJokerPanel(low_card, wrapper);
+    addButtonsToJokerPanel(low_card, wrapper, card);
 }
 
-function addButtonsToJokerPanel(elem, wrapper) {
+function addButtonsToJokerPanel(elem, wrapper, card) {
     elem.innerHTML = '';
     for (let i = 0; i < 4; i++) {
         let button = document.createElement('button');
         button.className = getButtonClass(i);
         button.onclick = function () {
+            if (elem.id === 'high-card') card.jokerMode = JokerMode.TAKE;
+            else card.jokerMode = JokerMode.GIVE;
+            card.color = button.className;
             wrapper.style.display = 'none';
+            putCard(card)
         }
         elem.appendChild(button);
     }
