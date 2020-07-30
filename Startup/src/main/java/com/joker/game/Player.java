@@ -118,6 +118,9 @@ public class Player {
 //        return res;
 //    }
 
+    public void resetTaken(){
+        taken = 0;
+    }
     public int getScore(int maxCards, int bayonet) {
         if (declared == taken) {
             return taken == maxCards ? maxCards * 100 : (taken + 1) * 50;

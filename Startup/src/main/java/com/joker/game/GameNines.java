@@ -305,13 +305,14 @@ public class GameNines extends GameBasic {
             players[idx].setValidCards(first, superior);
         }
 
-        tableResp.setCurrentRound(currRound);
+        tableResp.setCurrentRound(currRound % 4);
         tableResp.setCurrentStage(currStage);
 
         checkResponseFlag(idx);
 
-        if(playedCardFlag)
+        if(playedCardFlag) {
             checkPlayedCardFlag(idx);
+        }
 
         if(currTableState == TableState.CALL_SUPERIOR){
             if(idx == currFirstPlayer){
@@ -368,8 +369,4 @@ public class GameNines extends GameBasic {
             playedCardFlag = false;
         }
     }
-
-
-
-
 }
