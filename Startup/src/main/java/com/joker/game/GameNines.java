@@ -215,6 +215,7 @@ public class GameNines extends GameBasic {
             setRoundScores();
             shuffle();
             currTableState = TableState.CALL_SUPERIOR;
+            currActivePlayer = currFirstPlayer;
         }
 
         increaseVersion();
