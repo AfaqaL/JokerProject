@@ -86,8 +86,18 @@
                     <div class="modal-body">
                         <form>
                             <div id = "createTableDiv" >
-                                <label class= "popUpLabel" for="bayonetValue">ხიშტი: </label>
-                                <input type = "number" id = "bayonetValue"> <br>
+
+                                <label for="bayonet">აირჩიე ხიშტი:</label>
+                                <select name="xishti" id="bayonet">
+                                    <option value=200>200</option>
+                                    <option value=300>300</option>
+                                    <option value=400>400</option>
+                                    <option value=500>500</option>
+                                    <option value=900>900</option>
+                                </select>
+                                <br>
+
+
                                 <label class= "popUpLabel" for="passwordValue">პაროლი: </label>
                                 <input type = "text" id = "passwordValue"> <br>
                                 <label class= "popUpLabel" for="tableType">აირჩიე თამაშის ტიპი: </label> <br>

@@ -6,7 +6,8 @@ function createTable() {
     /* get new tables properties from user */
     const id = 1;
     let tablePass = $("#passwordValue").val();
-    let tableBayonet = $("#bayonetValue").val();
+    let element = document.getElementById("bayonet");
+    let tableBayonet = element.options[element.selectedIndex].value;
     let tableGameMode;
     let ninesRadioBtn = document.getElementById('nines');
     if(ninesRadioBtn.checked){
