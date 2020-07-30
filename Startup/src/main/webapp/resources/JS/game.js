@@ -343,7 +343,7 @@ function updateDeclare(round, stage, declares) {
             let row = tbody.rows;
             let col = row[round].cells;
             col[index * 2].innerHTML = num;
-
+            if (num === 0) col[index*2].innerHTML = '-';
             index++;
         }
     });
