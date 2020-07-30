@@ -1,13 +1,11 @@
 package com.joker.game;
 
-import com.joker.model.dto.CardDTO;
 import com.joker.model.enums.CardColor;
 import com.joker.model.enums.JokerMode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Player {
     private List<List<Card>> cards;
@@ -29,6 +27,7 @@ public class Player {
     }
 
     public void setValidCards(Card firstCard, CardColor superior) {
+        setValidityForAll(false);
         if (firstCard instanceof JokerCard) {
             setValidCardsJoker((JokerCard) firstCard, superior);
             return;
@@ -137,10 +136,10 @@ public class Player {
         declared = x;
     }
 
-    public void setAllValid() {
+    public void setValidityForAll(boolean value) {
         for (List<Card> ls : cards){
             for(Card c : ls){
-                c.setValid(true);
+                c.setValid(value);
             }
         }
     }

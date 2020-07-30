@@ -33,6 +33,9 @@ public abstract class GameBasic implements Table{
 
     protected boolean[] respAlreadySent;
 
+    boolean playedCardFlag;
+    protected boolean[] playedCardsSent;
+
     /*
         player index, who should start (become
         currActivePlayer) on the next round
@@ -110,6 +113,9 @@ public abstract class GameBasic implements Table{
         }
 
         respAlreadySent = new boolean[]{ false, false, false, false };
+
+        playedCardFlag = false;
+        playedCardsSent = new boolean[]{ false, false, false, false };
         initCards();
     }
 

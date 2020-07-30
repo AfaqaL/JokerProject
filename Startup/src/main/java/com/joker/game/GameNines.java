@@ -44,7 +44,7 @@ public class GameNines extends GameBasic {
 
         initVariables(bayonet);
 
-        super.shuffle();
+        shuffle();
     }
 
     private void initVariables(int bayonet) {
@@ -154,7 +154,7 @@ public class GameNines extends GameBasic {
 
     private void setAllValid() {
         for (Player p : players){
-            p.setAllValid();
+            p.setValidityForAll(true);
         }
     }
 
@@ -178,7 +178,6 @@ public class GameNines extends GameBasic {
             currTakerCard = card;
             first = card;
             currTaker = currActivePlayer;
-            resetAfterTake();
         }else{
             int cmpRes = card.compare(currTakerCard, superior);
             if(cmpRes > 0){
@@ -192,12 +191,6 @@ public class GameNines extends GameBasic {
         currentCard.setValue(card.value);
         currentCard.setColor(card.color);
 
-        log.info("============GameNines========" + cardsPut);
-        for (CardDTO card1 : tableResp.getPlayedCards()) {
-            log.info(card1.getValue().name());
-            log.info(card1.getColor().name());
-        }
-
         ++currActivePlayer;
         currActivePlayer %= 4;
 
@@ -206,14 +199,20 @@ public class GameNines extends GameBasic {
         if(cardsPut == 4){
             players[currTaker].increaseTaken();
             cardsPut = 0;
+            playedCardFlag = true;
+            Arrays.fill(playedCardsSent, true);
             ++totalCardsTaken;
             List<Integer> taken = tableResp.getTaken();
             int val = taken.get(currTaker) + 1;
             taken.set(currTaker, val);
+            currActivePlayer = currTaker;
+            setAllValid();
         }
 
         if(totalCardsTaken == CARDS_PER_ROUND){
             setRoundScores();
+            shuffle();
+            currTableState = TableState.CALL_SUPERIOR;
         }
 
         increaseVersion();
@@ -293,12 +292,18 @@ public class GameNines extends GameBasic {
             tableResp.setFirst(false);
 
         if (first != null) {
+            log.info("Restricting card: color - " + first.color.name() + ", value - "
+                    + first.value.name() + ". Superior: " + superior.name());
             players[idx].setValidCards(first, superior);
         }
 
         tableResp.setCurrentRound(currRound);
         tableResp.setCurrentStage(currStage);
+
         checkResponseFlag(idx);
+
+        if(playedCardFlag)
+            checkPlayedCardFlag(idx);
 
         if(currTableState == TableState.CALL_SUPERIOR){
             if(idx == currFirstPlayer){
@@ -341,6 +346,19 @@ public class GameNines extends GameBasic {
         updateSentFlag(idx);
         tableResp.setPlayerIndex(idx);
         return tableResp;
+    }
+
+    private void checkPlayedCardFlag(int idx) {
+        if(playedCardsSent[idx]){
+            playedCardsSent[idx] = false;
+        }else{
+            for(boolean notSent : playedCardsSent){
+                if(notSent)
+                    return;
+            }
+            resetAfterTake();
+            playedCardFlag = false;
+        }
     }
 
 
