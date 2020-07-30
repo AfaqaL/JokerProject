@@ -115,12 +115,11 @@ public class WaitingRoomController {
     public @ResponseBody String leaveTable(HttpSession session){
         User user = (User) session.getAttribute("user");
         long tableId = (long) session.getAttribute("tableId");
-        session.setAttribute("tableId", -1L);
-        session.setAttribute("version", -1);
         boolean res = waitingRoomService.removeUser(user, tableId);
         if (res) {
             return "TRUE";
         } else {
+            session.setAttribute("tableId", -1L);
             return "FALSE";
         }
     }
