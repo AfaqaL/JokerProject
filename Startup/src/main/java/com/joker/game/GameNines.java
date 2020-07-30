@@ -206,6 +206,7 @@ public class GameNines extends GameBasic {
             int val = taken.get(currTaker) + 1;
             taken.set(currTaker, val);
             currActivePlayer = currTaker;
+            first = null;
             setAllValid();
         }
 
