@@ -78,7 +78,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">მაგიდის შექმნა</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -86,11 +86,11 @@
                     <div class="modal-body">
                         <form>
                             <div id = "createTableDiv" >
-                                <label for="bayonetValue">ხიშტი: </label>
+                                <label class= "popUpLabel" for="bayonetValue">ხიშტი: </label>
                                 <input type = "number" id = "bayonetValue"> <br>
-                                <label for="passwordValue">პაროლი: </label>
+                                <label class= "popUpLabel" for="passwordValue">პაროლი: </label>
                                 <input type = "text" id = "passwordValue"> <br>
-                                <label for="tableType">აირჩიე თამაშის ტიპი: </label> <br>
+                                <label class= "popUpLabel" for="tableType">აირჩიე თამაშის ტიპი: </label> <br>
                                 <div id="tableType">
                                     <input type="radio" name="gameMode" id="standard"> სტანდარტული<br>
                                     <input type="radio" name="gameMode" id="nines"> ცხრიანები <br>
@@ -113,9 +113,12 @@
                     <div class="card-body">
                         <h5 class="card-title">მაგიდები</h5>
 
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <button type="button" class="btn btn-warning badge-pill " data-toggle="modal" data-target="#create" id = "createTable">მაგიდის მასპინძლობა</button>
+                        <div class= "flex-container" >
+                            <div class="left-btn">
+                                <button type="button" class="btn btn-warning badge-pill histories" on onclick="movetoHistories()" id = "histories">ჩემი თამაშების ისტორია</button>
+                            </div>
+                            <div class="left-btn">
+                                <button type="button" class="btn btn-warning badge-pill create" data-toggle="modal" data-target="#create" id = "createTable">მაგიდის მასპინძლობა</button>
                             </div>
                         </div>
                         <table id="existingTables" class="table table-bordered table-dark">

@@ -21,4 +21,6 @@ public interface WaitingRoomService {
     Room getReadyRoom(long roomId);
 
     void removeRoom(long roomId);
+
+    boolean removeUser(User user, long tableId);
 }

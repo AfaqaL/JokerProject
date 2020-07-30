@@ -47,3 +47,14 @@ a {
     max-width: 100%;
     margin-bottom: 15px;
 }
+
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.popUpLabel {
+    font-size: 1rem;
+}

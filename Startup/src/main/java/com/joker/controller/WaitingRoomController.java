@@ -110,5 +110,19 @@ public class WaitingRoomController {
             return "";
         }
     }
+
+    @GetMapping("/waitingRoom/leaveTable")
+    public @ResponseBody String leaveTable(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        long tableId = (long) session.getAttribute("tableId");
+        session.setAttribute("tableId", -1L);
+        session.setAttribute("version", -1);
+        boolean res = waitingRoomService.removeUser(user, tableId);
+        if (res) {
+            return "TRUE";
+        } else {
+            return "FALSE";
+        }
+    }
 }
 

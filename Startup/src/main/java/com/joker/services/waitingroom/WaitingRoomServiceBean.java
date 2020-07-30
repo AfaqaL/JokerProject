@@ -49,4 +49,9 @@ public class WaitingRoomServiceBean implements WaitingRoomService {
     public void removeRoom(long roomId) {
         waitingRooms.removeRoom(roomId);
     }
+
+    @Override
+    public boolean removeUser(User user, long roomId) {
+        return waitingRooms.removeUser(user, roomId);
+    }
 }

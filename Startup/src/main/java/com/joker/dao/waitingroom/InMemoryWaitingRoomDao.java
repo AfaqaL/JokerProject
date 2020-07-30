@@ -93,6 +93,13 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
         readyRooms.remove(roomId);
     }
 
+    @Override
+    public boolean removeUser(User user, long roomId) {
+        int index = rooms.get(roomId).getPlayers().indexOf(user);
+        //rooms.get(roomId)
+        return false;
+    }
+
     private void increaseVersion() {
         lock.lock();
         version++;
