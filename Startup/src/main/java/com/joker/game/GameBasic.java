@@ -2,6 +2,7 @@ package com.joker.game;
 
 import com.joker.model.User;
 import com.joker.model.dto.CardDTO;
+import com.joker.model.dto.TableResponse;
 import com.joker.model.enums.CardColor;
 import com.joker.model.enums.CardValue;
 import com.joker.services.game.GameServiceBean;
@@ -36,6 +37,7 @@ public abstract class GameBasic implements Table{
     boolean playedCardFlag;
     protected boolean[] playedCardsSent;
 
+    protected TableResponse tableResp;
     /*
         player index, who should start (become
         currActivePlayer) on the next round
@@ -196,6 +198,39 @@ public abstract class GameBasic implements Table{
         lock.lock();
         ++version;
         lock.unlock();
+    }
+
+    /**
+     * Helper function for returning table response
+     * Used for controlling round/stage score updates
+     * !
+     * Sets flag for .checkResponseFlag() method when scores
+     * grid had been updated and also sent to the caller
+     *
+     * @param idx which player has called .getTable()
+     */
+    protected void updateSentFlag(int idx) {
+        if(tableResp.getRoundFinished().get(idx)){
+            respAlreadySent[idx] = true;
+        }
+    }
+
+    /**
+     * Helper function for returning table response
+     * Used for controlling round/stage score updates
+     * !
+     * checks whether scores have been sent or not, if yes
+     * sets their booleans to false so they don't get re-drawn
+     * again on the next .getTable() from the same user
+     *
+     * @param idx which player has called .getTable()
+     */
+    protected void checkResponseFlag(int idx) {
+        if(respAlreadySent[idx]){
+            tableResp.getRoundFinished().set(idx, false);
+            tableResp.getStageFinished().set(idx, false);
+            respAlreadySent[idx] = false;
+        }
     }
 
 

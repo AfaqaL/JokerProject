@@ -27,8 +27,6 @@ public class GameNines extends GameBasic {
     /* how many players did already declare */
     private int numPlayersDeclared;
 
-    private TableResponse tableResp;
-
     private TableState currTableState;
 
     private int bayonet;
@@ -293,8 +291,7 @@ public class GameNines extends GameBasic {
             tableResp.setFirst(false);
 
         if (first != null) {
-            log.info("Restricting card: color - " + first.color.name() + ", value - "
-                    + first.value.name() + ". Superior: " + superior.name());
+
             players[idx].setValidCards(first, superior);
         }
 
@@ -363,37 +360,6 @@ public class GameNines extends GameBasic {
     }
 
 
-    /**
-     * Helper function for returning table response
-     * Used for controlling round/stage score updates
-     * !
-     * Sets flag for .checkResponseFlag() method when scores
-     * grid had been updated and also sent to the caller
-     *
-      * @param idx which player has called .getTable()
-     */
-    private void updateSentFlag(int idx) {
-        if(tableResp.getRoundFinished().get(idx)){
-            respAlreadySent[idx] = true;
-        }
-    }
 
-    /**
-     * Helper function for returning table response
-     * Used for controlling round/stage score updates
-     * !
-     * checks whether scores have been sent or not, if yes
-     * sets their booleans to false so they don't get re-drawn
-     * again on the next .getTable() from the same user
-     *
-     * @param idx which player has called .getTable()
-     */
-    private void checkResponseFlag(int idx) {
-        if(respAlreadySent[idx]){
-            tableResp.getRoundFinished().set(idx, false);
-            tableResp.getStageFinished().set(idx, false);
-            respAlreadySent[idx] = false;
-        }
-    }
 
 }
