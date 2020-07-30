@@ -31,15 +31,21 @@ const JokerMode = {
     GIVE: "GIVE",
     OVER: "OVER"
 }
+const GameMode = {
+    STANDARD: "STANDARD",
+    NINES: "NINES"
+}
 Object.freeze(Color);
 Object.freeze(Value);
 Object.freeze(PlayAction);
+Object.freeze(JokerMode);
+Object.freeze(GameMode);
 
 let wait = true;
 let declareSuperior = false;
 
-function update() {
-    drawGrid();
+function update(gameMode) {
+    drawGrid(gameMode);
     setInterval(function () {
         let xhr = new XMLHttpRequest();
         let url = '/table/update';
@@ -58,19 +64,25 @@ function update() {
     }, 1000);
 }
 
+var isFirst;
+
 function drawTable(table) {
     if (!table.changed) return;
-
+    isFirst = table.isFirst;
+    let index = table.playerIndex;
+    let isFinished = table.roundFinished[index];
     extendTable(table.currentStage);
-    updateDeclare(table.currentRound, table.currentStage, table.declares);
-    updateScore(table.currentRound, table.currentStage, table.scores);
+    updateDeclare(table.currentRound, table.currentStage, table.declares, isFinished);
+    if (isFinished) {
+        updateScore(table.currentRound, table.currentStage, table.scores);
+    }
     drawCards(table.cards,table.isFirst);
     drawPlayedCards(table.playedCards, table.playerIndex);
     console.log(table.action);
     if (table.action !== PlayAction.DECLARE_SUPERIOR) {
         drawSuperior(table.superior);
     }
-    drawCurrentTakenState(table.taken)
+    drawCurrentTakenState(table.taken, table.playerIndex)
     if (table.action === PlayAction.DECLARE) {
         drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
     }
@@ -86,21 +98,21 @@ function drawTable(table) {
     }
 }
 
-function drawGrid() {
+function drawGrid(gameMode) {
     let table = document.getElementById("pointGrid");
     for (let i = 0; i < 4; i++) {
         let tbody = document.createElement('tbody');
         tbody.id = 'tbody' + i;
         if (i === 0) tbody.style.display = 'block';
         else tbody.style.display = 'none';
-        let numRows = (i % 2 === 0) ? 9 : 4;
+        let numRows = (i % 2 === 0 && gameMode === GameMode.STANDARD) ? 9 : 4;
         insertRows(tbody, numRows);
         table.appendChild(tbody);
     }
     addFinalPoints(table);
 }
 
-function drawCards(cards, isFirst) {
+function drawCards(cards) {
     document.getElementById('hand').innerHTML = '';
 
     [].forEach.call(cards, (card) => {
@@ -320,10 +332,10 @@ function updateScore(round, stage, scores) {
        if (score !== -1) {
            let tbody = document.getElementById('tbody' + stage);
            let row = tbody.rows;
-           let col = row[round].cells;
+           let col = row[round - 1].cells;
 
            col[index * 2 + 1].innerHTML = score;
-
+           score /= 100.0;
            col = row[row.length - 1].cells;
            col[index * 2 + 1].innerHTML = parseFloat(col[index * 2 + 1].innerHTML) + score;
            let final_points = document.getElementById('finalPoints');
@@ -456,16 +468,18 @@ function addLabelsToJokerPanel(labels) {
     labels.appendChild(low_label)
 }
 
-function drawCurrentTakenState(taken){
-    for (let i = 0; i < 4; i++){
-        let player = document.getElementById('p' + (i+1));
+function drawCurrentTakenState(taken, playerIndex){
+    for (let i = 1; i <= 4; i++){
+        let take = taken[(playerIndex + i) % 4];
+        console.log(take)
+        let player = document.getElementById('p' + i);
         let score = document.getElementById('score' + i);
         if (score === null) {
             score = document.createElement('p');
             score.id = 'score' + i;
             score.className = 'score';
         } else {score.innerHTML = ''}
-        score.innerHTML = taken[i];
+        score.innerHTML = take;
         player.appendChild(score);
     }
 }

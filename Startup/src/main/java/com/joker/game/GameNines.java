@@ -173,6 +173,7 @@ public class GameNines extends GameBasic {
         players[currActivePlayer].removeCard(card);
 
         if(cardsPut == 0){
+            resetDeclares();
             currTakerCard = card;
             first = card;
             currTaker = currActivePlayer;
@@ -217,6 +218,13 @@ public class GameNines extends GameBasic {
         increaseVersion();
     }
 
+    private void resetDeclares() {
+        List<Integer> declares = tableResp.getDeclares();
+        for (int i = 0; i < declares.size(); i++) {
+            declares.set(i, -1);
+        }
+    }
+
     @Override
     public void setRoundScores() {
         for (int i = 0; i < NUM_PLAYERS; i++) {
@@ -231,6 +239,8 @@ public class GameNines extends GameBasic {
 
         flagUpdateBooleans(tableResp.getRoundFinished());
 
+        currFirstPlayer++;
+        currFirstPlayer %= NUM_PLAYERS;
         if(currRound % 4 == 0){
             setStageScores();
         }
@@ -285,10 +295,7 @@ public class GameNines extends GameBasic {
     public TableResponse getTable(long playerId) {
         int idx = getIndex(playerId);
 
-        if(cardsPut > 0)
-            tableResp.setFirst(true);
-        else
-            tableResp.setFirst(false);
+        tableResp.setFirst(cardsPut > 0);
 
         if (first != null) {
 

@@ -20,7 +20,7 @@
     <link href="<c:url value="/resources/CSS/Table/hand.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/CSS/Table/MiddleTable.css" />" rel="stylesheet">
 </head>
-<body onload="update()">
+<body onload="update('${sessionScope.gameMode}')">
 <div class="player1" id = "p1">
     <p>${sessionScope.usernames.get(0)}</p>
 </div>
@@ -54,13 +54,13 @@
     <thead>
     <tr>
         <th></th>
-        <th>${sessionScope.usernames.get(0)}</th>
+        <th>${sessionScope.usernamesGridSeq.get(0)}</th>
         <th></th>
-        <th>${sessionScope.usernames.get(1)}</th>
+        <th>${sessionScope.usernamesGridSeq.get(1)}</th>
         <th></th>
-        <th>${sessionScope.usernames.get(2)}</th>
+        <th>${sessionScope.usernamesGridSeq.get(2)}</th>
         <th></th>
-        <th>${sessionScope.usernames.get(3)}</th>
+        <th>${sessionScope.usernamesGridSeq.get(3)}</th>
     </tr>
     </thead>
 </table>

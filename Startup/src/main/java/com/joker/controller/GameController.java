@@ -29,10 +29,6 @@ public class GameController {
 
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
-    private final List<CardDTO> arr = new ArrayList<>();
-
-    private final Random rand = new Random();
-
     @Autowired
     private GameService gameService;
 
@@ -42,23 +38,18 @@ public class GameController {
     @GetMapping("/table")
     public String table(HttpSession ses) {
         Room room = waitingRoomService.getReadyRoom((long) ses.getAttribute("tableId"));
+        int playerIndex = gameService.getIndex(room.getId(), ((User) ses.getAttribute("user")).getId());
         List<String> usernames = new ArrayList<>();
-        for (User user : room.getPlayers()) {
-            usernames.add(user.getUsername());
+        List <String> usernamesGridSeq = new ArrayList<>();
+        for (int i = 0; i < room.getPlayers().size(); i++){
+            usernames.add(room.getPlayers().get((playerIndex + i + 1)%4).getUsername());
+            usernamesGridSeq.add(room.getPlayers().get(i).getUsername());
         }
+
         ses.setAttribute("usernames", usernames);
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 9; j++) {
-                CardDTO card = new CardDTO();
-                card.setColor(CardColor.values()[i]);
-                card.setValue(CardValue.values()[j]);
-                card.setValid(rand.nextBoolean());
-
-                arr.add(card);
-            }
-        }
-
+        ses.setAttribute("usernamesGridSeq",usernamesGridSeq);
+        ses.setAttribute("gameVersion",-1);
+        ses.setAttribute("gameMode", room.getGameMode());
         return "TableInterface/table";
     }
 
@@ -68,25 +59,39 @@ public class GameController {
 
         long tableId = (long) session.getAttribute("tableId");
         User user = (User) session.getAttribute("user");
-
-        TableResponse response = gameService.getTable(tableId, user.getId());
-        response.setChanged(true);
-
+        int gameVersion = gameService.getVersion(tableId);
+        TableResponse response;
+//        if (gameVersion == (int)session.getAttribute("gameVersion")) {
+//            response = new TableResponse();
+//            response.setChanged(false);
+//        }else {
+            response = gameService.getTable(tableId, user.getId());
+            response.setChanged(true);
+//        }
         return response;
     }
 
     @PostMapping("/table/declare")
     public void declare(HttpSession session, @RequestBody DeclareRequest request) {
-        gameService.declareNumber((long) session.getAttribute("tableId"), request.getNumber());
+        long tableId = (long) session.getAttribute("tableId");
+        int version = gameService.getVersion(tableId);
+        gameService.declareNumber(tableId, request.getNumber());
+//        session.setAttribute("gameVersion",version + 1);
     }
 
     @PostMapping("/table/put")
     public void put(HttpSession session, @RequestBody CardDTO request) {
-        gameService.putCard((long) session.getAttribute("tableId"), request);
+        long tableId = (long) session.getAttribute("tableId");
+        int version = gameService.getVersion(tableId);
+        gameService.putCard(tableId, request);
+//        session.setAttribute("gameVersion",version + 1);
     }
 
     @PostMapping("/table/set-superior")
     public void setSuperiorCard(HttpSession session, @RequestBody CardDTO request) {
-        gameService.setSuperiorCard((long) session.getAttribute("tableId"), request);
+        long tableId = (long) session.getAttribute("tableId");
+        int version = gameService.getVersion(tableId);
+        gameService.setSuperiorCard(tableId, request);
+//        session.setAttribute("gameVersion",version + 1);
     }
 }
