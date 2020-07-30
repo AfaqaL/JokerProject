@@ -10,7 +10,7 @@ public class TableResponse {
 
     private boolean changed;
 
-    private boolean isFirst;
+    private boolean first;
     /**
      * Transfer Type Card, containing info for
      * current superior card (in this round)
@@ -269,15 +269,11 @@ public class TableResponse {
 
     public void setCurrentRound(int currentRound) { this.currentRound = currentRound; }
 
-    public boolean isFirst() {
-        return isFirst;
-    }
-
-    public void setFirst(boolean first) {
-        isFirst = first;
-    }
-
     public boolean isGameFinished() {
         return gameFinished;
     }
+
+    public boolean isFirst() { return first; }
+
+    public void setFirst(boolean first) { this.first = first; }
 }

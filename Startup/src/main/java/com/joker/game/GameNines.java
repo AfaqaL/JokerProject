@@ -295,8 +295,11 @@ public class GameNines extends GameBasic {
     public TableResponse getTable(long playerId) {
         int idx = getIndex(playerId);
 
-        tableResp.setFirst(cardsPut > 0);
 
+        log.info("already put cards: " + cardsPut);
+        tableResp.setFirst(cardsPut == 0);
+
+        log.info("changed first: " + Boolean.toString(tableResp.isFirst()));
         if (first != null) {
 
             players[idx].setValidCards(first, superior);

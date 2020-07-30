@@ -64,11 +64,14 @@ function update(gameMode) {
     }, 1000);
 }
 
-var isFirst;
+let isFirst;
 
 function drawTable(table) {
     if (!table.changed) return;
-    isFirst = table.isFirst;
+
+    console.log(table.first);
+    console.log(isFirst);
+    isFirst = table.first;
     let index = table.playerIndex;
     let isFinished = table.roundFinished[index];
     extendTable(table.currentStage);
@@ -121,6 +124,7 @@ function drawCards(cards) {
         img.onclick = function () {
             if (!wait && card.valid) {
                 if (card.value === Value.JOKER) {
+                    console.log(isFirst);
                     if (isFirst) firstPlayerToPlayHasJoker(card);
                     else chooseJokerActionPanel(card);
                 } else {
@@ -147,7 +151,8 @@ function drawPlayedCards(playedCards, playerIndex) {
         }
 
         let img = document.createElement('img');
-        img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
+        if (card.value === Value.JOKER) img.src = 'resources/images/$.png';
+        else img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
         console.log(getCardValue(card.value));
         console.log(getCardColor(card.color));
 
@@ -429,6 +434,7 @@ function chooseJokerActionPanel(joker) {
 }
 
 function firstPlayerToPlayHasJoker(card) {
+    console.log("FirstPlayer.... came here !")
     let wrapper = document.getElementById('joker-first-wrapper');
     wrapper.style.display = 'block';
 
@@ -446,8 +452,8 @@ function addButtonsToJokerPanel(elem, wrapper, card) {
         let button = document.createElement('button');
         button.className = getButtonClass(i);
         button.onclick = function () {
-            if (elem.id === 'high-card') card.jokerMode = JokerMode.TAKE;
-            else card.jokerMode = JokerMode.GIVE;
+            if (elem.id === 'high-card') card.jokerMode = JokerMode.GIVE;
+            else card.jokerMode = JokerMode.TAKE;
             card.color = button.className;
             wrapper.style.display = 'none';
             putCard(card)
@@ -471,7 +477,6 @@ function addLabelsToJokerPanel(labels) {
 function drawCurrentTakenState(taken, playerIndex){
     for (let i = 1; i <= 4; i++){
         let take = taken[(playerIndex + i) % 4];
-        console.log(take)
         let player = document.getElementById('p' + i);
         let score = document.getElementById('score' + i);
         if (score === null) {
