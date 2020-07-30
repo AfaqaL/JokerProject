@@ -230,8 +230,9 @@ public abstract class GameBasic implements Table{
             tableResp.getRoundFinished().set(idx, false);
             tableResp.getStageFinished().set(idx, false);
             respAlreadySent[idx] = false;
-            for(Player p : players){
-                p.resetTaken();
+            for (int i = 0; i < 4; i++) {
+                players[i].resetTaken();
+                tableResp.getTaken().set(i, 0);
             }
         }
     }
