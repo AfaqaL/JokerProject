@@ -90,7 +90,7 @@ function drawTable(table) {
     if (isFinished) {
         updateScore(table.currentRound, table.currentStage, table.scores);
     }
-    drawCards(table.cards,table.isFirst);
+    drawCards(table.cards, table.isFirst);
     drawPlayedCards(table.playedCards, table.playerIndex);
     if (table.action !== PlayAction.DECLARE_SUPERIOR) {
         drawSuperior(table.superior);
@@ -178,7 +178,7 @@ function drawSuperior(superior) {
 }
 
 
-function drawDeclareNumPanel(invalidCall, maxSize, round, stage, playerIndex) {
+function drawDeclareNumPanel(invalidCall, maxSize) {
     document.getElementById('sayNum').innerHTML = '';
     document.getElementById("sayNum").style.display = 'block';
 
@@ -327,19 +327,19 @@ function addFinalPoints(table) {
 function updateScore(round, stage, scores) {
     let index = 0;
     [].forEach.call(scores, (score) => {
-       if (score !== -1) {
-           let tbody = document.getElementById('tbody' + stage);
-           let row = tbody.rows;
-           let col = row[round - 1].cells;
+        if (score !== -1) {
+            let tbody = document.getElementById('tbody' + stage);
+            let row = tbody.rows;
+            let col = row[round - 1].cells;
 
-           col[index * 2 + 1].innerHTML = score;
-           score /= 100.0;
-           col = row[row.length - 1].cells;
-           col[index * 2 + 1].innerHTML = parseFloat(col[index * 2 + 1].innerHTML) + score;
-           let final_points = document.getElementById('finalPoints');
-           col = final_points.cells;
-           col[index * 2 + 1].innerHTML = parseFloat(col[index * 2 + 1].innerHTML) + score;
-       }
+            col[index * 2 + 1].innerHTML = score;
+            score /= 100.0;
+            col = row[row.length - 1].cells;
+            col[index * 2 + 1].innerHTML = parseFloat(col[index * 2 + 1].innerHTML) + score;
+            let final_points = document.getElementById('finalPoints');
+            col = final_points.cells;
+            col[index * 2 + 1].innerHTML = parseFloat(col[index * 2 + 1].innerHTML) + score;
+        }
         index++;
     });
 }
@@ -352,7 +352,7 @@ function updateDeclare(round, stage, declares) {
             let row = tbody.rows;
             let col = row[round].cells;
             col[index * 2].innerHTML = num;
-            if (num === 0) col[index*2].innerHTML = '-';
+            if (num === 0) col[index * 2].innerHTML = '-';
         }
         index++;
     });
@@ -465,8 +465,8 @@ function addLabelsToJokerPanel(labels) {
     labels.appendChild(low_label)
 }
 
-function drawCurrentTakenState(taken, playerIndex){
-    for (let i = 1; i <= 4; i++){
+function drawCurrentTakenState(taken, playerIndex) {
+    for (let i = 1; i <= 4; i++) {
         let take = taken[(playerIndex + i) % 4];
         let player = document.getElementById('p' + i);
         let score = document.getElementById('score' + i);
@@ -474,7 +474,9 @@ function drawCurrentTakenState(taken, playerIndex){
             score = document.createElement('p');
             score.id = 'score' + i;
             score.className = 'score';
-        } else {score.innerHTML = ''}
+        } else {
+            score.innerHTML = ''
+        }
         score.innerHTML = take;
         player.appendChild(score);
     }
