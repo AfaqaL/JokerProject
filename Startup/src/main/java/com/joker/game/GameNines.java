@@ -54,6 +54,8 @@ public class GameNines extends GameBasic {
         currTableState = TableState.CALL_SUPERIOR;
         tableResp.setGameFinished(false);
         tableResp.setInvalidCall(-1);
+        currFirstPlayer = 0;
+
     }
 
     private void initTableResp() {
