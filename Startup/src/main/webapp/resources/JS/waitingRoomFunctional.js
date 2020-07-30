@@ -44,6 +44,16 @@ function joinTable(table_id) {
 
 function leaveTable() {
     let req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        if(this.readyState === 4) {
+            if (this.status === 200) {
+                let respData = this.responseText;
+                if (respData === "TRUE") {
+                    alert("საკუთარი შექმნილი მაგიდიდან ვერ გამოხვალთ");
+                }
+            }
+        }
+    };
     req.open("GET", "/waitingRoom/leaveTable", true);
     req.send();
 }
@@ -60,11 +70,10 @@ function fetchData() {
                     if (respData.isChanged === "TRUE") {
 
                         /* new data incoming! */
-                        console.log("Channfvvtgbthtgged");
-                        //                  document.getElementById("rooms").innerHTML = "";
+                        console.log("Changed");
+
                         $("#rooms").empty();
-                        //                  console.log("baroo");
-                        /* new list of rooms (some removed, some added) */
+
                         [].forEach.call(respData.rooms, (room) => {
 
 
@@ -96,10 +105,11 @@ function fetchData() {
                             if (respData.tableId !== -1) {
                                 childButton.setAttribute("disabled", "disabled");
                                 document.getElementById("createTable").setAttribute("disabled", "disabled");
+                            } else {
+                                document.getElementById("createTable").removeAttribute("disabled");
                             }
 
                             if (respData.tableId === room.id) {
-                                row.style.border = "thick solid #0000FF";
                                 if (room.players.length === 4) {
                                     window.location.href = "/table"
                                 }

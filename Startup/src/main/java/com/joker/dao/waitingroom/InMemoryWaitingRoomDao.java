@@ -96,7 +96,10 @@ public class InMemoryWaitingRoomDao implements WaitingRoomDao {
     @Override
     public boolean removeUser(User user, long roomId) {
         int index = rooms.get(roomId).getPlayers().indexOf(user);
-        //rooms.get(roomId)
+        if (index == 0)
+            return true;
+        rooms.get(roomId).getPlayers().remove(index);
+        increaseVersion();
         return false;
     }
 
