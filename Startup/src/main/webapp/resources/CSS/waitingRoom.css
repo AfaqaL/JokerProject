@@ -1,0 +1,49 @@
+body {
+    background-color: #aeb2b2;
+}
+
+.card-title {
+    margin-bottom: .75rem;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 2rem;
+    font-weight: bolder;
+    color: #256e36;
+    /* background-color: #28a73575; */
+}
+
+.navbar {
+    height: 100px;
+    background: #e9be3d;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.7);
+}
+
+
+.jumbotron {
+    padding: 0 0;
+    /* margin-bottom: 0; */
+    background-color: #e9ecef;
+    border-radius: .3rem;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: .5rem;
+    color: #212529;
+    font-size: 2.5rem;
+    font-weight: bolder;
+}
+
+a {
+    color: #212529;
+    text-decoration: revert;
+    background-color: transparent;
+}
+
+
+.col-md-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 15px;
+}

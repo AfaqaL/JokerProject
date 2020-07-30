@@ -27,8 +27,7 @@
 
 </head>
 <body onload="fetchData()">
-    <h1> The ყომარბაზი </h1>
-    <div id="existingTables1">
+    <div id="existingTables1>"
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
