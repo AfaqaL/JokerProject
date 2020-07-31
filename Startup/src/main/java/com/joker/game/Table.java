@@ -24,7 +24,7 @@ public interface Table {
      *
      * @param x how much current player wants to call
      */
-    void declareNumber(int x);
+    void declareNumber(int x, long playerId);
 
     /**
      * takes a put card request from server and

@@ -98,13 +98,22 @@ public class GameStandard extends GameBasic {
 
     @Override
     public synchronized void setSuperiorCard(Card card) {
+        if(mode == CurrentMode.FIR_NINES || mode == CurrentMode.SEC_NINES){
+            if(state != TableState.CALL_SUPERIOR)
+                return;
+        }
         tableResp.setSuperior(card.convertToTransferObj());
         superior = card.color;
         state = TableState.DECLARE;
     }
 
     @Override
-    public synchronized void declareNumber(int x) {
+    public synchronized void declareNumber(int x, long playerId) {
+        int index = getIndex(playerId);
+        if(index != currActivePlayer || state == TableState.CALL_SUPERIOR) {
+            log.warn("Player broke their mice!");
+            return;
+        }
         players[currActivePlayer].setDeclared(x);
         tableResp.getDeclares().set(currActivePlayer, x);
 
@@ -194,22 +203,25 @@ public class GameStandard extends GameBasic {
 
             if(mode == CurrentMode.FIR_NINES || mode == CurrentMode.SEC_NINES){
                 ++ninesPlayed;
+                state = TableState.CALL_SUPERIOR;
                 if(ninesPlayed == 4){
                     mode = CurrentMode.FROM_EIGHTS;
                     ninesPlayed = 0;
                     currMaxCards = 8;
                     shuffle(currMaxCards);
+                    state = TableState.DECLARE;
                 }
                 shuffle();
             }else{
                 currMaxCards += (mode == CurrentMode.TO_EIGHTS ? 1 : -1) ;
                 if(currMaxCards == 9){
+                    state = TableState.CALL_SUPERIOR;
                     mode = CurrentMode.FIR_NINES;
                     shuffle();
                 }else if(currMaxCards == 0) {
+                    state = TableState.CALL_SUPERIOR;
                     currMaxCards = 9;
                     mode = CurrentMode.SEC_NINES;
-
                 }else{
                     shuffle(currMaxCards);
                 }

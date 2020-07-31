@@ -100,6 +100,8 @@ public  class GameNines extends GameBasic {
 
     @Override
     public synchronized void setSuperiorCard(Card card) {
+        if(currTableState != TableState.CALL_SUPERIOR)
+            return;
         superior = card.color;
         tableResp.setSuperior(card.convertToTransferObj());
         currTableState = TableState.DECLARE;
@@ -125,7 +127,12 @@ public  class GameNines extends GameBasic {
      * @param x how much current player wants to call
      */
     @Override
-    public synchronized void declareNumber(int x) {
+    public synchronized void declareNumber(int x, long playerId) {
+        int index = getIndex(playerId);
+        if(index != currActivePlayer || currTableState == TableState.CALL_SUPERIOR) {
+            log.warn("Player broke their mice!");
+            return;
+        }
         players[currActivePlayer].setDeclared(x);
         tableResp.getDeclares().set(currActivePlayer, x);
 
