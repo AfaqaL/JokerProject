@@ -15,7 +15,7 @@ public class PasswordRecoveryInterceptor implements HandlerInterceptor {
             Object handler) throws Exception {
         Boolean changePassword = (Boolean) req.getSession().getAttribute("changePassword");
         if (changePassword == null || !changePassword) {
-            resp.sendRedirect("/forgetPassword");
+            resp.sendRedirect("/forget-password");
             return false;
         }
         return true;

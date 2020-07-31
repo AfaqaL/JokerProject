@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 @Controller
-@RequestMapping("/forgetPassword")
+@RequestMapping("/forget-password")
 public class ForgetPasswordController {
 
     @Autowired
@@ -48,7 +48,7 @@ public class ForgetPasswordController {
         ses.setAttribute("code",code);
         ses.setAttribute("action", AuthenticationAction.FORGET_PASSWORD);
         ses.setAttribute("sentCode",true);
-        resp.sendRedirect("/verifyCode");
+        resp.sendRedirect("/verify-code");
         return null;
     }
 

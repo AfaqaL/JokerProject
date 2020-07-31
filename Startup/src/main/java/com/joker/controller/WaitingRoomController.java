@@ -30,7 +30,7 @@ public class WaitingRoomController {
         if (session.getAttribute("tableId") == null) {
             session.setAttribute("tableId", -1L);
         }
-        session.setAttribute("roomVersion", 0);
+        session.setAttribute("roomVersion", -1);
         return "waitingRoom/waitingRoom";
     }
 

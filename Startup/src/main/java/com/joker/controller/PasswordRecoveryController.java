@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/passwordRecovery")
+@RequestMapping("/password-recovery")
 public class PasswordRecoveryController {
 
     @Autowired

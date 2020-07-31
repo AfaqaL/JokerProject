@@ -56,6 +56,6 @@ public class RegistrationController {
         session.setAttribute("code", code);
         session.setAttribute("action", AuthenticationAction.REGISTER);
 
-        return new ModelAndView("redirect:/verifyCode");
+        return new ModelAndView("redirect:/verify-code");
     }
 }
