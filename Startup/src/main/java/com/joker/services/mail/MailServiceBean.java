@@ -3,21 +3,13 @@ package com.joker.services.mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.mail.*;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletContext;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.Properties;
 
 /**
  * A utility class for sending e-mail messages

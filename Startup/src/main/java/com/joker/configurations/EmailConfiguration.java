@@ -12,9 +12,8 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = "com.joker.services.mail")
-@PropertySource(value = "classpath:application.properties")
+@PropertySource(value = "classpath:application.yml")
 public class EmailConfiguration {
-
     @Value("${spring.mail.host}")
     private String mail;
 
