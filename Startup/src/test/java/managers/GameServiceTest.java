@@ -108,10 +108,10 @@ public class GameServiceTest {
 
         long tableId = 3;
         int num = 4;
-        gameService.declareNumber(tableId, num);
+        gameService.declareNumber(tableId, num, 1);
 
         verify(tableDao).getTable(tableIdCaptor.capture());
-        verify(table).declareNumber(numCaptor.capture());
+        verify(table).declareNumber(numCaptor.capture(), 1);
 
         assertEquals(tableId, tableIdCaptor.getValue().longValue());
         assertEquals(num, numCaptor.getValue().intValue());

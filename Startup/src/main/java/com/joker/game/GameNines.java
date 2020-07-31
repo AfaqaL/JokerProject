@@ -179,6 +179,8 @@ public  class GameNines extends GameBasic {
 
     @Override
     public synchronized void putCard(Card card, long userId) {
+        if(currTableState != TableState.PLAY)
+            return;
         int index = getIndex(userId);
         if(index != currActivePlayer || currTableState == TableState.CALL_SUPERIOR) {
             log.warn("Player broke their mice!");

@@ -71,7 +71,7 @@ public class GameController {
     public void declare(HttpSession session, @RequestBody DeclareRequest request) {
         long tableId = (long) session.getAttribute("tableId");
         int version = gameService.getVersion(tableId);
-        gameService.declareNumber(tableId, request.getNumber());
+        gameService.declareNumber(tableId, request.getNumber(), ((User) session.getAttribute("user")).getId());
 //        session.setAttribute("gameVersion",version + 1);
     }
 

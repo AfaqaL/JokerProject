@@ -39,8 +39,8 @@ public class GameServiceBean implements GameService {
     }
 
     @Override
-    public void declareNumber(long tableId, int num) {
-        tableDao.getTable(tableId).declareNumber(num);
+    public void declareNumber(long tableId, int num, long playerId) {
+        tableDao.getTable(tableId).declareNumber(num, playerId);
     }
 
     @Override

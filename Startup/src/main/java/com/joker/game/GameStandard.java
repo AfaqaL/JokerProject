@@ -154,11 +154,14 @@ public class GameStandard extends GameBasic {
 
     @Override
     public synchronized void putCard(Card card, long playerId) {
+        if(state != TableState.PLAY)
+            return;
         int index = getIndex(playerId);
         if(index != currActivePlayer || state == TableState.CALL_SUPERIOR) {
             log.warn("Player broke their mice!");
             return;
         }
+
 
         players[currActivePlayer].removeCard(card);
         if(cardsPut == 0){

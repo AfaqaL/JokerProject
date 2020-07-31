@@ -14,7 +14,7 @@ public interface GameService {
 
     int getVersion(long tableId);
 
-    void declareNumber(long tableId, int num);
+    void declareNumber(long tableId, int num, long playerId);
 
     void putCard(long tableId, CardDTO card, long playerId);
 
