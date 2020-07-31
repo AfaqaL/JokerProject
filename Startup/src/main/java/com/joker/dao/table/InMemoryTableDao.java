@@ -1,6 +1,7 @@
 package com.joker.dao.table;
 
 import com.joker.game.GameNines;
+import com.joker.game.GameStandard;
 import com.joker.game.Table;
 import com.joker.model.Room;
 import org.slf4j.Logger;
@@ -19,15 +20,20 @@ public class InMemoryTableDao implements  TableDao {
 
     @Override
     public void createTable(Room room) {
-        Table newTable = new GameNines(room.getPlayers(), room.getBayonet());;
-//        switch (room.getGameMode()){`
-//            case NINES:
-//                newTable = new GameNines(room.getPlayers(), room.getBayonet());
-//            case STANDARD:
-//                log.error("Standard not implemented yet");
-//            default:
-//                log.error("Unknown game mode");
-//        }`
+        Table newTable = null;
+        switch (room.getGameMode()){
+            case NINES:
+                newTable = new GameNines(room.getPlayers(), room.getBayonet());
+                log.info("---------- Initialized Nines game mode !!! --------------");
+                break;
+            case STANDARD:
+                newTable = new GameStandard(room.getPlayers(), room.getBayonet());
+                log.info("---------- Initialized Standard game mode !!! -------------");
+                break;
+            default:
+                log.error("Unknown game mode");
+                return;
+        }
         tables.put(room.getId(), newTable);
     }
 

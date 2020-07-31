@@ -107,10 +107,10 @@ public abstract class GameBasic implements Table{
             return;
         }
         players = new Player[Table.NUM_PLAYERS];
-        int first = ThreadLocalRandom.current().nextInt(0, 4);
+        int first = 0/*ThreadLocalRandom.current().nextInt(0, 4)*/;
 
-        for (User user : users) {
-            players[first++] = new Player(user.getId());
+        for (int i = 0; i < users.size(); i++) {
+            players[i] = new Player(users.get(first++).getId());
             first %= Table.NUM_PLAYERS;
         }
 

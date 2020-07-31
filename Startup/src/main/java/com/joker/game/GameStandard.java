@@ -5,6 +5,7 @@ import com.joker.model.dto.CardDTO;
 import com.joker.model.dto.TableResponse;
 import com.joker.model.enums.CardColor;
 import com.joker.model.enums.CardValue;
+import com.joker.model.enums.GameMode;
 import com.joker.model.enums.PlayAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,49 +14,48 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public  class GameNines extends GameBasic {
+public class GameStandard extends GameBasic {
 
-    private static final Logger log = LoggerFactory.getLogger(GameNines.class);
+    private static final Logger log = LoggerFactory.getLogger(GameStandard.class);
 
-    private static final int NUM_ROUNDS = 16;
-    private static final int ROUNDS_PER_STAGE = 4;
-    private static final int CARDS_PER_ROUND = 9;
 
-    /* how much have other players already declared [0 - 9] */
+    private enum CurrentMode{
+        FIR_NINES,
+        SEC_NINES,
+        TO_EIGHTS,
+        FROM_EIGHTS
+    }
+    private final int N_ROUNDS = 24;
+    private int currMaxCards;
+    CurrentMode mode;
+    TableState state;
     private int alreadyDeclared;
-
-    /* how many players did already declare */
     private int numPlayersDeclared;
-
-    private TableState currTableState;
-
+    private Card first;
     private int bayonet;
 
-    private Card first;
+    /*
+        when its NINES mode, this integer gets increased
+        to 4, when it reaches 4 the game mode changes
+        back to Eights and value resets back to 0
+     */
+    private int ninesPlayed;
 
-    public GameNines(List<User> users, int bayonet){
+
+    public GameStandard(List<User> users, int bayonet) {
         super(users);
-
-        initGrids();
-
-        initTableResp();
-
-        initVariables(bayonet);
-
-        shuffle();
-    }
-
-    private void initVariables(int bayonet) {
-        this.bayonet = bayonet;
+        mode = CurrentMode.TO_EIGHTS;
+        state = TableState.DECLARE;
+        currMaxCards = 1;
         alreadyDeclared = 0;
         numPlayersDeclared = 0;
-        currRound = 0;
-        currStage = 0;
-        currTableState = TableState.CALL_SUPERIOR;
+        ninesPlayed = 0;
+        this.bayonet = bayonet;
+        initTableResp();
+        initGrids();
         tableResp.setGameFinished(false);
         tableResp.setInvalidCall(-1);
-        currFirstPlayer = 0;
-
+        shuffle(currMaxCards);
     }
 
     private void initTableResp() {
@@ -90,40 +90,19 @@ public  class GameNines extends GameBasic {
 
 
     }
-
     private void initGrids() {
-        declaresGrid = new int[NUM_ROUNDS][NUM_PLAYERS];
-        scoresGrid = new int[NUM_ROUNDS][NUM_PLAYERS];
+        declaresGrid = new int[N_ROUNDS][NUM_PLAYERS];
+        scoresGrid = new int[N_ROUNDS][NUM_PLAYERS];
         sumsGrid = new int[NUM_STAGES][NUM_PLAYERS];
     }
 
-
     @Override
     public synchronized void setSuperiorCard(Card card) {
-        superior = card.color;
         tableResp.setSuperior(card.convertToTransferObj());
-        currTableState = TableState.DECLARE;
-        increaseVersion();
+        superior = card.color;
+        state = TableState.DECLARE;
     }
 
-    /**
-     * before every deal prepares the values for all players
-     * (In this case it's called 16 times)
-     */
-    private void prepareHand(){
-        tableResp.setToFill(CARDS_PER_ROUND);
-        tableResp.setInvalidCall(-1);
-        numPlayersDeclared = 0;
-        alreadyDeclared = 0;
-    }
-
-
-    /**
-     * before this method table info should be received and
-     * toFill value should be displayed to the player
-     * --Read toFill documentation for more details
-     * @param x how much current player wants to call
-     */
     @Override
     public synchronized void declareNumber(int x) {
         players[currActivePlayer].setDeclared(x);
@@ -133,14 +112,14 @@ public  class GameNines extends GameBasic {
 
         if(numPlayersDeclared == 2){
             tableResp.setToFill(-1);
-            tableResp.setInvalidCall(CARDS_PER_ROUND - alreadyDeclared);
+            tableResp.setInvalidCall(currMaxCards - alreadyDeclared);
         }else if(numPlayersDeclared == 3){
-            tableResp.setOddLeft(CARDS_PER_ROUND - alreadyDeclared);
+            tableResp.setOddLeft(currMaxCards - alreadyDeclared);
             tableResp.setAction(PlayAction.WAIT);
-            currTableState = TableState.PLAY;
+            state = TableState.PLAY;
             setAllValid();
         }else{
-            tableResp.setToFill(CARDS_PER_ROUND - alreadyDeclared);
+            tableResp.setToFill(currMaxCards - alreadyDeclared);
             tableResp.setInvalidCall(-1);
         }
         ++currActivePlayer;
@@ -149,7 +128,6 @@ public  class GameNines extends GameBasic {
         numPlayersDeclared++;
 
         increaseVersion();
-
     }
 
     private void setAllValid() {
@@ -158,27 +136,22 @@ public  class GameNines extends GameBasic {
         }
     }
 
-    /**
-     * after each 4-move (when a player takes) resets the
-     * values for next move in the same round
-     * (In this case it gets called 9 times each (16) round)
-     */
-    private void resetAfterTake(){
-        for (CardDTO card : tableResp.getPlayedCards()){
-            card.setColor(CardColor.NO_COLOR);
-            card.setValue(CardValue.ACE);
+    private void resetDeclares() {
+        List<Integer> declares = tableResp.getDeclares();
+        for (int i = 0; i < declares.size(); i++) {
+            declares.set(i, -1);
         }
     }
 
     @Override
-    public synchronized void putCard(Card card, long userId) {
-        int index = getIndex(userId);
-        if(index != currActivePlayer || currTableState == TableState.CALL_SUPERIOR) {
+    public synchronized void putCard(Card card, long playerId) {
+        int index = getIndex(playerId);
+        if(index != currActivePlayer || state == TableState.CALL_SUPERIOR) {
             log.warn("Player broke their mice!");
             return;
         }
-        players[currActivePlayer].removeCard(card);
 
+        players[currActivePlayer].removeCard(card);
         if(cardsPut == 0){
             resetDeclares();
             currTakerCard = card;
@@ -214,22 +187,48 @@ public  class GameNines extends GameBasic {
             setAllValid();
         }
 
-        if(totalCardsTaken == CARDS_PER_ROUND){
-            setRoundScores(CARDS_PER_ROUND);
-            shuffle();
-            currTableState = TableState.CALL_SUPERIOR;
+        if(totalCardsTaken == currMaxCards){
+            setRoundScores(currMaxCards);
             currActivePlayer = currFirstPlayer;
-
             totalCardsTaken = 0;
+
+            if(mode == CurrentMode.FIR_NINES || mode == CurrentMode.SEC_NINES){
+                ++ninesPlayed;
+                if(ninesPlayed == 4){
+                    mode = CurrentMode.FROM_EIGHTS;
+                    ninesPlayed = 0;
+                    currMaxCards = 8;
+                    shuffle(currMaxCards);
+                }
+                shuffle();
+            }else{
+                currMaxCards += (mode == CurrentMode.TO_EIGHTS ? 1 : -1) ;
+                if(currMaxCards == 9){
+                    mode = CurrentMode.FIR_NINES;
+                    shuffle();
+                }else if(currMaxCards == 0) {
+                    currMaxCards = 9;
+                    mode = CurrentMode.SEC_NINES;
+
+                }else{
+                    shuffle(currMaxCards);
+                }
+            }
+
         }
 
         increaseVersion();
     }
+    private void prepareHand(){
+        tableResp.setToFill(currMaxCards);
+        tableResp.setInvalidCall(-1);
+        numPlayersDeclared = 0;
+        alreadyDeclared = 0;
+    }
 
-    private void resetDeclares() {
-        List<Integer> declares = tableResp.getDeclares();
-        for (int i = 0; i < declares.size(); i++) {
-            declares.set(i, -1);
+    private void flagUpdateBooleans(List<Boolean> toUpdate) {
+        for (int i = 0; i < toUpdate.size(); i++) {
+            toUpdate.set(i, true);
         }
     }
 
@@ -248,30 +247,53 @@ public  class GameNines extends GameBasic {
 
         currFirstPlayer++;
         currFirstPlayer %= NUM_PLAYERS;
-        if(currRound % 4 == 0){
-            setStageScores();
-        }
-    }
 
-    private void flagUpdateBooleans(List<Boolean> toUpdate) {
-        for (int i = 0; i < toUpdate.size(); i++) {
-            toUpdate.set(i, true);
+        switch (currRound){
+            case 8:
+            case 12:
+            case 20:
+            case 24:
+                setStageScores();
+                return;
         }
     }
 
 
     private void setStageScores() {
-        int offset = currStage * ROUNDS_PER_STAGE;
+        int offset = 0;
+        int roundsInCurrStage = 0;
+        switch (mode){
+            case TO_EIGHTS:
+                offset = 0;
+                roundsInCurrStage = 8;
+                break;
+            case FIR_NINES:
+                offset = 8;
+                roundsInCurrStage = 4;
+                break;
+            case FROM_EIGHTS:
+                offset = 12;
+                roundsInCurrStage = 8;
+                break;
+            case SEC_NINES:
+                offset = 20;
+                roundsInCurrStage = 4;
+                break;
+            default:
+                log.error("Unidentified game mode !");
+                break;
+        }
 
         int streakPlayerIdx = calculateStreakPlayerIndex();
+
         for (int i = 0; i < NUM_PLAYERS; i++) {
-            for (int j = 0; j < ROUNDS_PER_STAGE; j++) {
+            for (int j = 0; j < roundsInCurrStage; j++) {
                 sumsGrid[currStage][i] += scoresGrid[offset + j][i];
             }
 
             if(streakPlayerIdx > -1){
                 int max = 0;
-                int lastRound = ROUNDS_PER_STAGE - 1;
+                int lastRound = roundsInCurrStage - 1;
                 for (int j = 0; j < lastRound; j++) {
                     max = Math.max(scoresGrid[offset + j][i], max);
                 }
@@ -284,7 +306,7 @@ public  class GameNines extends GameBasic {
                 }
             }else if(streakPlayerIdx == -2){
                 int max = 0;
-                int lastRound = ROUNDS_PER_STAGE - 1;
+                int lastRound = roundsInCurrStage - 1;
                 for (int j = 0; j < lastRound; j++) {
                     max = Math.max(scoresGrid[offset + j][i], max);
                 }
@@ -359,7 +381,19 @@ public  class GameNines extends GameBasic {
             players[idx].setValidCards(first, superior);
         }
 
-        tableResp.setCurrentRound(currRound % 4);
+        switch (mode){
+            case FROM_EIGHTS:
+            case TO_EIGHTS:
+                tableResp.setCurrentRound(currRound % 8);
+                break;
+            case FIR_NINES:
+            case SEC_NINES:
+                tableResp.setCurrentRound(currRound % 4);
+                break;
+            default:
+                log.error("Unknown game mode !");
+                break;
+        }
         tableResp.setCurrentStage(currStage);
 
         checkResponseFlag(idx);
@@ -368,49 +402,59 @@ public  class GameNines extends GameBasic {
             checkPlayedCardFlag(idx);
         }
 
-        if(currTableState == TableState.CALL_SUPERIOR){
-            if(idx == currFirstPlayer){
-                tableResp.setCards(threeCardList);
-                tableResp.setAction(PlayAction.DECLARE_SUPERIOR);
+            if(state == TableState.CALL_SUPERIOR){
+                if(idx == currFirstPlayer){
+                    tableResp.setCards(threeCardList);
+                    tableResp.setAction(PlayAction.DECLARE_SUPERIOR);
 
-            }else{
-                tableResp.setCards(new ArrayList<>());
-                tableResp.setAction(PlayAction.WAIT);
-            }
-        }else{
-            List<Card> ls = players[idx].getPlayerCards();
-            List<CardDTO> dtoCards = new ArrayList<>(ls.size());
-            for (Card c : ls){
-                dtoCards.add(c.convertToTransferObj());
-            }
-            tableResp.setCards(dtoCards);
-            if(currActivePlayer != idx){
-                tableResp.setAction(PlayAction.WAIT);
-            }else{
-                PlayAction playerAct;
-                switch (currTableState){
-                    case CALL_SUPERIOR:
-                        playerAct = PlayAction.DECLARE_SUPERIOR;
-                        break;
-                    case DECLARE:
-                        playerAct = PlayAction.DECLARE;
-                        break;
-                    case PLAY:
-                        playerAct = PlayAction.PUT;
-                        break;
-                    default:
-                        log.error("Switch error: Unknown table state ! (state name: \"" + currTableState.name() + "\")");
-                        playerAct = null;
-                        break;
+                }else{
+                    tableResp.setCards(new ArrayList<>());
+                    tableResp.setAction(PlayAction.WAIT);
                 }
-                tableResp.setAction(playerAct);
+            }else{
+                List<Card> ls = players[idx].getPlayerCards();
+                List<CardDTO> dtoCards = new ArrayList<>(ls.size());
+                for (Card c : ls){
+                    dtoCards.add(c.convertToTransferObj());
+                }
+                tableResp.setCards(dtoCards);
+                if(currActivePlayer != idx){
+                    tableResp.setAction(PlayAction.WAIT);
+                }else{
+                    PlayAction playerAct;
+                    switch (state){
+                        case CALL_SUPERIOR:
+                            playerAct = PlayAction.DECLARE_SUPERIOR;
+                            break;
+                        case DECLARE:
+                            playerAct = PlayAction.DECLARE;
+                            break;
+                        case PLAY:
+                            playerAct = PlayAction.PUT;
+                            break;
+                        default:
+                            log.error("Switch error: Unknown table state ! (state name: \"" + state.name() + "\")");
+                            playerAct = null;
+                            break;
+                    }
+                    tableResp.setAction(playerAct);
+                }
             }
-        }
         updateSentFlag(idx);
 
         tableResp.setPlayerIndex(idx);
         return tableResp;
+
+
     }
+
+    private void resetAfterTake(){
+        for (CardDTO card : tableResp.getPlayedCards()){
+            card.setColor(CardColor.NO_COLOR);
+            card.setValue(CardValue.ACE);
+        }
+    }
+
 
     private void checkPlayedCardFlag(int idx) {
         if(playedCardsSent[idx]){

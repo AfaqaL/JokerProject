@@ -22,7 +22,7 @@
     <nav class="navbar navbar-fixed-top black-gradients">
         <div class="container" style="position: relative">
             <label class = "header"> თამაშების ისტორია </label>
-            <button onclick="window.location='/waitingRoom'" class="btn btn-dark"> უკან დაბრუნება </button>
+            <button onclick="window.location='/waiting-room'" class="btn btn-dark"> უკან დაბრუნება </button>
         </div>
     </nav>
     <div id = "userGames" class="card-deck">

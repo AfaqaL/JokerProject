@@ -43,6 +43,7 @@ public class Player {
             return;
         }
 
+
         if (superior != CardColor.NO_COLOR && !cards.get(superior.ordinal()).isEmpty()) {
             setValid(cards.get(superior.ordinal()));
             return;
