@@ -21,7 +21,7 @@
 }
 
 .label1 {
-    position: relative;
+    position: absolute;
     float: left;
     top: 50%;
 }
@@ -45,7 +45,7 @@
 }
 
 .label3 {
-    position: relative;
+    position: absolute;
     float: right;
     top: 50%;
 }
