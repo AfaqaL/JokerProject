@@ -17,7 +17,6 @@ function fetchData() {
                 drawTableHistory(tableHistory.name3, tableHistory.score3, gameDiv);
                 drawTableHistory(tableHistory.name4, tableHistory.score4, gameDiv);
                 historiesDiv.appendChild(gameDiv);
-
                 let newRow = document.createElement("div");
                 newRow.setAttribute("class", "w-100 d-none d-sm-block d-md-block d-lg-block d-xl-none");
                 historiesDiv.appendChild(newRow);

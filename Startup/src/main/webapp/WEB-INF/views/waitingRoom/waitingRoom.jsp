@@ -91,7 +91,7 @@
                         <form>
                             <div id = "createTableDiv" >
 
-                                <label for="bayonet">აირჩიე ხიშტი:</label>
+                                <label class= "popUpLabel" for="bayonet">აირჩიე ხიშტი:</label>
                                 <select name="xishti" id="bayonet">
                                     <option value=200>200</option>
                                     <option value=300>300</option>
@@ -113,8 +113,8 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick = "createTable()">Create Table</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">გაუქმება</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick = "createTable()">შექმნა</button>
                     </div>
                 </div>
             </div>
