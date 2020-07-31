@@ -62,7 +62,7 @@
         <nav class="navbar navbar-fixed-top black-gradients">
             <div class="container" style="position: relative">
                 <label> The ყომარბაზი </label>
-                <div>
+                <div class = "rightCorner">
                     <img src="../../../resources/images/avatar.png" alt="Avatar" class="avatar button" onclick = "openForm(0)" id="userButton" >
                     <div class = "userInfoCorner" >
                         <label class = "userInfoUsername"> <%= ((User)session.getAttribute("user")).getUsername() %> </label><br>

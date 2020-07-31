@@ -64,12 +64,10 @@ img {
     vertical-align: middle;
     border-style: none;
     width: 4.1rem;
-    top: 16px;
-    position: fixed;
-    top: 15px;
-    right: 240px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
 }
-
 img:hover {
     -ms-transform: scale(1.20); /* IE 9 */
     -webkit-transform: scale(1.20); /* Safari 3-8 */
@@ -131,7 +129,14 @@ img:hover {
 
 .userInfoCorner {
     display: inline-block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
-
+.rightCorner {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 
