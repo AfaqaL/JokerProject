@@ -15,6 +15,7 @@ body {
 .navbar {
     height: 100px;
     background: #e9be3d;
+    border-bottom: 3px solid #212529;
     box-shadow: 0 0 10px 0 rgba(0,0,0,.7);
 }
 
@@ -58,3 +59,80 @@ a {
 .popUpLabel {
     font-size: 1rem;
 }
+
+img {
+    vertical-align: middle;
+    border-style: none;
+    width: 4.1rem;
+    top: 16px;
+    position: fixed;
+    top: 15px;
+    right: 240px;
+}
+
+img:hover {
+    -ms-transform: scale(1.20); /* IE 9 */
+    -webkit-transform: scale(1.20); /* Safari 3-8 */
+    transform: scale(1.20);
+}
+
+.open-button {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    width: 280px;
+}
+
+.form-popup {
+    display: none;
+    position: fixed;
+    /* bottom: 0; */
+    right: 15px;
+    border: 3px solid #212529;
+    z-index: 9;
+    top: 97px;
+    right: 80px;
+    width: 300px;
+    text-align: center;
+    height: 90px;
+    background-color: #edc44a;
+}
+
+.userInfoPopUp:hover {
+    background-color: goldenrod;
+}
+
+.userInfoPopUp {
+    /* background-color: blue; */
+    margin: 10px;
+    font-weight: 500;
+}
+
+.userInfoRank {
+    font-size: 0.7rem;
+    float: right;
+    border: 0;
+    font-weight: 500;
+}
+
+.userInfoUsername {
+    font-size: 0.9rem;
+    border: 0;
+    font-weight: 900;
+}
+
+.userInfoCorner {
+    display: inline-block;
+}
+
+#userInfoLogout {
+    border-block-start: inherit;
+}
+
+

@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.joker.model.User" %><%--
   Created by IntelliJ IDEA.
   User: PC
   Date: 7/13/2020
@@ -62,15 +62,18 @@
         <nav class="navbar navbar-fixed-top black-gradients">
             <div class="container" style="position: relative">
                 <label> The ყომარბაზი </label>
-                <%--        <div class="avatar-menu">--%>
-                <%--            <div class="dropdown">--%>
-                <%--                <div class="image-shadow dropdown-toggle" type="button" data-toggle="dropdown">--%>
-                <%--                    <img class="img-circle user-avatar" ng-src="https://graph.facebook.com/1240524699485740/picture?type=square&amp;height=200" alt="jokerstars_joker_avatar" src="https://graph.facebook.com/1240524699485740/picture?type=square&amp;height=200">--%>
-                <%--                </div>--%>
+                <div>
+                    <img src="../../../resources/images/avatar.png" alt="Avatar" class="avatar button" onclick = "openForm(0)" id="userButton" >
+                    <div class = "userInfoCorner" >
+                        <label class = "userInfoUsername"> <%= ((User)session.getAttribute("user")).getUsername() %> </label><br>
+                        <label class = "userInfoRank"> რანკი: <%= ((User)session.getAttribute("user")).getRank() %></label>
+                    </div>
+                </div>
+                <div class="form-popup" id="myForm">
+                    <div id = "userInfoGames" class = "userInfoPopup button" onclick="movetoHistories()"> თამაშების ისტორია </div>
+                    <div id = "userInfoLogout" class = "userInfoPopup button" onclick="window.location = '/login'"> გამოსვლა </div>
 
-                <%--            </div>--%>
-                <a class="logOut" href="/login"> გამოსვლა </a>
-                <%--        </div>--%>
+                </div>
             </div>
         </nav>
         <!-- Modal -->
@@ -125,7 +128,7 @@
 
                         <div class= "flex-container" >
                             <div class="left-btn">
-                                <button type="button" class="btn btn-warning badge-pill histories" on onclick="movetoHistories()" id = "histories">ჩემი თამაშების ისტორია</button>
+<%--                                <button type="button" class="btn btn-warning badge-pill histories" on onclick="movetoHistories()" id = "histories">ჩემი თამაშების ისტორია</button>--%>
                             </div>
                             <div class="left-btn">
                                 <button type="button" class="btn btn-warning badge-pill create" data-toggle="modal" data-target="#create" id = "createTable">მაგიდის მასპინძლობა</button>
