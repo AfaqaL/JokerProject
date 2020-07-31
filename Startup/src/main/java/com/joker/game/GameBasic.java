@@ -143,6 +143,8 @@ public abstract class GameBasic implements Table{
     }
 
     protected void shuffle(int nCards){
+        Card superiorCard = cards.get(NUM_PLAYERS * nCards);
+        setSuperiorCard(superiorCard);
         shuffle(nCards, false);
     }
 
@@ -177,7 +179,7 @@ public abstract class GameBasic implements Table{
      * @return index in players array
      */
     @Override
-    public int getIndex(long id){
+    public synchronized int getIndex(long id){
         for(int i = 0; i < players.length; i++){
             if(players[i].getId() == id) return i;
         }
