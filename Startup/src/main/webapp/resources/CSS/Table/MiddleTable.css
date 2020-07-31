@@ -46,8 +46,10 @@
 
 .label3 {
     position: absolute;
-    float: right;
     top: 50%;
+    right: 100px;
+    margin-right: 5px;
+
 }
 
 .card4 {
