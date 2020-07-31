@@ -80,7 +80,7 @@ public class HistorySqlDaoTest {
                 "    username VARCHAR(20) NOT NULL UNIQUE,\n" +
                 "    mail VARCHAR(32) NOT NULL UNIQUE,\n" +
                 "    password VARCHAR(20) NOT NULL,\n" +
-                "    rank INT NOT NULL,\n" +
+                "    `rank` INT NOT NULL,\n" +
                 "    PRIMARY KEY (user_id)\n" +
                 ");");
 
@@ -102,15 +102,15 @@ public class HistorySqlDaoTest {
                 ");");
 
         stm.execute("INSERT INTO users (username, mail, password, `rank`) \n" +
-                "VALUES ('user1', 'mail1', 'pass1', 10)");
+                "VALUES ('user7', 'mail1', 'pass1', 10)");
         stm.execute("INSERT INTO users (username, mail, password, `rank`) \n" +
-                "VALUES ('user2', 'mail2', 'pass2', 20)");
+                "VALUES ('user8', 'mail2', 'pass2', 20)");
         stm.execute("INSERT INTO users (username, mail, password, `rank`) \n" +
-                "VALUES ('user3', 'mail3', 'pass3', 30)");
+                "VALUES ('user9', 'mail3', 'pass3', 30)");
         stm.execute("INSERT INTO users (username, mail, password, `rank`) \n" +
-                "VALUES ('user4', 'mail4', 'pass4', 40)");
+                "VALUES ('user10', 'mail4', 'pass4', 40)");
         stm.execute("INSERT INTO users (username, mail, password, `rank`) \n" +
-                "VALUES ('user5', 'mail5', 'pass5', 50)");
+                "VALUES ('user11', 'mail5', 'pass5', 50)");
 
         stm.execute("INSERT INTO histories (table_id, user_id1, score1, user_id2, score2, user_id3, score3, user_id4, score4)\n" +
                 "VALUES (1, 1, 2.5, 2, 1.2, 3, 7.3, 4, 4.5)");
@@ -125,6 +125,11 @@ public class HistorySqlDaoTest {
         stm.execute("DROP TABLE IF EXISTS histories");
         stm.execute("DROP TABLE IF EXISTS users");
     }
+
+//    @AfterClass
+//    public static void tearDown() throws SQLException {
+//        connection.close();
+//    }
 
     @Test
     public void testGetUserHistory() {
