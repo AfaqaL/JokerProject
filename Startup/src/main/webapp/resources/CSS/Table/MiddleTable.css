@@ -20,17 +20,34 @@
     top: 45%;
 }
 
+.label1 {
+    position: relative;
+    float: left;
+    top: 50%;
+}
+
 .card2 {
     position: absolute;
     top: 16.67%;
     left: 42%;
 }
 
+.label2 {
+    position: absolute;
+    left: 45%;
+    top: 5%;
+}
 .card3 {
     position: relative;
     float: right;
     right: 37.04%;
     top: 45%;
+}
+
+.label3 {
+    position: relative;
+    float: right;
+    top: 50%;
 }
 
 .card4 {
@@ -39,6 +56,11 @@
     bottom: 0;
 }
 
+.label4 {
+    position: absolute;
+    left: 20%;
+    bottom: 0;
+}
 .container > .btn-group-horizontal {
     position: relative;
     background-color: black;
