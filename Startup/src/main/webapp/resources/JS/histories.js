@@ -9,9 +9,9 @@ function fetchData() {
                 [].forEach.call(data, (tableHistory) => {
                     let gameDiv = document.createElement("div");
                     gameDiv.setAttribute("class", "card col-sm-6");
-                    let label = document.createElement("h4");
+                    let label = document.createElement("div");
                     label.innerHTML = "მომხმარებლები: ";
-                    label.setAttribute("class", "subtitle text-white")
+                    label.setAttribute("class", "userTitle")
                     gameDiv.appendChild(label);
                     drawTableHistory(tableHistory.name1, tableHistory.score1, gameDiv);
                     drawTableHistory(tableHistory.name2, tableHistory.score2, gameDiv);

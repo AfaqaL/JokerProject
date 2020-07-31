@@ -1,14 +1,19 @@
 body {
-    background-image: url("../images/historiesBackground.jpg");
-    height: 100%;
-    background-position: center;
-    /*background-repeat: no-repeat;*/
-    background-size: cover;
+    background-color: #aeb2b2;
+}
+.header {
+    display: inline-block;
+    margin-bottom: .5rem;
+    color: #212529;
+    font-size: 2.5rem;
+    font-weight: 900;
 }
 
 .card {
-    background-color: #07260e;
+    background-color: #1e2a36;
     border-radius: 0.75rem;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.8);
+    border: 1.2px solid #cab061;
 }
 
 
@@ -46,4 +51,33 @@ label {
     margin-right: 15px;
     margin-bottom: 30px;
     margin-left: 15px;
+}
+
+.navbar {
+    height: 100px;
+    background: #e9be3d;
+    border-bottom: 3px solid #212529;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.7);
+}
+
+#userGames {
+    padding-left: 60px;
+    padding-top: 40px;
+}
+
+.userTitle {
+    /* background-color: blue; */
+    color: rgba(0,0,0,.8);
+    text-align: center;
+    margin: 10px;
+    border: 2px solid #e5c76f;
+    box-shadow: 0 0 7px 0 #e5c76f;
+    border-radius: 9px;
+    background: #e5c76f;
+}
+
+.card:hover {
+    -ms-transform: scale(1.20); /* IE 9 */
+    -webkit-transform: scale(1.20); /* Safari 3-8 */
+    transform: scale(1.20);
 }

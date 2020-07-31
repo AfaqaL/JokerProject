@@ -19,7 +19,12 @@
     <link href="<c:url value="/resources/CSS/histories.css" />" rel="stylesheet">
 </head>
 <body onload="fetchData()">
-    <h1 id="title" class="mainTitle text-white text-center" > თამაშების ისტორია </h1> <br>
+    <nav class="navbar navbar-fixed-top black-gradients">
+        <div class="container" style="position: relative">
+            <label class = "header"> თამაშების ისტორია </label>
+            <button onclick="window.location='/waitingRoom'" class="btn btn-dark"> უკან დაბრუნება </button>
+        </div>
+    </nav>
     <div id = "userGames" class="card-deck">
 
     </div>
