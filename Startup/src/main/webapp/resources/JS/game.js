@@ -68,9 +68,20 @@ let isFirst;
 
 function drawTable(table) {
     if (!table.changed) return;
+    if (table.action === PlayAction.WAIT) {
+        wait = true;
+    }
+    if (table.action === PlayAction.PUT) {
+        wait = false;
+    }
+    if (table.action === PlayAction.DECLARE) {
+        drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
+    }
 
-    console.log(table.first);
-    console.log(isFirst);
+    if (table.action === PlayAction.DECLARE_SUPERIOR) {
+        drawDeclareSuperiorPanel();
+        declareSuperior = true;
+    }
     isFirst = table.first;
     let index = table.playerIndex;
     let isFinished = table.roundFinished[index];
@@ -79,26 +90,13 @@ function drawTable(table) {
     if (isFinished) {
         updateScore(table.currentRound, table.currentStage, table.scores);
     }
-    drawCards(table.cards,table.isFirst);
+    drawCards(table.cards, table.isFirst);
     drawPlayedCards(table.playedCards, table.playerIndex);
-    console.log(table.action);
     if (table.action !== PlayAction.DECLARE_SUPERIOR) {
         drawSuperior(table.superior);
     }
     drawCurrentTakenState(table.taken, table.playerIndex)
-    if (table.action === PlayAction.DECLARE) {
-        drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
-    }
-    if (table.action === PlayAction.WAIT) {
-        wait = true;
-    }
-    if (table.action === PlayAction.PUT) {
-        wait = false;
-    }
-    if (table.action === PlayAction.DECLARE_SUPERIOR) {
-        drawDeclareSuperiorPanel();
-        declareSuperior = true;
-    }
+
 }
 
 function drawGrid(gameMode) {
@@ -124,7 +122,6 @@ function drawCards(cards) {
         img.onclick = function () {
             if (!wait && card.valid) {
                 if (card.value === Value.JOKER) {
-                    console.log(isFirst);
                     if (isFirst) firstPlayerToPlayHasJoker(card);
                     else chooseJokerActionPanel(card);
                 } else {
@@ -133,6 +130,7 @@ function drawCards(cards) {
             }
         }
 
+        console.log(wait);
         if (!card.valid || wait) {
             img.setAttribute("style", "filter: brightness(25%)")
         }
@@ -153,8 +151,6 @@ function drawPlayedCards(playedCards, playerIndex) {
         let img = document.createElement('img');
         if (card.value === Value.JOKER) img.src = 'resources/images/$.png';
         else img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
-        console.log(getCardValue(card.value));
-        console.log(getCardColor(card.color));
 
         img.className = 'card' + i;
 
@@ -182,7 +178,7 @@ function drawSuperior(superior) {
 }
 
 
-function drawDeclareNumPanel(invalidCall, maxSize, round, stage, playerIndex) {
+function drawDeclareNumPanel(invalidCall, maxSize) {
     document.getElementById('sayNum').innerHTML = '';
     document.getElementById("sayNum").style.display = 'block';
 
@@ -261,9 +257,6 @@ function getCardColor(color) {
 }
 
 function putCard(card) {
-    console.log(card.color)
-    console.log(card.value)
-    console.log(card.jokerMode)
     let xhr = new XMLHttpRequest();
     let url = '/table/put';
 
@@ -333,22 +326,27 @@ function addFinalPoints(table) {
 
 function updateScore(round, stage, scores) {
     let index = 0;
+    console.log(round);
+    console.log(stage);
     [].forEach.call(scores, (score) => {
-       if (score !== -1) {
-           let tbody = document.getElementById('tbody' + stage);
-           let row = tbody.rows;
-           let col = row[round - 1].cells;
+        if (score !== -1) {
+            if (round === 0){
+                round += 4;
+                stage--;
+            }
+            let tbody = document.getElementById('tbody' + stage);
+            let row = tbody.rows;
+            let col = row[round - 1].cells;
 
-           col[index * 2 + 1].innerHTML = score;
-           score /= 100.0;
-           col = row[row.length - 1].cells;
-           col[index * 2 + 1].innerHTML = parseFloat(col[index * 2 + 1].innerHTML) + score;
-           let final_points = document.getElementById('finalPoints');
-           col = final_points.cells;
-           col[index * 2 + 1].innerHTML = parseFloat(col[index * 2 + 1].innerHTML) + score;
-
-           index++;
-       }
+            col[index * 2 + 1].innerHTML = score;
+            score /= 100.0;
+            col = row[row.length - 1].cells;
+            col[index * 2 + 1].innerHTML = (parseFloat(col[index * 2 + 1].innerHTML) + score).toFixed(1);
+            let final_points = document.getElementById('finalPoints');
+            col = final_points.cells;
+            col[index * 2 + 1].innerHTML = (parseFloat(col[index * 2 + 1].innerHTML) + score).toFixed(1);
+        }
+        index++;
     });
 }
 
@@ -360,9 +358,9 @@ function updateDeclare(round, stage, declares) {
             let row = tbody.rows;
             let col = row[round].cells;
             col[index * 2].innerHTML = num;
-            if (num === 0) col[index*2].innerHTML = '-';
-            index++;
+            if (num === 0) col[index * 2].innerHTML = '-';
         }
+        index++;
     });
 }
 
@@ -434,7 +432,6 @@ function chooseJokerActionPanel(joker) {
 }
 
 function firstPlayerToPlayHasJoker(card) {
-    console.log("FirstPlayer.... came here !")
     let wrapper = document.getElementById('joker-first-wrapper');
     wrapper.style.display = 'block';
 
@@ -474,8 +471,8 @@ function addLabelsToJokerPanel(labels) {
     labels.appendChild(low_label)
 }
 
-function drawCurrentTakenState(taken, playerIndex){
-    for (let i = 1; i <= 4; i++){
+function drawCurrentTakenState(taken, playerIndex) {
+    for (let i = 1; i <= 4; i++) {
         let take = taken[(playerIndex + i) % 4];
         let player = document.getElementById('p' + i);
         let score = document.getElementById('score' + i);
@@ -483,7 +480,9 @@ function drawCurrentTakenState(taken, playerIndex){
             score = document.createElement('p');
             score.id = 'score' + i;
             score.className = 'score';
-        } else {score.innerHTML = ''}
+        } else {
+            score.innerHTML = ''
+        }
         score.innerHTML = take;
         player.appendChild(score);
     }
