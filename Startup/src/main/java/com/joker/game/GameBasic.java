@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public abstract class GameBasic implements Table{
+public abstract class GameBasic implements Table {
 
     protected enum TableState{
         CALL_SUPERIOR,
@@ -194,6 +194,15 @@ public abstract class GameBasic implements Table{
         int retVal = version;
         lock.unlock();
         return retVal;
+    }
+
+    @Override
+    public List<Long> getUserIds() {
+        List<Long> userIds = new ArrayList<>(4);
+        for (int i = 0; i < Table.NUM_PLAYERS; i++) {
+            userIds.set(i, players[i].getId());
+        }
+        return userIds;
     }
 
     protected void increaseVersion(){
