@@ -128,10 +128,10 @@ public class GameServiceTest {
 
         Card card = CardHelper.fromDTO(dto);
 
-        gameService.putCard(tableId, dto);
+        gameService.putCard(tableId, dto, 1);
 
         verify(tableDao).getTable(tableIdCaptor.capture());
-        verify(table).putCard(cardCaptor.capture());
+        verify(table).putCard(cardCaptor.capture(), 1);
 
         assertEquals(tableId, tableIdCaptor.getValue().longValue());
         assertEquals(card.color, cardCaptor.getValue().color);

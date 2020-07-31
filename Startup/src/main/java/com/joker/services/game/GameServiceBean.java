@@ -44,7 +44,7 @@ public class GameServiceBean implements GameService {
     }
 
     @Override
-    public void putCard(long tableId, CardDTO card) { tableDao.getTable(tableId).putCard(CardHelper.fromDTO(card)); }
+    public void putCard(long tableId, CardDTO card, long playerId) { tableDao.getTable(tableId).putCard(CardHelper.fromDTO(card), playerId); }
 
     @Override
     public void setSuperiorCard(long tableId, CardDTO card) { tableDao.getTable(tableId).setSuperiorCard(CardHelper.fromDTO(card)); }

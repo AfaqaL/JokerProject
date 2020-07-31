@@ -257,6 +257,12 @@ function getCardColor(color) {
 }
 
 function putCard(card) {
+    let cards = document.getElementById("hand").childNodes;
+    [].forEach.call(cards, (unusedCard) =>{
+        unusedCard.valid = false;
+        unusedCard.setAttribute("style", "filter: brightness(25%)")
+
+    })
     let xhr = new XMLHttpRequest();
     let url = '/table/put';
 

@@ -171,8 +171,16 @@ public  class GameNines extends GameBasic {
     }
 
     @Override
-    public synchronized void putCard(Card card) {
+    public synchronized void putCard(Card card, long userId) {
+        int index = getIndex(userId);
+        if(index != currActivePlayer) {
+            log.warn("Player broke their mice!");
+            return;
+        }
+
+
         players[currActivePlayer].removeCard(card);
+
 
         if(cardsPut == 0){
             resetDeclares();

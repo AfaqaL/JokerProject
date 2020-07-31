@@ -1,13 +1,10 @@
 package com.joker.controller;
 
-import com.joker.game.Card;
 import com.joker.model.Room;
 import com.joker.model.User;
 import com.joker.model.dto.CardDTO;
 import com.joker.model.dto.DeclareRequest;
 import com.joker.model.dto.TableResponse;
-import com.joker.model.enums.CardColor;
-import com.joker.model.enums.CardValue;
 import com.joker.services.game.GameService;
 import com.joker.services.waitingroom.WaitingRoomService;
 import org.slf4j.Logger;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Controller
 public class GameController {
@@ -82,8 +78,9 @@ public class GameController {
     @PostMapping("/table/put")
     public void put(HttpSession session, @RequestBody CardDTO request) {
         long tableId = (long) session.getAttribute("tableId");
+        long playerId = ((User)session.getAttribute("user")).getId();
         int version = gameService.getVersion(tableId);
-        gameService.putCard(tableId, request);
+        gameService.putCard(tableId, request, playerId);
 //        session.setAttribute("gameVersion",version + 1);
     }
 
