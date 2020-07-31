@@ -60,6 +60,11 @@
 
         <body  onload="fetchData()" >
         <nav class="navbar navbar-fixed-top black-gradients">
+            <div class="form-popup" id="myForm">
+                <div id = "userInfoGames" class = "userInfoPopup button" onclick="movetoHistories()"> თამაშების ისტორია </div>
+                <div id = "userInfoLogout" class = "userInfoPopup button" onclick="window.location = '/login'"> გამოსვლა </div>
+
+            </div>
             <div class="container" style="position: relative">
                 <label> The ყომარბაზი </label>
                 <div class = "rightCorner">
@@ -69,11 +74,7 @@
                         <label class = "userInfoRank"> რანკი: <%= ((User)session.getAttribute("user")).getRank() %></label>
                     </div>
                 </div>
-                <div class="form-popup" id="myForm">
-                    <div id = "userInfoGames" class = "userInfoPopup button" onclick="movetoHistories()"> თამაშების ისტორია </div>
-                    <div id = "userInfoLogout" class = "userInfoPopup button" onclick="window.location = '/login'"> გამოსვლა </div>
 
-                </div>
             </div>
         </nav>
         <!-- Modal -->
