@@ -65,13 +65,13 @@
                 <div id = "userInfoLogout" class = "userInfoPopup button" onclick="window.location = '/login'"> გამოსვლა </div>
 
             </div>
-            <div class="container" style="position: relative">
+            <div class="frame" style="position: relative">
                 <label> The ყომარბაზი </label>
                 <div class = "rightCorner">
                     <img src="../../../resources/images/avatar.png" alt="Avatar" class="avatar button" onclick = "openForm(0)" id="userButton" >
                     <div class = "userInfoCorner" >
                         <label class = "userInfoUsername"> <%= ((User)session.getAttribute("user")).getUsername() %> </label><br>
-                        <label class = "userInfoRank"> რანკი: <%= ((User)session.getAttribute("user")).getRank() %></label>
+                        <label class = "userInfoRank"> რანკი <%= ((User)session.getAttribute("user")).getRank() %></label>
                     </div>
                 </div>
 
