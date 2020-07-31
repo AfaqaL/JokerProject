@@ -32,7 +32,7 @@ public interface Table {
      *
      * @param card player requested card from the server to be put
      */
-    void putCard(Card card);
+    void putCard(Card card, long playerId);
 
     /**
      * used for communication with JS

@@ -16,7 +16,7 @@ public interface GameService {
 
     void declareNumber(long tableId, int num);
 
-    void putCard(long tableId, CardDTO card);
+    void putCard(long tableId, CardDTO card, long playerId);
 
     void setSuperiorCard(long tableId, CardDTO card);
 }
