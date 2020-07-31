@@ -228,7 +228,6 @@ public  class GameNines extends GameBasic {
         }
     }
 
-    @Override
     public synchronized void setRoundScores() {
         for (int i = 0; i < NUM_PLAYERS; i++) {
             scoresGrid[currRound][i] = players[i].getScore(CARDS_PER_ROUND, bayonet);
@@ -256,14 +255,43 @@ public  class GameNines extends GameBasic {
     }
 
 
-    @Override
     public synchronized void setStageScores() {
         int offset = currStage * ROUNDS_PER_STAGE;
+
+        int streakPlayerIdx = calculateStreakPlayerIndex();
         for (int i = 0; i < NUM_PLAYERS; i++) {
             for (int j = 0; j < ROUNDS_PER_STAGE; j++) {
                 sumsGrid[currStage][i] += scoresGrid[offset + j][i];
             }
+
+            if(streakPlayerIdx > -1){
+                int max = 0;
+                int lastRound = ROUNDS_PER_STAGE - 1;
+                for (int j = 0; j < lastRound; j++) {
+                    max = Math.max(scoresGrid[offset + j][i], max);
+                }
+                if(i == streakPlayerIdx){
+                    scoresGrid[offset + lastRound][i] += max;
+                    sumsGrid[currStage][i] += max;
+                }else{
+                    scoresGrid[offset + lastRound][i] -= max;
+                    sumsGrid[currStage][i] -= max;
+                }
+            }else if(streakPlayerIdx == -2){
+                int max = 0;
+                int lastRound = ROUNDS_PER_STAGE - 1;
+                for (int j = 0; j < lastRound; j++) {
+                    max = Math.max(scoresGrid[offset + j][i], max);
+                }
+
+                if(players[i].endedOnStreak()){
+                    scoresGrid[offset + lastRound][i] += max;
+                    sumsGrid[currStage][i] += max;
+                }
+            }
         }
+
+        resetPlayerStreaks();
 
         List<Integer> stageScores = tableResp.getStageScores();
         for (int i = 0; i < stageScores.size(); i++) {
@@ -279,7 +307,28 @@ public  class GameNines extends GameBasic {
         }
     }
 
-    @Override
+    private void resetPlayerStreaks() {
+        for(Player p : players){
+            p.resetStreak();
+        }
+    }
+
+    /**
+     * @return index of a player finishing on streak
+     *  (-1 if no one ended on streak, -2 if multiple did)
+     */
+    private int calculateStreakPlayerIndex() {
+        int res = -1;
+        for (int i = 0; i < players.length; i++) {
+            if(players[i].endedOnStreak()){
+                if(res != -1) return -2;
+
+                res = i;
+            }
+        }
+        return res;
+    }
+
     public void setFinalScore() {
         List<Integer> finalScores = new ArrayList<>(4);
         for (int i = 0; i < NUM_PLAYERS; i++) {
@@ -299,10 +348,8 @@ public  class GameNines extends GameBasic {
         int idx = getIndex(playerId);
 
 
-        log.info("already put cards: " + cardsPut);
         tableResp.setFirst(cardsPut == 0);
 
-        log.info("changed first: " + Boolean.toString(tableResp.isFirst()));
         if (first != null) {
 
             players[idx].setValidCards(first, superior);
@@ -357,7 +404,6 @@ public  class GameNines extends GameBasic {
         }
         updateSentFlag(idx);
 
-        log.info(tableResp.getRoundFinished().toString());
         tableResp.setPlayerIndex(idx);
         return tableResp;
     }
