@@ -1,6 +1,6 @@
 function createTable() {
     let req = new XMLHttpRequest();
-    req.open("POST", "/waitingRoom/create", true);
+    req.open("POST", "/waiting-room/create", true);
     req.setRequestHeader('Content-Type', 'application/json');
 
     /* get new tables properties from user */
@@ -24,16 +24,14 @@ function joinTable(table_id) {
     let req = new XMLHttpRequest();
 
     req.onreadystatechange = function () {
-        if(this.readyState === 4) {
-            if (this.status === 200) {
-                let respData = this.responseText;
-                if (respData !== "TRUE") {
-                    alert("Sorry! Could not join the table, try again");
-                }
+        if(this.readyState === 4 && this.status === 200) {
+            if (this.responseText === 'false') {
+                alert("Sorry! Could not join the table, try again");
             }
         }
     };
-    req.open("POST", "/waitingRoom/join", true);
+
+    req.open("POST", "/waiting-room/join", true);
     req.setRequestHeader('Content-Type', 'application/json');
 
     let tryPassword = document.getElementById("joinPass" + table_id).value;
@@ -45,16 +43,14 @@ function joinTable(table_id) {
 function leaveTable() {
     let req = new XMLHttpRequest();
     req.onreadystatechange = function () {
-        if(this.readyState === 4) {
-            if (this.status === 200) {
-                let respData = this.responseText;
-                if (respData === "TRUE") {
-                    alert("საკუთარი შექმნილი მაგიდიდან ვერ გამოხვალთ");
-                }
+        if(this.readyState === 4 && this.status === 200) {
+            if (this.responseText === 'true') {
+                alert("საკუთარი შექმნილი მაგიდიდან ვერ გამოხვალთ");
             }
         }
     };
-    req.open("GET", "/waitingRoom/leaveTable", true);
+
+    req.open("POST", "/waiting-room/leave-table", true);
     req.send();
 }
 
@@ -65,18 +61,16 @@ function fetchData() {
         req.onreadystatechange = function () {
             if(this.readyState === 4) {
                 if (this.status === 200) {
-                    let respData = JSON.parse(this.responseText);
-                    console.log(respData);
-                    if (respData.isChanged === "TRUE") {
+                    let response = JSON.parse(this.responseText);
+                    console.log(response);
+                    if (response.changed) {
 
                         /* new data incoming! */
                         console.log("Changed");
 
                         $("#rooms").empty();
 
-                        [].forEach.call(respData.rooms, (room) => {
-
-
+                        [].forEach.call(response.rooms, (room) => {
                             let row = document.createElement("tr");
                             row.setAttribute("id", "room" + room.id);
 
@@ -94,29 +88,33 @@ function fetchData() {
 
                             let childButton = document.createElement("button");
                             childButton.setAttribute("id", room.id);
-                            childButton.setAttribute("onclick", "joinTable(this.id)");
+                            childButton.onclick = function() {
+                                joinTable(this.id);
+                            }
                             childButton.setAttribute("class", "btn btn-primary badge-pill");
                             childButton.innerHTML = "შებრძანება";
 
-                            if (respData.tableId !== -1) {
+                            if (response.tableId !== -1) {
                                 childButton.setAttribute("disabled", "disabled");
                             }
 
-                            if (respData.tableId !== -1) {
+                            if (response.tableId !== -1) {
                                 childButton.setAttribute("disabled", "disabled");
                                 document.getElementById("createTable").setAttribute("disabled", "disabled");
                             } else {
                                 document.getElementById("createTable").removeAttribute("disabled");
                             }
 
-                            if (respData.tableId === room.id) {
+                            if (response.tableId === room.id) {
                                 if (room.players.length === 4) {
                                     window.location.href = "/table"
                                 }
 
                                 childButton.setAttribute("class", "btn btn-danger badge-pill");
                                 childButton.innerHTML = "გამობრძანება";
-                                childButton.setAttribute("onclick", "leaveTable()")
+                                childButton.onclick = function () {
+                                    leaveTable();
+                                }
                                 childButton.removeAttribute("disabled");
                             }
 
@@ -146,7 +144,7 @@ function fetchData() {
             }
         };
 
-        req.open("GET", "/waitingRoom/update", true);
+        req.open("POST", "/waiting-room/update", true);
         req.setRequestHeader('Content-Type', 'application/json');
         req.send();
 

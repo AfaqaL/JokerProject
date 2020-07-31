@@ -36,9 +36,6 @@ public class LoginController {
 
         session.setAttribute("authorised",true);
         session.setAttribute("user", user);
-        session.setAttribute("tableId", -1L);
-        session.setAttribute("version", 0);
-        return new ModelAndView("redirect:/waitingRoom");
-
+        return new ModelAndView("redirect:/waiting-room");
     }
 }
