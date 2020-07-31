@@ -326,8 +326,14 @@ function addFinalPoints(table) {
 
 function updateScore(round, stage, scores) {
     let index = 0;
+    console.log(round);
+    console.log(stage);
     [].forEach.call(scores, (score) => {
         if (score !== -1) {
+            if (round === 0){
+                round += 4;
+                stage--;
+            }
             let tbody = document.getElementById('tbody' + stage);
             let row = tbody.rows;
             let col = row[round - 1].cells;
@@ -335,10 +341,10 @@ function updateScore(round, stage, scores) {
             col[index * 2 + 1].innerHTML = score;
             score /= 100.0;
             col = row[row.length - 1].cells;
-            col[index * 2 + 1].innerHTML = parseFloat(col[index * 2 + 1].innerHTML) + score;
+            col[index * 2 + 1].innerHTML = (parseFloat(col[index * 2 + 1].innerHTML) + score).toFixed(1);
             let final_points = document.getElementById('finalPoints');
             col = final_points.cells;
-            col[index * 2 + 1].innerHTML = parseFloat(col[index * 2 + 1].innerHTML) + score;
+            col[index * 2 + 1].innerHTML = (parseFloat(col[index * 2 + 1].innerHTML) + score).toFixed(1);
         }
         index++;
     });
