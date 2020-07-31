@@ -1,5 +1,6 @@
 package com.joker.game;
 
+import com.joker.model.dto.CardDTO;
 import com.joker.model.enums.CardColor;
 import com.joker.model.enums.CardValue;
 import com.joker.model.enums.JokerMode;
@@ -47,5 +48,15 @@ public class JokerCard extends Card {
     @Override
     public boolean equals(Object obj) {
         return ((Card) obj).value.ordinal() == CardValue.JOKER.ordinal();
+    }
+
+    @Override
+    public CardDTO convertToTransferObj(){
+        CardDTO card = new CardDTO();
+        card.setColor(this.color);
+        card.setValue(this.value);
+        card.setValid(true);
+        card.setJokerMode(this.mode);
+        return card;
     }
 }

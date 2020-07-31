@@ -151,10 +151,18 @@ function drawPlayedCards(playedCards, playerIndex) {
         let img = document.createElement('img');
         if (card.value === Value.JOKER) img.src = 'resources/images/$.png';
         else img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
-
+        if (card.value === Value.JOKER) {
+            console.log(card.value);
+            console.log(card.jokerMode);
+            console.log(card.color);
+            let label = document.createElement('h5');
+            label.className = 'label' + i;
+            label.innerHTML = setLabel(card);
+            document.getElementById('midTable').appendChild(label);
+        }
         img.className = 'card' + i;
-
         document.getElementById('midTable').appendChild(img);
+
     }
 }
 
@@ -258,7 +266,7 @@ function getCardColor(color) {
 
 function putCard(card) {
     let cards = document.getElementById("hand").childNodes;
-    [].forEach.call(cards, (unusedCard) =>{
+    [].forEach.call(cards, (unusedCard) => {
         unusedCard.valid = false;
         unusedCard.setAttribute("style", "filter: brightness(25%)")
 
@@ -336,7 +344,7 @@ function updateScore(round, stage, scores) {
     console.log(stage);
     [].forEach.call(scores, (score) => {
         if (score !== -1) {
-            if (round === 0){
+            if (round === 0) {
                 round += 4;
                 stage--;
             }
@@ -491,5 +499,33 @@ function drawCurrentTakenState(taken, playerIndex) {
         }
         score.innerHTML = take;
         player.appendChild(score);
+    }
+}
+
+function setLabel(card){
+    if (card.jokerMode === JokerMode.OVER) return "მოჯოკვრა";
+    if (card.jokerMode === JokerMode.UNDER) return "გატანება";
+    if (card.jokerMode === JokerMode.GIVE) {
+        switch (card.color) {
+            case Color.CLUBS:
+                return "მაღალი ჯვარი";
+            case Color.DIAMONDS:
+                return "მაღალი აგური";
+            case Color.SPADES:
+                return "მაღალი ყვავი";
+            case Color.HEARTS:
+                return "მაღალი გული";
+        }
+    }else {
+        switch (card.color) {
+            case Color.CLUBS:
+                return "წაიღოს ჯვარმა";
+            case Color.DIAMONDS:
+                return "წაიღოს აგურმა";
+            case Color.SPADES:
+                return "წაიღოს ყვავმა";
+            case Color.HEARTS:
+                return "წაიღოს გულმა";
+        }
     }
 }
