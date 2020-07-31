@@ -102,6 +102,7 @@ img:hover {
     text-align: center;
     height: 90px;
     background-color: #edc44a;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.7);
 }
 
 .userInfoPopUp:hover {
@@ -112,6 +113,7 @@ img:hover {
     /* background-color: blue; */
     margin: 10px;
     font-weight: 500;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.3);
 }
 
 .userInfoRank {
@@ -131,8 +133,5 @@ img:hover {
     display: inline-block;
 }
 
-#userInfoLogout {
-    border-block-start: inherit;
-}
 
 
