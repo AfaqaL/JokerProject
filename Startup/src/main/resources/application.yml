@@ -1,8 +1,21 @@
 server:
-  port: 8087
+  port: 8080
   servlet:
     context-path: "/"
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: yomarbazi.ge@gmail.com
+    password: ujejewfyitrwawwr
+    jndi-name: yomarbazi.ge
+    properties:
+      mail:
+        smtps:
+          auth: true
+          starttls:
+            enable: true
+          timeout: 8000
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: "jdbc:mysql://localhost/joker"

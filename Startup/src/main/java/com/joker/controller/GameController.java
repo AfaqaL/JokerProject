@@ -46,7 +46,7 @@ public class GameController {
         ses.setAttribute("usernamesGridSeq",usernamesGridSeq);
         ses.setAttribute("gameVersion",-1);
         ses.setAttribute("gameMode", room.getGameMode());
-        return "TableInterface/table";
+        return "table/table";
     }
 
     @PostMapping("/table/update")

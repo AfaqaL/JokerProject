@@ -56,7 +56,7 @@
                     არ გაქვთ ანგარიში?<a href="${pageContext.request.contextPath}/register">რეგისტრაცია</a>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <a href="${pageContext.request.contextPath}/forgetPassword">დაგავიწყდათ პაროლი?</a>
+                    <a href="${pageContext.request.contextPath}/forget-password">დაგავიწყდათ პაროლი?</a>
                 </div>
             </div>
         </div>

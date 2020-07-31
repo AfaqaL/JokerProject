@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 
 @Controller
-@RequestMapping("/verifyCode")
+@RequestMapping("/verify-code")
 public class VerifyCodeController {
 
     @Autowired
@@ -50,7 +50,7 @@ public class VerifyCodeController {
             return new ModelAndView("redirect:/login");
         } else {
             session.setAttribute("changePassword",true);
-            return new ModelAndView("redirect:/passwordRecovery");
+            return new ModelAndView("redirect:/password-recovery");
         }
     }
 

@@ -104,8 +104,8 @@ public class HistorySqlDao implements HistoryDao {
             Statement stm = connection.createStatement();
             stm.executeQuery("ROLLBACK");
             connection.close();
-        } catch (SQLException ignored) {
-            log.error(ignored.getMessage());
+        } catch (SQLException ex) {
+            log.error(ex.getMessage());
         }
     }
 }

@@ -6,18 +6,26 @@ import java.util.List;
 
 public class WaitingRoomResponse {
 
-    private String isChanged;
+    private long tableId;
+
+    private boolean changed;
 
     private List<Room> rooms;
 
-    private long tableId;
-
-    public String getIsChanged() {
-        return isChanged;
+    public long getTableId() {
+        return tableId;
     }
 
-    public void setIsChanged(String isChanged) {
-        this.isChanged = isChanged;
+    public void setTableId(long tableId) {
+        this.tableId = tableId;
+    }
+
+    public boolean isChanged() {
+        return changed;
+    }
+
+    public void setChanged(boolean changed) {
+        this.changed = changed;
     }
 
     public List<Room> getRooms() {
@@ -26,13 +34,5 @@ public class WaitingRoomResponse {
 
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
-    }
-
-    public long getTableId() {
-        return tableId;
-    }
-
-    public void setTableId(long tableId) {
-        this.tableId = tableId;
     }
 }

@@ -55,7 +55,7 @@
                     არ გაქვთ ანგარიში?<a href="/register">რეგისტრაცია</a>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <a href="/forgetPassword">დაგავიწყდათ პაროლი?</a>
+                    <a href="/forget-password">დაგავიწყდათ პაროლი?</a>
                 </div>
             </div>
         </div>

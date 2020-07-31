@@ -81,6 +81,7 @@ function drawTable(table) {
     if (table.action === PlayAction.DECLARE_SUPERIOR) {
         drawDeclareSuperiorPanel();
         declareSuperior = true;
+        wait = true;
     }
     isFirst = table.first;
     let index = table.playerIndex;
