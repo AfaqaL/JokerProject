@@ -43,6 +43,7 @@ Object.freeze(GameMode);
 
 let wait = true;
 let declareSuperior = false;
+let declare = true;
 
 function update(gameMode) {
     drawGrid(gameMode);
@@ -74,11 +75,13 @@ function drawTable(table) {
     if (table.action === PlayAction.PUT) {
         wait = false;
     }
-    if (table.action === PlayAction.DECLARE) {
+    if (table.action === PlayAction.DECLARE && declare) {
+        wait = false;
+        declare = false;
         drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
     }
 
-    if (table.action === PlayAction.DECLARE_SUPERIOR) {
+    if (table.action === PlayAction.DECLARE_SUPERIOR && !declareSuperior) {
         drawDeclareSuperiorPanel();
         declareSuperior = true;
         wait = true;
@@ -89,6 +92,7 @@ function drawTable(table) {
     extendTable(table.currentStage);
     updateDeclare(table.currentRound, table.currentStage, table.declares, isFinished);
     if (isFinished) {
+        declareSuperior = false;
         updateScore(table.currentRound, table.currentStage, table.scores);
     }
     drawCards(table.cards, table.isFirst);
@@ -198,6 +202,7 @@ function drawDeclareNumPanel(invalidCall, maxSize) {
         button.onclick = function () {
             document.getElementById("sayNum").style.display = 'none';
             declareNum(num);
+            declare = true;
         }
 
         if (num === invalidCall) {
