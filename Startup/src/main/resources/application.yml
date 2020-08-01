@@ -21,6 +21,8 @@ spring:
     url: "jdbc:mysql://localhost/joker"
     username: "root"
     password: "root"
+    hikari:
+      auto-commit: false
   mvc:
     view:
       prefix: "/WEB-INF/views/"

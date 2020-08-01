@@ -1,28 +1,31 @@
 package com.joker.dao.user;
 
 import com.joker.model.User;
-import com.joker.services.game.GameServiceBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.transaction.Transactional;
 import java.sql.*;
 
 @Repository("userDao")
 public class UserSqlDao implements UserDao {
 
-
     private static final Logger log = LoggerFactory.getLogger(UserSqlDao.class);
+
     @Autowired
     private DataSource db;
 
     @Override
     public User searchById(long id) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            return null;
+        }
+
+        User res = null;
         try {
-            Connection connection = db.getConnection();
             PreparedStatement query = connection.prepareStatement(
                     "SELECT * FROM users WHERE user_id = ?;"
             );
@@ -36,20 +39,32 @@ public class UserSqlDao implements UserDao {
             String password = rs.getString(4);
             int rank = rs.getInt(5);
 
-            commit();
+            rs.close();
+            query.close();
             connection.close();
-            return new User(id, username, mail, password, rank);
+
+            res = new User(id, username, mail, password, rank);
         } catch (SQLException e) {
-            rollback();
             log.error(e.getMessage());
-            return null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
+        return res;
     }
 
     @Override
     public User searchByMail(String mail) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            return null;
+        }
+
+        User res = null;
         try {
-            Connection connection= db.getConnection();
             PreparedStatement query = connection.prepareStatement(
                     "SELECT * FROM users WHERE mail = ?;"
             );
@@ -63,20 +78,31 @@ public class UserSqlDao implements UserDao {
             String password = rs.getString(4);
             int rank = rs.getInt(5);
 
-            commit();
-            connection.close();
-            return new User(id, username, mail, password, rank);
+            rs.close();
+            query.close();
+
+            res = new User(id, username, mail, password, rank);
         } catch (SQLException e) {
-            rollback();
             log.error(e.getMessage());
-            return null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
+        return res;
     }
 
     @Override
     public User searchByUsername(String username) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            return null;
+        }
+
+        User res = null;
         try {
-            Connection connection = db.getConnection();
             PreparedStatement query = connection.prepareStatement(
                     "SELECT * FROM users WHERE username = ?;"
             );
@@ -90,20 +116,31 @@ public class UserSqlDao implements UserDao {
             String password = rs.getString(4);
             int rank = rs.getInt(5);
 
-            commit();
-            connection.close();
-            return new User(id, username, mail, password, rank);
+            rs.close();
+            query.close();
+
+            res = new User(id, username, mail, password, rank);
         } catch (SQLException e) {
-            rollback();
             log.error(e.getMessage());
-            return null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
+        return res;
     }
 
     @Override
     public User searchByUsernameAndPassword(String username, String password) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            return null;
+        }
+
+        User res = null;
         try {
-            Connection connection= db.getConnection();
             PreparedStatement query = connection.prepareStatement(
                     "SELECT * FROM users\n" +
                             "WHERE username = ? AND\n" +
@@ -119,20 +156,31 @@ public class UserSqlDao implements UserDao {
             String mail = rs.getString(3);
             int rank = rs.getInt(5);
 
-            commit();
-            connection.close();
-            return new User(id, username, mail, password, rank);
+            rs.close();
+            query.close();
+
+            res = new User(id, username, mail, password, rank);
         } catch (SQLException e) {
-            rollback();
             log.error(e.getMessage());
-            return null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
+        return res;
     }
 
     @Override
     public User searchByUsernameAndMail(String username, String mail) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            return null;
+        }
+
+        User res = null;
         try {
-            Connection connection = db.getConnection();
             PreparedStatement query = connection.prepareStatement(
                     "SELECT * FROM users\n" +
                             "WHERE username = ? OR\n" +
@@ -148,18 +196,30 @@ public class UserSqlDao implements UserDao {
             String password = rs.getString(3);
             int rank = rs.getInt(5);
 
-            commit();
-            connection.close();
-            return new User(id, username, mail, password, rank);
+            rs.close();
+            query.close();
+
+            res =  new User(id, username, mail, password, rank);
         } catch (SQLException e) {
-            rollback();
             log.error(e.getMessage());
-            return null;
+
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
+        return res;
     }
 
     @Override
     public boolean addUser(User user) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            return false;
+        }
+
         String username = user.getUsername();
         String mail = user.getMail();
         String password = user.getPassword();
@@ -168,7 +228,6 @@ public class UserSqlDao implements UserDao {
                 return false;
             }
 
-            Connection connection = db.getConnection();
             PreparedStatement insert = connection.prepareStatement(
                     "INSERT INTO users (username, mail, password, `rank`)\n" +
                             "VALUES (?, ?, ?, 0);"
@@ -179,11 +238,12 @@ public class UserSqlDao implements UserDao {
 
             insert.execute();
 
-            commit();
-            connection.close();
+            insert.close();
+            commit(connection);
+
             return true;
         } catch (SQLException e) {
-            rollback();
+            rollback(connection);
             log.error(e.getMessage());
             return false;
         }
@@ -191,8 +251,12 @@ public class UserSqlDao implements UserDao {
 
     @Override
     public boolean changePassword(User user, String newPassword) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            return false;
+        }
+
         try {
-            Connection connection = db.getConnection();
             PreparedStatement update = connection.prepareStatement(
                     "UPDATE users SET password = ?\n" +
                             "WHERE username = ?;"
@@ -202,11 +266,12 @@ public class UserSqlDao implements UserDao {
 
             update.execute();
 
-            commit();
-            connection.close();
+            update.close();
+            commit(connection);
+
             return true;
         } catch (SQLException e) {
-            rollback();
+            rollback(connection);
             log.error(e.getMessage());
             return false;
         }
@@ -214,8 +279,12 @@ public class UserSqlDao implements UserDao {
 
     @Override
     public boolean changeRank(User user, int newRank) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            return false;
+        }
+
         try {
-            Connection connection = db.getConnection();
             PreparedStatement update = connection.prepareStatement(
                     "UPDATE users SET `rank` = ?\n" +
                             "WHERE username = ?;"
@@ -225,31 +294,37 @@ public class UserSqlDao implements UserDao {
 
             update.execute();
 
-            commit();
-            connection.close();
+            update.close();
+            commit(connection);
+
             return true;
         } catch (SQLException e) {
-            rollback();
+            rollback(connection);
             log.error(e.getMessage());
             return false;
         }
     }
 
-    private void commit() throws SQLException {
-        Connection connection = db.getConnection();
-        Statement stm = connection.createStatement();
-        stm.executeQuery("COMMIT");
+    private Connection getConnection() {
+        try {
+            return db.getConnection();
+        } catch (SQLException ex) {
+            log.info("Error occurred while trying to get connection from DataSource");
+            return null;
+        }
+    }
+
+    private void commit(Connection connection) throws SQLException {
+        connection.commit();
         connection.close();
     }
 
-    private void rollback() {
+    private void rollback(Connection connection) {
         try {
-            Connection connection = db.getConnection();
-            Statement stm = connection.createStatement();
-            stm.executeQuery("ROLLBACK");
+            connection.rollback();
             connection.close();
-        } catch (SQLException ignored) {
-            log.error(ignored.getMessage());
+        } catch (SQLException ex) {
+            log.error(ex.getMessage());
         }
     }
 }
