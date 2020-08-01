@@ -22,6 +22,7 @@ public class Player {
         cards = new ArrayList<>(5);
         for (int i = 0; i < 5; i++)
             cards.add(new ArrayList<>(9));
+        onStreak = true;
     }
 
     public long getId() {

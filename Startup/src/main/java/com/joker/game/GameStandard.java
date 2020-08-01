@@ -396,18 +396,14 @@ public class GameStandard extends GameBasic {
             players[idx].setValidCards(first, superior);
         }
 
-        switch (mode){
-            case FROM_EIGHTS:
-            case TO_EIGHTS:
-                tableResp.setCurrentRound(currRound % 8);
-                break;
-            case FIR_NINES:
-            case SEC_NINES:
-                tableResp.setCurrentRound(currRound % 4);
-                break;
-            default:
-                log.error("Unknown game mode !");
-                break;
+        if(currRound > 20){
+            tableResp.setCurrentRound((currRound - 20) % 4);
+        }else if(currRound > 12){
+            tableResp.setCurrentRound((currRound - 12) % 8);
+        }else if(currRound > 8){
+            tableResp.setCurrentRound((currRound - 8) % 4);
+        }else{
+            tableResp.setCurrentRound(currRound % 8);
         }
         tableResp.setCurrentStage(currStage);
 
