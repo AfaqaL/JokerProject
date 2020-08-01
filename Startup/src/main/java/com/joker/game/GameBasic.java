@@ -190,17 +190,14 @@ public abstract class GameBasic implements Table {
 
     @Override
     public int getVersion() {
-        lock.lock();
-        int retVal = version;
-        lock.unlock();
-        return retVal;
+        return version;
     }
 
     @Override
-    public List<Long> getUserIds() {
-        List<Long> userIds = new ArrayList<>(4);
+    public synchronized List<Long> getUserIds() {
+        List<Long> userIds = new ArrayList<>();
         for (int i = 0; i < Table.NUM_PLAYERS; i++) {
-            userIds.set(i, players[i].getId());
+            userIds.add(players[i].getId());
         }
         return userIds;
     }

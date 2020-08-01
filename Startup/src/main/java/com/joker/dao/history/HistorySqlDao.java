@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.transaction.Transactional;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,13 @@ public class HistorySqlDao implements HistoryDao {
 
     @Override
     public List<TableHistory> getUserHistory(long id) {
+        Connection connection = getConnection();
+        List<TableHistory> res = new ArrayList<>();
+        if (connection == null) {
+            return res;
+        }
+
         try {
-            Connection connection = db.getConnection();
             PreparedStatement query = connection.prepareStatement(
                     "SELECT * FROM histories\n" +
                             "WHERE user_id1 = ? OR\n" +
@@ -37,7 +41,6 @@ public class HistorySqlDao implements HistoryDao {
 
             ResultSet rs = query.executeQuery();
 
-            List<TableHistory> res = new ArrayList<>();
             while (rs.next()) {
                 TableHistory history = new TableHistory(
                         rs.getLong(1),
@@ -49,21 +52,28 @@ public class HistorySqlDao implements HistoryDao {
                 res.add(history);
             }
 
-            commit();
-
-            connection.close();
-            return res;
+            rs.close();
+            query.close();
         } catch (SQLException e) {
-            rollback();
             log.error(e.getMessage());
-            return null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
         }
+        return res;
     }
 
     @Override
     public boolean addHistory(TableHistory history) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            return false;
+        }
+
         try {
-            Connection connection = db.getConnection();
             PreparedStatement insert = connection.prepareStatement(
                     "INSERT INTO histories \n" +
                             "VALUES (?, ?, ?, ?, ?,\n" +
@@ -80,29 +90,68 @@ public class HistorySqlDao implements HistoryDao {
             insert.setDouble(9, history.getScore4());
 
             insert.execute();
-            commit();
 
-            connection.close();
+            insert.close();
+            commit(connection);
+
             return true;
-        } catch (SQLException e) {
-            rollback();
-            log.error(e.getMessage());
+        } catch (SQLException ex) {
+            rollback(connection);
+            log.error(ex.getMessage());
             return false;
         }
     }
 
-    private void commit() throws SQLException {
-        Connection connection = db.getConnection();
-        Statement stm = connection.createStatement();
-        stm.executeQuery("COMMIT");
+    @Override
+    public boolean historyExists(long tableId) {
+        Connection connection = getConnection();
+        if (connection == null) {
+            return false;
+        }
+
+        boolean exists = false;
+
+        try {
+            PreparedStatement query = connection.prepareStatement(
+                    "SELECT table_id FROM histories WHERE table_id = ?;"
+            );
+            query.setLong(1, tableId);
+
+            ResultSet rs = query.executeQuery();
+            exists = rs.next();
+
+            rs.close();
+            query.close();
+        } catch (SQLException ex) {
+            log.error(ex.getMessage());
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                log.error(ex.getMessage());
+            }
+        }
+
+        return exists;
+    }
+
+    private Connection getConnection() {
+        try {
+            return db.getConnection();
+        } catch (SQLException ex) {
+            log.info("Error occurred while trying to get connection from DataSource");
+            return null;
+        }
+    }
+
+    private void commit(Connection connection) throws SQLException {
+        connection.commit();
         connection.close();
     }
 
-    private void rollback() {
+    private void rollback(Connection connection) {
         try {
-            Connection connection = db.getConnection();
-            Statement stm = connection.createStatement();
-            stm.executeQuery("ROLLBACK");
+            connection.rollback();
             connection.close();
         } catch (SQLException ex) {
             log.error(ex.getMessage());

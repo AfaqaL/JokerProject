@@ -22,4 +22,14 @@ public interface HistoryDao {
      * in the database, false - otherwise
      */
     boolean addHistory(TableHistory history);
+
+    /**
+     * Checks if history with the id
+     * exists in the database.
+     *
+     * @param tableId - id of table
+     * @return true if history exists,
+     * false - otherwise
+     */
+    boolean historyExists(long tableId);
 }

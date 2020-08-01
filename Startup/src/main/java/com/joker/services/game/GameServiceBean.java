@@ -13,6 +13,7 @@ import com.joker.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -70,9 +71,9 @@ public class GameServiceBean implements GameService {
         history.setTableId(tableId);
 
         history.setId1(userIds.get(0));
-        history.setId2(userIds.get(0));
-        history.setId3(userIds.get(0));
-        history.setId4(userIds.get(0));
+        history.setId2(userIds.get(1));
+        history.setId3(userIds.get(2));
+        history.setId4(userIds.get(3));
 
         history.setScore1(finalScores.get(0));
         history.setScore2(finalScores.get(1));
