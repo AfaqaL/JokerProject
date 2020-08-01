@@ -107,7 +107,7 @@ function drawGrid(gameMode) {
         tbody.id = 'tbody' + i;
         if (i === 0) tbody.style.display = 'block';
         else tbody.style.display = 'none';
-        let numRows = (i % 2 === 0 && gameMode === GameMode.STANDARD) ? 9 : 4;
+        let numRows = (i % 2 === 0 && gameMode === GameMode.STANDARD) ? 8 : 4;
         insertRows(tbody, numRows);
         table.appendChild(tbody);
     }
@@ -345,14 +345,19 @@ function updateScore(round, stage, scores) {
     console.log(stage);
     [].forEach.call(scores, (score) => {
         if (score !== -1) {
+            let tbody;
+            let row;
             if (round === 0) {
-                round += 4;
                 stage--;
+                tbody = document.getElementById('tbody' + stage);
+                row = tbody.rows;
+                round += row.length - 1;
+                console.log(row.length)
+            }else{
+                tbody = document.getElementById('tbody' + stage);
+                row = tbody.rows;
             }
-            let tbody = document.getElementById('tbody' + stage);
-            let row = tbody.rows;
             let col = row[round - 1].cells;
-
             col[index * 2 + 1].innerHTML = score;
             score /= 100.0;
             col = row[row.length - 1].cells;
