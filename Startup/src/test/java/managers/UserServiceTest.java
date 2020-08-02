@@ -48,6 +48,13 @@ public class UserServiceTest {
     }
 
     @Test
+    public void testGetById() {
+        when(userDao.searchById(anyLong())).thenReturn(user);
+
+        assertEquals(user, userService.getById(anyLong()));
+    }
+
+    @Test
     public void testGetUsername() {
         when(userDao.searchById(anyLong())).thenReturn(user);
 

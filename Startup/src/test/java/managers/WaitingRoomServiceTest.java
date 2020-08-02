@@ -147,4 +147,22 @@ public class WaitingRoomServiceTest {
 
         assertEquals(roomId, roomIdCaptor.getValue().longValue());
     }
+
+    @Test
+    public void testRemoveUserReturnsFalse() {
+        User user1 = new User("name1", "mail1", "pass1");
+        User user2 = new User("name2", "mail2", "pass2");
+
+        when(waitingRooms.removeUser(user1, 1)).thenReturn(false);
+        when(waitingRooms.removeUser(user2, 2)).thenReturn(true);
+
+        boolean result1 = waitingRoomManager.removeUser(user1, 1);
+        boolean result2 = waitingRoomManager.removeUser(user2, 2);
+
+        verify(waitingRooms, times(1)).removeUser(user1, 1);
+        verify(waitingRooms, times(1)).removeUser(user2, 2);
+
+        assertFalse(result1);
+        assertTrue(result2);
+    }
 }

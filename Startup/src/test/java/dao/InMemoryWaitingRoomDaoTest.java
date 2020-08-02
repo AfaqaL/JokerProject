@@ -135,10 +135,20 @@ public class InMemoryWaitingRoomDaoTest {
         waitingRoom.addUser(user4, roomId, password);
         assertTrue(waitingRoom.isRoomReady(roomId));
         assertNotNull(waitingRoom.getReadyRoom(roomId));
-        assertNull(waitingRoom.getRoom(roomId));
+        assertNotNull(waitingRoom.getRoom(roomId));
 
         waitingRoom.removeRoom(roomId);
         assertNull(waitingRoom.getReadyRoom(roomId));
+    }
+
+    @Test
+    public void testRemoveUser() {
+        long roomId = waitingRoom.createWaitingRoom(user1, password, bayonet, mode);
+
+        waitingRoom.addUser(user2, roomId, password);
+
+        assertTrue(waitingRoom.removeUser(user1, roomId));
+        assertFalse(waitingRoom.removeUser(user2, roomId));
     }
 
     @Test
@@ -174,7 +184,6 @@ public class InMemoryWaitingRoomDaoTest {
 
         assertTrue(waitingRoom.isRoomReady(roomId));
 
-        assertNull(waitingRoom.getRoom(roomId));
         assertNotNull(waitingRoom.getReadyRoom(roomId));
     }
 }
