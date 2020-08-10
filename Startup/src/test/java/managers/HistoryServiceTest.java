@@ -2,7 +2,10 @@ package managers;
 
 import com.joker.dao.history.HistorySqlDao;
 import com.joker.model.TableHistory;
+import com.joker.model.dto.HistoryResponse;
 import com.joker.services.history.HistoryServiceBean;
+import com.joker.services.user.UserService;
+import com.joker.services.user.UserServiceBean;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +29,9 @@ public class HistoryServiceTest {
 
     @Mock
     private HistorySqlDao historyDao;
+
+    @Mock
+    private UserServiceBean userService;
 
     @Captor
     private ArgumentCaptor<TableHistory> historyCaptor;
@@ -72,16 +78,25 @@ public class HistoryServiceTest {
 
     @Test
     public void testAddHistoryReturnsTrue() {
+        when(historyDao.historyExists(anyLong())).thenReturn(false);
         when(historyDao.addHistory(any(TableHistory.class))).thenReturn(true);
 
         assertTrue(historyService.addHistory(history1));
     }
 
     @Test
-    public void testGetUserHistoryReturnsNull() {
-        when(historyDao.getUserHistory(anyLong())).thenReturn(null);
+    public void testAddHistoryReturnsFalse() {
+        when(historyDao.historyExists(anyLong())).thenReturn(true);
 
-        assertNull(historyService.getUserHistory(anyLong()));
+        assertFalse(historyService.addHistory(history1));
+    }
+
+    @Test
+    public void testGetUserHistoryReturnsEmptyList() {
+        when(historyDao.getUserHistory(anyLong())).thenReturn(new ArrayList<>());
+
+        List<HistoryResponse> actual = historyService.getUserHistory(anyLong());
+        assertEquals(0, actual.size());
     }
 
     @Test
@@ -90,8 +105,25 @@ public class HistoryServiceTest {
         expected.add(history1);
         expected.add(history2);
 
-        when(historyDao.getUserHistory(anyLong())).thenReturn(expected);
+        String username = "user";
 
-        assertArrayEquals(new List[]{expected}, new List[]{historyService.getUserHistory(anyLong())});
+        when(historyDao.getUserHistory(anyLong())).thenReturn(expected);
+        when(userService.getUsername(anyLong())).thenReturn(username);
+
+        List<HistoryResponse> actual = historyService.getUserHistory(anyLong());
+        assertEquals(2, actual.size());
+
+        HistoryResponse response1 = new HistoryResponse(history1);
+        HistoryResponse response2 = new HistoryResponse(history2);
+
+        assertEquals(response1.getScore1(), actual.get(0).getScore1(), 0.1);
+        assertEquals(response1.getScore2(), actual.get(0).getScore2(), 0.1);
+        assertEquals(response1.getScore3(), actual.get(0).getScore3(), 0.1);
+        assertEquals(response1.getScore4(), actual.get(0).getScore4(), 0.1);
+
+        assertEquals(response2.getScore1(), actual.get(1).getScore1(), 0.1);
+        assertEquals(response2.getScore2(), actual.get(1).getScore2(), 0.1);
+        assertEquals(response2.getScore3(), actual.get(1).getScore3(), 0.1);
+        assertEquals(response2.getScore4(), actual.get(1).getScore4(), 0.1);
     }
 }

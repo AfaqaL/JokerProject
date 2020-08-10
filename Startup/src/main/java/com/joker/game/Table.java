@@ -44,4 +44,6 @@ public interface Table {
     int getVersion();
 
     int getIndex(long playerId);
+
+    List<Long> getUserIds();
 }

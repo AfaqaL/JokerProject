@@ -76,15 +76,15 @@ function drawTable(table) {
         wait = false;
     }
     if (table.action === PlayAction.DECLARE && declare) {
-        wait = false;
+        wait = true;
         declare = false;
         drawDeclareNumPanel(table.invalidCall, table.cards.length, table.currentRound, table.currentStage, table.playerIndex);
     }
 
     if (table.action === PlayAction.DECLARE_SUPERIOR && !declareSuperior) {
-        drawDeclareSuperiorPanel();
         declareSuperior = true;
         wait = true;
+        drawDeclareSuperiorPanel();
     }
     isFirst = table.first;
     let index = table.playerIndex;
@@ -124,6 +124,12 @@ function drawCards(cards) {
     [].forEach.call(cards, (card) => {
         let img = document.createElement('img');
         img.src = 'resources/images/' + getCardValue(card.value) + getCardColor(card.color) + '.png';
+
+        console.log(wait);
+        if (!card.valid || wait) {
+            img.setAttribute("style", "filter: brightness(25%)")
+        }
+
         img.onclick = function () {
             if (!wait && card.valid) {
                 if (card.value === Value.JOKER) {
@@ -133,11 +139,6 @@ function drawCards(cards) {
                     putCard(card);
                 }
             }
-        }
-
-        console.log(wait);
-        if (!card.valid || wait) {
-            img.setAttribute("style", "filter: brightness(25%)")
         }
 
         document.getElementById('hand').appendChild(img);

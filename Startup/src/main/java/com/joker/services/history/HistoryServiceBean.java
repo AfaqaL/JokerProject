@@ -37,6 +37,9 @@ public class HistoryServiceBean implements HistoryService {
 
     @Override
     public boolean addHistory(TableHistory history) {
+        if (historyDao.historyExists(history.getTableId())) {
+            return false;
+        }
         return historyDao.addHistory(history);
     }
 }
