@@ -187,25 +187,78 @@ class PlayerTest {
 
     @Test
     void removeCard() {
+        Player player = new Player(1L);
+        List<List<Card>> p_Cards = new ArrayList<>(5);
+        for (int i = 0; i < 5; i++) {
+            p_Cards.add(new ArrayList<>(9));
+        }
+
+        p_Cards.get(0).add(new Card(CardValue.ACE, CardColor.CLUBS));
+        p_Cards.get(0).add(new Card(CardValue.TEN, CardColor.CLUBS));
+
+        player.setDealtCards(p_Cards);
+
+        player.removeCard(new Card(CardValue.ACE, CardColor.CLUBS));
+
+        List<Card> toHave = new ArrayList<>();
+        toHave.add(new Card(CardValue.TEN, CardColor.CLUBS));
+
+        assertEquals(toHave, player.getPlayerCards());
+
     }
 
-    @Test
-    void setDealtCards() {
-    }
 
     @Test
     void getPlayerCards() {
+        Player player = new Player(1L);
+        List<List<Card>> p_Cards = new ArrayList<>(5);
+        for (int i = 0; i < 5; i++) {
+            p_Cards.add(new ArrayList<>(9));
+        }
+
+        p_Cards.get(0).add(new Card(CardValue.ACE, CardColor.CLUBS));
+        p_Cards.get(0).add(new Card(CardValue.TEN, CardColor.CLUBS));
+
+        player.setDealtCards(p_Cards);
+
+        List<Card> toHave = new ArrayList<>(Arrays.asList( new Card(CardValue.ACE, CardColor.CLUBS),
+                                                            new Card(CardValue.TEN, CardColor.CLUBS)));
+        assertEquals(toHave, player.getPlayerCards());
     }
 
     @Test
-    void getScore() {
+    void getScoreOdd() {
+        Player player = new Player(1L);
+        player.setDeclared(3);
+        player.increaseTaken();
+        assertEquals(10, player.getScore(8, 200));
     }
 
     @Test
-    void increaseTaken() {
+    void getScoreExact() {
+        Player player = new Player(1L);
+        player.setDeclared(2);
+        player.increaseTaken();
+        player.increaseTaken();
+        assertEquals(150, player.getScore(8, 200));
     }
 
     @Test
-    void setDeclared() {
+    void getScoreExactMax() {
+        Player player = new Player(1L);
+        player.setDeclared(7);
+        for (int i = 0; i < 7; i++) {
+            player.increaseTaken();
+        }
+        assertEquals(700, player.getScore(7, 200));
+
+    }
+
+    @Test
+    void getScoreBayonet() {
+        Player player = new Player(1L);
+        player.setDeclared(7);
+        assertEquals(-200, player.getScore(9, 200));
+        assertEquals(-500, player.getScore(9, 500));
     }
 }
