@@ -1,29 +1,32 @@
-var stompClient = null;
+let stompClient = null;
 
-function myconnect() {
-    alert("Connecting!!");
+function Connect() {
     let socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/greetings', function (card) {
-            myreceive(card.body);
+            onReceive(card);
         });
     });
+
 }
 
-function mydisconnect() {
-    alert("Disconnecting");
+function Disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
+        stompClient = null;
     }
     console.log("Disconnected");
 }
 
-function myreceive(card) {
-
+function Send() {
+    if(stompClient !== null){
+        stompClient.send("app/hello", {}, "trying to get to server");
+    }
 }
 
-function mysend(){
-    stompClient.send("app/hello", {}, "managed to get here")
+function onReceive(param){
+    console.log("receiving...");
+    console.log(param);
 }
