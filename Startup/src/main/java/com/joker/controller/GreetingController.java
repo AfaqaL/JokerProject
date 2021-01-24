@@ -4,12 +4,9 @@ import com.joker.model.dto.CardDTO;
 import com.joker.model.enums.CardColor;
 import com.joker.model.enums.CardValue;
 import com.joker.model.enums.JokerMode;
-import com.joker.model.socketDTOs.Greeting;
-import com.joker.model.socketDTOs.HelloMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.util.HtmlUtils;
 
 @Controller
 public class GreetingController {
