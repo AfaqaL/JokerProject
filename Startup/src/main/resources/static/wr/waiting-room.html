@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Joker | Lobby</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-fixed-top black-gradients">
+        <div class="form-popup" id="myForm">
+            <div id = "userInfoGames" class = "userInfoPopup button" onclick="movetoHistories()"> თამაშების ისტორია </div>
+            <div id = "userInfoLogout" class = "userInfoPopup button" onclick="window.location = '/login'"> გამოსვლა </div>
+
+        </div>
+        <div class="frame" style="position: relative">
+            <label> The ყომარბაზი </label>
+            <div class = "rightCorner">
+                <img src="../../../resources/images/avatar.png" alt="Avatar" class="avatar button" onclick = "openForm(0)" id="userButton" >
+                <div class = "userInfoCorner" >
+                    <label id="username" class = "userInfoUsername"> <%= ((User)session.getAttribute("user")).getUsername() %> </label><br>
+                    <label id="user-rank" class = "userInfoRank"> რანკი <%= ((User)session.getAttribute("user")).getRank() %></label>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">მაგიდის შექმნა</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div id = "createTableDiv" >
+
+                            <label class= "popUpLabel" for="bayonet">აირჩიე ხიშტი:</label>
+                            <select name="xishti" id="bayonet">
+                                <option value=200>200</option>
+                                <option value=300>300</option>
+                                <option value=400>400</option>
+                                <option value=500>500</option>
+                                <option value=900>900</option>
+                            </select>
+                            <br>
+
+
+                            <label class= "popUpLabel" for="passwordValue">პაროლი: </label>
+                            <input type = "text" id = "passwordValue"> <br>
+                            <label class= "popUpLabel" for="tableType">აირჩიე თამაშის ტიპი: </label> <br>
+                            <div id="tableType">
+                                <input type="radio" name="gameMode" id="standard"> სტანდარტული<br>
+                                <input type="radio" name="gameMode" id="nines"> ცხრიანები <br>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">გაუქმება</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" onclick = "createTable()">შექმნა</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="jumbotron">
+            <div class="card">
+
+                <div class="card-body">
+                    <h5 class="card-title">მაგიდები</h5>
+
+                    <div class= "flex-container" >
+                        <div class="left-btn">
+                            <%--                                <button type="button" class="btn btn-warning badge-pill histories" on onclick="movetoHistories()" id = "histories">ჩემი თამაშების ისტორია</button>--%>
+                        </div>
+                        <div class="left-btn">
+                            <button type="button" class="btn btn-warning badge-pill create" data-toggle="modal" data-target="#create" id = "createTable">მაგიდის მასპინძლობა</button>
+                        </div>
+                    </div>
+                    <table id="existingTables" class="table table-bordered table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col">მასპინძელი</th>
+                            <th scope="col">ხიშტი</th>
+                            <th scope="col">ტიპი</th>
+                            <th scope="col">პაროლი</th>
+                            <th scope="col">მომხმარებლები</th>
+                            <th>შებრძანება</th>
+                        </tr>
+                        </thead>
+                        <tbody id="rooms">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -57,8 +57,6 @@
             <link href="<c:url value="/resources/CSS/waitingRoom.css" />" rel="stylesheet">
 
         </head>
-
-        <body  onload="fetchData()" >
         <nav class="navbar navbar-fixed-top black-gradients">
             <div class="form-popup" id="myForm">
                 <div id = "userInfoGames" class = "userInfoPopup button" onclick="movetoHistories()"> თამაშების ისტორია </div>

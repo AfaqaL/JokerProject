@@ -13,7 +13,7 @@ public class GreetingController {
 
 
     @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
+    @SendTo("/game/greet")
     public CardDTO greeting(String message) throws Exception {
         System.out.println(message);
         CardDTO card = new CardDTO();

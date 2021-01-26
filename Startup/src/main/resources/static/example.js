@@ -18,7 +18,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
+        stompClient.subscribe('/game/greet', function (greeting) {
             showGreeting(greeting);
         });
     });
@@ -33,7 +33,7 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {}, "baro lasha mevedi aqane ?");
+    stompClient.send("/joker/hello", {}, "baro lasha mevedi aqane ?");
 }
 
 function showGreeting(message) {
