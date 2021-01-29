@@ -7,6 +7,8 @@ import com.joker.model.enums.GameMode;
 import com.joker.services.game.GameService;
 import com.joker.services.waitingroom.WaitingRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,12 +28,16 @@ public class WaitingRoomController {
     private GameService gameService;
 
     @GetMapping("/waiting-room")
-    public String waitingRoom(HttpSession session) {
+    public @ResponseBody String waitingRoom(HttpSession session) {
         if (session.getAttribute("tableId") == null) {
             session.setAttribute("tableId", -1L);
         }
-        session.setAttribute("roomVersion", -1);
-        return "waitingRoom/waitingRoom";
+//        session.setAttribute("roomVersion", -1);
+//
+//        User user = (User)session.getAttribute("user");
+//        String res = user.getUsername() + '_' + user.getRank();
+//        return res;
+        return "afaqa5";
     }
 
     @PostMapping("/waiting-room/create")
@@ -103,6 +109,27 @@ public class WaitingRoomController {
         }
 
         return res;
+    }
+
+    @MessageMapping("create")
+    @SendTo("/rooms/update")
+    public void createTable(@RequestBody Room room){
+        System.out.println(room.getBayonet());
+        System.out.println(room.getGameMode().name());
+        System.out.println(room.getPassword());
+        System.out.println(room.getGameMode());
+    }
+
+    @MessageMapping("join")
+    @SendTo("/rooms/update")
+    public void joinTable(){
+
+    }
+
+    @MessageMapping("leave")
+    @SendTo("/rooms/update")
+    public void leaveTable(){
+
     }
 }
 
