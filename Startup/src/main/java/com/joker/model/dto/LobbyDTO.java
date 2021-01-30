@@ -9,4 +9,36 @@ public class LobbyDTO {
     private Room room;
     private boolean full;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public RoomAction getAction() {
+        return action;
+    }
+
+    public void setAction(RoomAction action) {
+        this.action = action;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public boolean isFull() {
+        return full;
+    }
+
+    public void setFull(boolean full) {
+        this.full = full;
+    }
+
 }

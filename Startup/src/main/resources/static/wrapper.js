@@ -14,3 +14,20 @@ function setSuccessAction(request, func){
         }
     };
 }
+
+function idGet(doc, id){
+    return doc.getElementById(id);
+}
+
+function subscribe(socketURL, subscribeURL, triggerFunction){
+    console.log("got here");
+    let socket = new SockJS(socketURL);
+    let stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('connected: ' + frame);
+        stompClient.subscribe(subscribeURL, function (response) {
+            triggerFunction(response.body);
+        });
+    });
+    return stompClient;
+}

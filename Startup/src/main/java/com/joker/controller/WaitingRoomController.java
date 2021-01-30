@@ -2,8 +2,10 @@ package com.joker.controller;
 
 import com.joker.model.Room;
 import com.joker.model.User;
+import com.joker.model.dto.LobbyDTO;
 import com.joker.model.dto.WaitingRoomResponse;
 import com.joker.model.enums.GameMode;
+import com.joker.model.enums.RoomAction;
 import com.joker.services.game.GameService;
 import com.joker.services.waitingroom.WaitingRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.persistence.Lob;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
@@ -113,11 +116,14 @@ public class WaitingRoomController {
 
     @MessageMapping("create")
     @SendTo("/rooms/update")
-    public void createTable(@RequestBody Room room){
-        System.out.println(room.getBayonet());
-        System.out.println(room.getGameMode().name());
-        System.out.println(room.getPassword());
-        System.out.println(room.getGameMode());
+    public @ResponseBody
+    LobbyDTO createTable(@RequestBody Room room){
+        LobbyDTO lobby = new LobbyDTO();
+        lobby.setRoom(room);
+        lobby.setId(room.getId());
+        lobby.setAction(RoomAction.CREATE);
+        lobby.setFull(false);
+        return lobby;
     }
 
     @MessageMapping("join")
