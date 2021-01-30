@@ -29,7 +29,7 @@
                 <h3>ავტორიზაცია</h3>
             </div>
             <div class="card-body">
-                <form th:action="@{/login}" method="post">
+                <form action="example.html">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>

@@ -20,8 +20,24 @@ function showPasswordForTwo(icon) {
         y.type = "password";
     }
 }
+function preventForm(){
+    document.getElementById("form-id").onsubmit = function (ev) {
+        ev.preventDefault();
+    };
 
-function doRedirect(){
-    window.location.href = "/resources/static/wr/waiting-room.html";
+}
+
+function formRedirect() {
+    let username = document.getElementById('username-inp-id').value;
+    let password = document.getElementById('passID').value;
+
+    let url = '/login?username=' + username + '&password=' + password;
+    let request = prepareRequest('POST', url);
+
+    setSuccessAction(request, function (response) {
+        window.location.href = response.responseText;
+    })
+
+    request.send();
 }
 

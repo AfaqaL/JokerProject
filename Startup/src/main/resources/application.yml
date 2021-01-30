@@ -25,5 +25,6 @@ spring:
       auto-commit: false
   mvc:
     view:
-      prefix: "/WEB-INF/views/"
+
+      prefix: "WEB-INF/views"
       suffix: ".jsp"

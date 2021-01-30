@@ -8,14 +8,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private AuthInterceptor authInterceptor;
+    private final AuthInterceptor authInterceptor;
 
-    @Autowired
-    private PasswordRecoveryInterceptor passwordRecoveryInterceptor;
+    private final PasswordRecoveryInterceptor passwordRecoveryInterceptor;
 
-    @Autowired
-    private VerifyInterceptor verifyInterceptor;
+    private final VerifyInterceptor verifyInterceptor;
+
+    public WebConfig(AuthInterceptor authInterceptor, PasswordRecoveryInterceptor passwordRecoveryInterceptor, VerifyInterceptor verifyInterceptor) {
+        this.authInterceptor = authInterceptor;
+        this.passwordRecoveryInterceptor = passwordRecoveryInterceptor;
+        this.verifyInterceptor = verifyInterceptor;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -23,4 +26,5 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(passwordRecoveryInterceptor).addPathPatterns("/passwordRecovery");
         registry.addInterceptor(verifyInterceptor).addPathPatterns("/verifyCode");
     }
+
 }

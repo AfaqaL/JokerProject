@@ -151,14 +151,17 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
-            <version>3.3.7</version>
+            <version>4.5.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery</artifactId>
-            <version>3.1.1-1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.webjars</groupId>-->
+<!--            <artifactId>jquery</artifactId>-->
+<!--            <version>3.1.1-1</version>-->
+<!--        </dependency>-->
 <!--        Socket Dependencies - END-->
+
+        <!-- test dependencies -->
+
 
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
