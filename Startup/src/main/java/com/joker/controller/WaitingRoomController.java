@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Lob;
 import javax.servlet.http.HttpSession;
@@ -114,10 +111,12 @@ public class WaitingRoomController {
         return res;
     }
 
-    @MessageMapping("create")
+    @MessageMapping("/create")
     @SendTo("/rooms/update")
     public @ResponseBody
-    LobbyDTO createTable(@RequestBody Room room){
+    LobbyDTO createTable(@RequestBody Room room, @RequestParam(value = "username") String username){
+        System.out.println(username);
+        System.out.println(room.getBayonet());
         LobbyDTO lobby = new LobbyDTO();
         lobby.setRoom(room);
         lobby.setId(room.getId());
@@ -126,10 +125,10 @@ public class WaitingRoomController {
         return lobby;
     }
 
-    @MessageMapping("join")
+    @MessageMapping("/join")
     @SendTo("/rooms/update")
-    public void joinTable(){
-
+    public void joinTable(@RequestHeader byte[] bytes){
+        System.out.println("entered here ");
     }
 
     @MessageMapping("leave")

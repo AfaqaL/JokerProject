@@ -1,4 +1,5 @@
 let stompClient = null;
+let user = null;
 
 function setup() {
     fetchUser();
@@ -111,29 +112,43 @@ function remove(id) {
 }
 
 function fetchUser(){
-    console.log("got here");
-    let req = new XMLHttpRequest();
-    req.onreadystatechange = function () {
-        if(this.readyState === 4 && this.status === 200) {
-            let username = this.responseText;
-            console.log(username);
-            let userLabel = document.getElementById("username");
-            userLabel.innerHTML = username;
-            let userRank = document.getElementById('user-rank');
-            userRank.innerHTML += username.charAt(username.length - 1);
-        }
-    };
+    let request = prepareRequest('GET', '/waiting-room'); 
 
-    req.open("GET", "/waiting-room", true);
-    req.setRequestHeader('Content-Type', 'application/json');
-    req.send();
+    setSuccessAction(request, function (response) {
+        let username = response.responseText;
+        console.log(username);
+        let userLabel = document.getElementById("username");
+        userLabel.innerHTML = username;
+        let userRank = document.getElementById('user-rank');
+        userRank.innerHTML += username.charAt(username.length - 1);
+    });
+    // let req = new XMLHttpRequest();
+    // req.onreadystatechange = function () {
+    //     if(this.readyState === 4 && this.status === 200) {
+    //         let username = this.responseText;
+    //         console.log(username);
+    //         let userLabel = document.getElementById("username");
+    //         userLabel.innerHTML = username;
+    //         let userRank = document.getElementById('user-rank');
+    //         userRank.innerHTML += username.charAt(username.length - 1);
+    //     }
+    // };
+
+    // req.open("GET", "/waiting-room", true);
+    // req.setRequestHeader('Content-Type', 'application/json');
+    request.send();
 }
 
 function MYcreateTable(){
     console.log("sending dataaaaaa");
     let data = tableData();
     console.log(data);
-    stompClient.send('/waiting-room/create', {}, data);
+    stompClient.send('/waiting-room/create', {username:'baro'}, data);
+}
+
+function historiesTest() {
+    console.log("testing request header");
+    stompClient.send('/waiting-room/join');
 }
 
 function tableData() {

@@ -5,6 +5,7 @@ import com.joker.model.enums.RoomAction;
 
 public class LobbyDTO {
     private long id;
+    private long creatorID;
     private RoomAction action;
     private Room room;
     private boolean full;
@@ -15,6 +16,14 @@ public class LobbyDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getCreatorID() {
+        return creatorID;
+    }
+
+    public void setCreatorID(long creatorID) {
+        this.creatorID = creatorID;
     }
 
     public RoomAction getAction() {
