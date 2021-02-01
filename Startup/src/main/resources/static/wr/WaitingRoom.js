@@ -143,7 +143,7 @@ function MYcreateTable(){
     console.log("sending dataaaaaa");
     let data = tableData();
     console.log(data);
-    stompClient.send('/waiting-room/create', {username:'baro'}, data);
+    stompClient.send('/waiting-room/create/' + 'afaqinioo', {}, data);
 }
 
 function historiesTest() {

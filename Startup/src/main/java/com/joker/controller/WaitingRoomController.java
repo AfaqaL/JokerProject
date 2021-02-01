@@ -9,6 +9,7 @@ import com.joker.model.enums.RoomAction;
 import com.joker.services.game.GameService;
 import com.joker.services.waitingroom.WaitingRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -111,12 +112,11 @@ public class WaitingRoomController {
         return res;
     }
 
-    @MessageMapping("/create")
+    @MessageMapping("/create/{username}")
     @SendTo("/rooms/update")
     public @ResponseBody
-    LobbyDTO createTable(@RequestBody Room room, @RequestParam(value = "username") String username){
+    LobbyDTO createTable(@RequestBody Room room, @DestinationVariable String username){
         System.out.println(username);
-        System.out.println(room.getBayonet());
         LobbyDTO lobby = new LobbyDTO();
         lobby.setRoom(room);
         lobby.setId(room.getId());
