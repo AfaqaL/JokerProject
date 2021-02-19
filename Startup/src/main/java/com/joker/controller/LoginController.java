@@ -1,6 +1,7 @@
 package com.joker.controller;
 
 import com.joker.model.User;
+import com.joker.model.dto.LoginResponse;
 import com.joker.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,18 +23,18 @@ public class LoginController {
     }
 
     @PostMapping
-    public @ResponseBody String loginUser(@RequestParam String username,
+    public @ResponseBody LoginResponse loginUser(@RequestParam String username,
                                           @RequestParam String password, HttpSession session) {
 
-        System.out.println("username: " + username + "\npassword: " + password);
         User user = userService.getByUsernameAndPassword(username, password);
         if (user == null) {
             session.setAttribute("authorised",false);
-            return "../example.html";
+            System.out.println("User doesnt exist left unhandled");
+            return new LoginResponse(false);
         }
 
         session.setAttribute("authorised",true);
         session.setAttribute("user", user);
-        return "../wr/waiting-room.html";
+        return new LoginResponse(true, username, user.getRank(), user.getId());
     }
 }

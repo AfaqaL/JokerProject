@@ -35,7 +35,19 @@ function formRedirect() {
     let request = prepareRequest('POST', url);
 
     setSuccessAction(request, function (response) {
-        window.location.href = response.responseText;
+        let loginInfo = JSON.parse(response.responseText);
+        console.log(loginInfo);
+
+        if(loginInfo.success === true){
+            localStorage.setItem("user", JSON.stringify({
+                username: loginInfo.username,
+                id: loginInfo.userId,
+                rank: loginInfo.rank
+            }));
+            window.location.href = '../wr/waiting-room.html';
+        }else {
+            // TODO: redirect to error page
+        }
     })
 
     request.send();

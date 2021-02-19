@@ -35,7 +35,7 @@ function joinTable(table_id) {
     req.setRequestHeader('Content-Type', 'application/json');
 
     let tryPassword = document.getElementById("joinPass" + table_id).value;
-    let data = JSON.stringify({id:table_id, password:tryPassword});
+    let data = JSON.stringify({ id: table_id, password: tryPassword} );
     req.send(data);
 }
 

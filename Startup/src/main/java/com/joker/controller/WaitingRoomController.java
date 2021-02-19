@@ -2,7 +2,9 @@ package com.joker.controller;
 
 import com.joker.model.Room;
 import com.joker.model.User;
+import com.joker.model.dto.CreateRoom;
 import com.joker.model.dto.LobbyDTO;
+import com.joker.model.dto.UserDTO;
 import com.joker.model.dto.WaitingRoomResponse;
 import com.joker.model.enums.GameMode;
 import com.joker.model.enums.RoomAction;
@@ -12,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Lob;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
@@ -27,6 +29,9 @@ public class WaitingRoomController {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @GetMapping("/waiting-room")
     public @ResponseBody String waitingRoom(HttpSession session) {
@@ -112,14 +117,19 @@ public class WaitingRoomController {
         return res;
     }
 
-    @MessageMapping("/create/{username}")
+    @MessageMapping("/create/{userID}")
     @SendTo("/rooms/update")
     public @ResponseBody
-    LobbyDTO createTable(@RequestBody Room room, @DestinationVariable String username){
-        System.out.println(username);
+    LobbyDTO createTable(@RequestBody CreateRoom roomReq, @DestinationVariable String userID){
+        System.out.println(userID);
+        UserDTO user = roomReq.getUser();
+        Room room = roomReq.getRoom();
+        ArrayList<User> players = new ArrayList<>(4);
+        players.add(user.toUser());
+        room.setPlayers(players);
         LobbyDTO lobby = new LobbyDTO();
         lobby.setRoom(room);
-        lobby.setId(room.getId());
+        lobby.setId(Long.parseLong(userID));
         lobby.setAction(RoomAction.CREATE);
         lobby.setFull(false);
         return lobby;
